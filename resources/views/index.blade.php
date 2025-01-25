@@ -25,12 +25,11 @@
                         </div>
                         <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
                             <h6 class="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                                New Arrivals</h6>
+                                {{__('messages.new_arrival')}}</h6>
                             <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
                             <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
                             <a href="#"
-                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
-                                Now</a>
+                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">{{__('messages.shop_now')}}</a>
                         </div>
                     </div>
                 </div>
@@ -48,12 +47,11 @@
                         </div>
                         <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
                             <h6 class="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                                New Arrivals</h6>
+                                {{__('messages.new_arrival')}}</h6>
                             <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
                             <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
                             <a href="#"
-                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
-                                Now</a>
+                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">{{__('messages.shop_now')}}</a>
                         </div>
                     </div>
                 </div>
@@ -67,12 +65,11 @@
                         </div>
                         <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
                             <h6 class="text_dash text-uppercase fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
-                                New Arrivals</h6>
+                                {{__('messages.new_arrival')}}</h6>
                             <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
                             <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
                             <a href="#"
-                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
-                                Now</a>
+                               class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">{{__('messages.shop_now')}}</a>
                         </div>
                     </div>
                 </div>
@@ -87,7 +84,7 @@
         <div class="container mw-1620 bg-white border-radius-10">
             <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
             <section class="category-carousel container">
-                <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">You Might Like</h2>
+                <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">{{__('messages.you_might_like')}}</h2>
 
                 <div class="position-relative">
                     <div class="swiper-container js-swiper-slider" data-settings='{
@@ -205,7 +202,7 @@
             <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
             <section class="hot-deals container">
-                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">Hot Deals</h2>
+                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">{{__('messages.hot_deals')}}</h2>
                 <div class="row">
                     <div
                         class="col-md-6 col-lg-4 col-xl-20per d-flex align-items-center flex-column justify-content-center py-4 align-items-md-start">
@@ -912,7 +909,7 @@
                 </div><!-- /.row -->
 
                 <div class="text-center mt-2">
-                    <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
+                    <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">{{__('messages.load_more')}}</a>
                 </div>
             </section>
         </div>

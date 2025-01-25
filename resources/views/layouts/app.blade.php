@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{app()->getLocale()}}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +16,8 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/plugins/swiper.min.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('assets/css/style.css" type="text/css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/custom.css" type="text/css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -307,23 +307,25 @@
             <div class="overflow-hidden">
                 <ul class="navigation__list list-unstyled position-relative">
                     <li class="navigation__item">
-                        <a href="index.html" class="navigation__link">Home</a>
+                        <a href="index.html" class="navigation__link">{{__('nav.home')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="shop.html" class="navigation__link">Shop</a>
+                        <a href="shop.html" class="navigation__link">{{__('nav.shop')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="cart.html" class="navigation__link">Cart</a>
+                        <a href="cart.html" class="navigation__link">{{__('nav.cart')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="about.html" class="navigation__link">About</a>
+                        <a href="about.html" class="navigation__link">{{__('nav.about')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="contact.html" class="navigation__link">Contact</a>
+                        <a href="contact.html" class="navigation__link">{{__('nav.contact')}}</a>
                     </li>
                 </ul>
             </div>
         </div>
+
+
 
         <div class="border-top mt-auto pb-2">
             <div class="customer-links container mt-4 mb-2 pb-1">
@@ -396,24 +398,40 @@
             <nav class="navigation">
                 <ul class="navigation__list list-unstyled d-flex">
                     <li class="navigation__item">
-                        <a href="index.html" class="navigation__link">Home</a>
+                        <a href="index.html" class="navigation__link">{{__('nav.home')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="shop.html" class="navigation__link">Shop</a>
+                        <a href="shop.html" class="navigation__link">{{__('nav.shop')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="cart.html" class="navigation__link">Cart</a>
+                        <a href="cart.html" class="navigation__link">{{__('nav.cart')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="about.html" class="navigation__link">About</a>
+                        <a href="about.html" class="navigation__link">{{__('nav.about')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="contact.html" class="navigation__link">Contact</a>
+                        <a href="contact.html" class="navigation__link">{{__('nav.contact')}}</a>
                     </li>
                 </ul>
             </nav>
 
+
+
             <div class="header-tools d-flex align-items-center">
+                <div class="container mt-4 mb-2 pb-1">
+                    <div class="rounded w-2 h-2 border-2"></div>
+
+                    <form id="language-switch-form" action="{{ route('language.switch', ['locale' => app()->getLocale()]) }}" method="GET">
+                        @csrf
+                        <label for="language-dropdown-menu" class="text-uppercase text-secondary fw-medium ms-2">Language
+                            <select id="language-dropdown-menu" name="locale" onchange="document.getElementById('language-switch-form').action = '{{ url('greeting') }}/' + this.value; this.form.submit()">
+                                <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
+                                <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>العربية</option>
+                                <option value="kr" {{ app()->getLocale() == 'kr' ? 'selected' : '' }}>کوردی</option>
+                            </select>
+                        </label>
+                    </form>
+                </div>
                 <div class="header-tools__item hover-container">
                     <div class="js-hover__open position-relative">
                         <a class="js-search-popup search-field__actor" href="#">
@@ -440,7 +458,10 @@
                                 <button class="btn-icon btn-close-lg search-popup__reset" type="reset"></button>
                             </div>
 
+
+
                             <div class="search-popup__results">
+
                                 <div class="sub-menu search-suggestion">
                                     <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                                     <ul class="sub-menu__list list-unstyled">
@@ -459,6 +480,7 @@
                         </form>
                     </div>
                 </div>
+
 
                 <div class="header-tools__item hover-container">
                     <a href="login.html" class="header-tools__item">
@@ -616,7 +638,7 @@
                      xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_home" />
                 </svg>
-                <span>Home</span>
+                <span>{{__('nav.home')}}</span>
             </a>
         </div>
 
@@ -626,7 +648,7 @@
                      xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_hanger" />
                 </svg>
-                <span>Shop</span>
+                <span>{{__('nav.shop')}}</span>
             </a>
         </div>
 
