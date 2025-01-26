@@ -333,10 +333,8 @@
                      xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_user" />
                 </svg>
-                <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
+                <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">{{Auth::user()->name ?? 'My Account'}}</span>
             </div>
-
-
 
             <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
                 <li>
