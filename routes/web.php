@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function(){
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/brands', [AdminController::class, 'brands'])->name('admin.brands');
 });
 
 Route::get('/greeting/{locale}', function(string $locale){
