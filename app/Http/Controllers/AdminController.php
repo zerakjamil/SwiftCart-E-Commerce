@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BrandRequest;
 use App\Models\Brand;
+use App\Http\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function index()
     {
         return view('admin.index');
@@ -19,8 +24,9 @@ class AdminController extends Controller
 
     public function brands()
     {
-        $brands = Brand::orderBy('id', 'desc')->paginate(10);
-        return view('admin.brands', compact('brands'));
+        return view('admin.brands', [
+            'brands' => Brand::latest()->paginate(10)
+        ]);
     }
 
     public function createBrand()
@@ -30,48 +36,61 @@ class AdminController extends Controller
 
     public function storeBrand(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|unique:brands,slug|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $validated = $request->validate(BrandRequest::rules());
 
         try {
             $brand = new Brand();
-            $brand->name = $request->name;
-            $brand->slug = Str::slug($request->slug); // Ensure slug format
+            $brand->fillBrandData($validated);
 
-            // Generate unique filename
-            $image = $request->file('image');
-            $fileName = Carbon::now()->timestamp . '_' . Str::random(10) . '.' . $image->guessExtension();
+            if ($request->hasFile('image')) {
+                $brand->image = $this->imageService->saveImage($request->file('image'), 'brands');
+            }
 
-            // Process and save image
-            $this->generateBrandThumbnailsImage($image, $fileName);
-            $brand->image = $fileName;
             $brand->save();
 
-            return redirect()->route('admin.brands')->with('success', 'Brand created successfully.');
+            return redirect()->route('admin.brands')->withSuccess('Brand created successfully.');
 
         } catch (\Exception $e) {
             Log::error('Brand creation failed: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to create brand. Please try again.');
+            return back()->withError('Failed to create brand. Please try again.');
         }
     }
 
-    public function generateBrandThumbnailsImage($image, $imageName): void
+    public function editBrand(Brand $brand)
     {
-        $destinationPath = public_path('uploads/brands');
+        return view('admin.edit-brand', compact('brand'));
+    }
 
-        // Create directory if it doesn't exist
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
+    public function updateBrand(Brand $brand, Request $request)
+    {
+        $validated = $request->validate(BrandRequest::updateRules($brand));
+
+        try {
+            $brand->fillBrandData($validated);
+
+            if ($request->hasFile('image')) {
+                $brand->image = $this->imageService->saveImage($request->file('image'), 'brands');
+            }
+
+            $brand->save();
+
+            return redirect()->route('admin.brands')->withSuccess('Brand updated successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Brand update failed: ' . $e->getMessage());
+            return back()->withError('Failed to update brand. Please try again.');
         }
+    }
 
-        // Resize and save image
-        $img = Image::read($image->path());
-        $img->cover(123,124,"top");
-        $img->resize(124, 124,function ($constraint) {
-            $constraint->aspectRatio();
-        })->save($destinationPath . '/' . $imageName);
+    public function deleteBrand(Brand $brand)
+    {
+        try {
+            $brand->delete();
+            $this->imageService->deleteImage($brand->image, 'brands');
+            return redirect()->route('admin.brands')->withSuccess('Brand deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Brand deletion failed: ' . $e->getMessage());
+            return back()->withError('Failed to delete brand. Please try again.');
+        }
     }
 }

@@ -40,6 +40,8 @@
                         <div class="table-responsive">
                             @if(Session::has('success'))
                                 <div class="alert alert-success">{{Session::get('success')}}</div>
+                            @elseif(Session::has('error'))
+                                <div class="alert alert-danger">{{Session::get('error')}}</div>
                             @endif
                             <table class="table table-striped table-bordered">
                                 <thead>
@@ -52,6 +54,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @if(count($brands) == 0)
+                                    <tr>
+                                        <td colspan="5" class="text-center text-gray-500 italic">No brands found</td>
+                                    </tr>
+                                @endif
                                 @foreach($brands as $brand)
                                 <tr>
                                     <td>{{$brand->id}}</td>
@@ -67,13 +74,15 @@
                                     <td><a href="#" target="_blank">0</a></td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="#">
+                                            <a href="{{route('admin.edit-brand', $brand->id)}}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="#" method="POST">
-                                                <div class="item text-danger delete">
+                                            <form action="{{route('admin.delete-brand', $brand->id)}}" method="POST" id="delete-form-{{ $brand->id }}" style="cursor: pointer;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="item text-danger delete" onclick="event.preventDefault();getElementById('delete-form-{{ $brand->id }}').submit();">
                                                     <i class="icon-trash-2"></i>
                                                 </div>
                                             </form>
