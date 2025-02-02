@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthAdmin;
@@ -18,12 +19,15 @@ Route::middleware(['auth'])->group(function(){
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/brands', [AdminController::class, 'brands'])->name('admin.brands');
-    Route::get('/admin/brands/create', [AdminController::class, 'createBrand'])->name('admin.create-brand');
-    Route::post('/admin/brands/store', [AdminController::class, 'storeBrand'])->name('admin.store-brand');
-    Route::get('/admin/brands/edit/{brand}', [AdminController::class, 'editBrand'])->name('admin.edit-brand');
-    Route::put('/admin/brands/update/{brand}', [AdminController::class, 'updateBrand'])->name('admin.update-brand');
-    Route::delete('/admin/brands/delete/{brand}', [AdminController::class, 'deleteBrand'])->name('admin.delete-brand');
+
+    Route::resource('/admin/brands',BrandController::class)->names([
+        'index' => 'brand.index',
+        'create' => 'brand.create',
+        'store' => 'brand.store',
+        'edit' => 'brand.edit',
+        'update' => 'brand.update',
+        'destroy' => 'brand.destroy',
+    ]);
 });
 
 Route::get('/greeting/{locale}', function(string $locale){

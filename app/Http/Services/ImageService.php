@@ -39,6 +39,12 @@ class ImageService
         }
     }
 
+    public function optimize($path)
+    {
+        $img = Image::make(public_path($path))->encode('jpg', 75);
+        return $img->response('jpg');
+    }
+
     public function deleteImage($image, $folder): void
     {
         if (File::exists(public_path('uploads/' . $folder . '/' . $image))) {

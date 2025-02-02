@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/css/flag-icons.min.css">
     @stack('styles')
 
 </head>
@@ -329,11 +330,14 @@
 
         <div class="border-top mt-auto pb-2">
             <div class="customer-links container mt-4 mb-2 pb-1">
-                <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_user" />
-                </svg>
-                <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">{{Auth::user()->name ?? 'My Account'}}</span>
+                <a href="{{route('user.index')}}">
+                    <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_user" />
+                    </svg>
+                    <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">{{Auth::user()->name ?? 'My Account'}}</span>
+                </a>
+
             </div>
 
             <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
@@ -419,16 +423,20 @@
                 <div class="container mt-4 mb-2 pb-1">
                     <div class="rounded w-2 h-2 border-2"></div>
 
-{{--                    <form id="language-switch-form" action="{{ route('language.switch', ['locale' => app()->getLocale()]) }}" method="GET">--}}
-{{--                        @csrf--}}
-{{--                        <label for="language-dropdown-menu" class="text-uppercase text-secondary fw-medium ms-2">Language--}}
-{{--                            <select id="language-dropdown-menu" name="locale" onchange="document.getElementById('language-switch-form').action = '{{ url('greeting') }}/' + this.value; this.form.submit()">--}}
-{{--                                <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>--}}
-{{--                                <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>العربية</option>--}}
-{{--                                <option value="kr" {{ app()->getLocale() == 'kr' ? 'selected' : '' }}>کوردی</option>--}}
-{{--                            </select>--}}
-{{--                        </label>--}}
-{{--                    </form>--}}
+                    <form id="language-switch-form" action="{{ route('language.switch', ['locale' => app()->getLocale()]) }}" method="GET">
+                        @csrf
+                        <label for="language-dropdown-menu" class="text-uppercase text-secondary fw-medium ms-2">
+                            <select id="language-dropdown-menu" name="locale"
+                                    onchange="event.preventDefault();
+                         document.getElementById('language-switch-form').action = '{{ url('greeting') }}/' + this.value;
+                         document.getElementById('language-switch-form').submit()"
+                                    style="font-size: 1.2em; border: none; background: none; cursor: pointer;">
+                                <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }} data-icon="{{ asset('uploads/logos/usa.png') }}"> English</option>
+                                <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }} data-icon="{{ asset('uploads/logos/sa.png') }}"> العربية</option>
+                                <option value="kr" {{ app()->getLocale() == 'kr' ? 'selected' : '' }} data-icon="{{ asset('uploads/logos/iq.png') }}"> کوردی</option>
+                            </select>
+                        </label>
+                    </form>
                 </div>
                 <div class="header-tools__item hover-container">
                     <div class="js-hover__open position-relative">
@@ -605,7 +613,7 @@
                 <h6 class="sub-menu__title text-uppercase">Help</h6>
                 <ul class="sub-menu__list list-unstyled">
                     <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Customer Service</a></li>
-                    <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a>
+                    <li class="sub-menu__item"><a href="{{route('user.index')}}" class="menu-link menu-link_us-s">My Account</a>
                     </li>
                     <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Find a Store</a>
                     </li>

@@ -28,7 +28,7 @@ class BrandRequest extends FormRequest
         ];
     }
 
-    public static function updateRules($brand)
+    public static function updateRules($brand): array
     {
         return [
             'name' => 'required|string|max:255',

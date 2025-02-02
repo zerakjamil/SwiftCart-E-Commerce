@@ -33,7 +33,7 @@
                                 </div>
                             </form>
                         </div>
-                        <a class="tf-button style-1 w208" href="{{route('admin.create-brand')}}"><i
+                        <a class="tf-button style-1 w208" href="{{route('brand.create')}}"><i
                                 class="icon-plus"></i>Add new</a>
                     </div>
                     <div class="wg-table table-all-user">
@@ -74,12 +74,12 @@
                                     <td><a href="#" target="_blank">0</a></td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="{{route('admin.edit-brand', $brand->id)}}">
+                                            <a href="{{route('brand.edit', $brand->id)}}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{route('admin.delete-brand', $brand->id)}}" method="POST" id="delete-form-{{ $brand->id }}" style="cursor: pointer;">
+                                            <form action="{{route('brand.destroy', $brand->id)}}" method="POST" id="delete-form-{{ $brand->id }}" style="cursor: pointer;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <div class="item text-danger delete" onclick="event.preventDefault();getElementById('delete-form-{{ $brand->id }}').submit();">

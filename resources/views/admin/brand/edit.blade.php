@@ -13,21 +13,22 @@
                     </li>
                     <li><i class="icon-chevron-right"></i></li>
                     <li>
-                        <a href="{{ route('admin.brands') }}">
+                        <a href="{{ route('brand.index') }}">
                             <div class="text-tiny">Brands</div>
                         </a>
                     </li>
                     <li><i class="icon-chevron-right"></i></li>
-                    <li><div class="text-tiny">New Brand</div></li>
+                    <li><div class="text-tiny">Edit Brand</div></li>
                 </ul>
             </div>
             <div class="wg-box">
-                <form class="form-new-product form-style-1" action="{{ route('admin.store-brand') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-new-product form-style-1" action="{{ route('brand.update',[$brand->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <fieldset class="name">
                         <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Brand name" name="name"
-                               value="{{ old('name') }}" required>
+                               value="{{ $brand->name }}" required>
                         @error('name')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -36,7 +37,7 @@
                     <fieldset class="name">
                         <div class="body-title">Brand Slug <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Brand Slug" name="slug"
-                               value="{{ old('slug') }}" required>
+                               value="{{ $brand->name }}" required>
                         @error('slug')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -44,10 +45,12 @@
 
                     <fieldset>
                         <div class="body-title">Upload Image <span class="tf-color-1">*</span></div>
-                        <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview" style="display:none">
-                                <img src="#" class="effect8" alt="Preview" style="max-width: 124px;">
-                            </div>
+                        @if($brand->image)
+                            <div class="upload-image flex-grow">
+                                <div class="item" id="imgpreview">
+                                    <img src="{{asset('uploads/brands/'.$brand->image)}}" class="effect8" alt="Preview" style="max-width: 124px;">
+                                </div>
+                            @endif
                             <div id="upload-file" class="item up-load">
                                 <label class="uploadfile" for="myFile">
                                     <span class="icon"><i class="icon-upload-cloud"></i></span>
@@ -63,7 +66,7 @@
 
                     <div class="bot">
                         <div></div>
-                        <button class="tf-button w208" type="submit">Save</button>
+                        <button class="tf-button w208" type="submit">Save Changes</button>
                     </div>
                 </form>
             </div>

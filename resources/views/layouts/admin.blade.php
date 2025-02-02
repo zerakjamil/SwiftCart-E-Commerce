@@ -83,12 +83,12 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li class="sub-menu-item">
-                                        <a href="{{route('admin.create-brand')}}" class="">
+                                        <a href="{{route('brand.create')}}" class="">
                                             <div class="text">New Brand</div>
                                         </a>
                                     </li>
                                     <li class="sub-menu-item">
-                                        <a href="{{route('admin.brands')}}" class="">
+                                        <a href="{{route('brand.index')}}" class="">
                                             <div class="text">Brands</div>
                                         </a>
                                     </li>

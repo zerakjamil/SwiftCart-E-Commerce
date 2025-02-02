@@ -6308,4 +6308,39 @@ select.h40 {
   }
 }
 
+
+#language-dropdown-menu {
+    font-size: 1.2em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 2px 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+#language-dropdown-menu option {
+    padding-left: 25px; /* Space for the flag */
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 20px;
+}
+
+/* Add flags dynamically using the data-icon attribute */
+#language-dropdown-menu option[data-icon] {
+    background-image: var(--flag-icon);
+}
+
+#language-dropdown-menu option[data-icon="fi fi-us"] {
+    --flag-icon: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/flags/4x3/us.svg');
+}
+
+#language-dropdown-menu option[data-icon="fi fi-sa"] {
+    --flag-icon: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/flags/4x3/sa.svg');
+}
+
+#language-dropdown-menu option[data-icon="fi fi-iq"] {
+    --flag-icon: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/flags/4x3/iq.svg');
+}
 /*# sourceMappingURL=style.css.map */
