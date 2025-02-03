@@ -7,7 +7,7 @@
                     <h3>Brands</h3>
                     <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                         <li>
-                            <a href="{{route('home.index')}}">
+                            <a href="{{route('admin.index')}}">
                                 <div class="text-tiny">Dashboard</div>
                             </a>
                         </li>

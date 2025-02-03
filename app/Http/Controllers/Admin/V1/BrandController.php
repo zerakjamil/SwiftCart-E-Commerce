@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\V1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BrandRequest;
 use App\Http\Services\ImageService;
-use App\Models\Brand;
+use App\Models\Admin\V1\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
