@@ -31,6 +31,7 @@
             <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data" action="{{ route('product.store') }}">
                 @csrf
                 <div class="wg-box">
+                    <!-- Product name -->
                     <fieldset class="name">
                         <div class="body-title mb-10">Product Name <span class="tf-color-1">*</span></div>
                         <input type="text" placeholder="Enter product name" name="name" value="{{ old('name') }}" required>
@@ -40,6 +41,7 @@
                         @enderror
                     </fieldset>
 
+                    <!-- Slug -->
                     <fieldset class="name">
                         <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
                         <input type="text" placeholder="Enter product slug" name="slug" value="{{ old('slug') }}" required>

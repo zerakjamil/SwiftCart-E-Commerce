@@ -64,7 +64,6 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="pname">
                                     <div class="image">
-                                        {{-- Assuming the product image is stored in a public disk --}}
                                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                              class="image">
                                     </div>
@@ -114,8 +113,7 @@
 
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                    {{-- Pagination links, if using Laravel pagination --}}
-                    {{ $products->links() }}
+                    {{ $products->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

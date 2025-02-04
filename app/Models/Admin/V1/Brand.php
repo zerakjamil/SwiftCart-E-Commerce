@@ -2,20 +2,13 @@
 
 namespace App\Models\Admin\V1;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use App\Models\Admin\V1\BaseModel;
 
-class Brand extends Model
+class Brand extends BaseModel
 {
     protected $fillable = [
         'name',
         'slug',
         'image',
     ];
-
-    public function fillBrandData(array $data)
-    {
-        $this->name = $data['name'];
-        $this->slug = Str::slug($data['slug']);
-    }
 }

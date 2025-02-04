@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BrandRequest;
+use App\Http\Requests\V1\BrandRequests\StoreBrandRequest;
+use App\Http\Requests\V1\BrandRequests\UpdateBrandRequest;
 use App\Http\Services\ImageService;
 use App\Models\Admin\V1\Brand;
 use Illuminate\Http\Request;
@@ -28,11 +29,11 @@ class BrandController extends Controller
     }
 
     public function store(Request $request){
-        $validated = $request->validate(BrandRequest::rules());
+        $validated = $request->validate(StoreBrandRequest::rules());
 
         try {
             $brand = new Brand();
-            $brand->fillBrandData($validated);
+            $brand->fillAttributes($validated);
 
             if ($request->hasFile('image')) {
                 $brand->image = $this->imageService->saveImage($request->file('image'), 'brands');
@@ -53,7 +54,7 @@ class BrandController extends Controller
 
     public function update(Brand $brand, Request $request){
 
-        $validated = $request->validate(BrandRequest::updateRules($brand));
+        $validated = $request->validate(UpdateBrandRequest::rules($brand));
 
         try {
             $brand->fillBrandData($validated);

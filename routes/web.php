@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\V1\AdminController;
 use App\Http\Controllers\Admin\V1\BrandController;
+use App\Http\Controllers\Admin\V1\CategoryController;
 use App\Http\Controllers\Admin\V1\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -37,6 +38,15 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
        'edit' => 'product.edit',
        'update' => 'product.update',
        'destroy' => 'product.destroy',
+    ]);
+
+    Route::resource('/admin/categories',CategoryController::class)->names([
+        'index' => 'category.index',
+        'create' => 'category.create',
+        'store' => 'category.store',
+        'edit' => 'category.edit',
+        'update' => 'category.update',
+        'destroy' => 'category.destroy',
     ]);
 });
 
