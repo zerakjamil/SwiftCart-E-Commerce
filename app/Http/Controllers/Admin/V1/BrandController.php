@@ -18,13 +18,15 @@ class BrandController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function index(){
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    {
         return view('admin.brand.index', [
             'brands' => Brand::latest()->paginate(10)
         ]);
     }
 
-    public function create(){
+    public function create(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    {
         return view('admin.brand.create');
     }
 
@@ -48,7 +50,8 @@ class BrandController extends Controller
         }
     }
 
-    public function edit(Brand $brand){
+    public function edit(Brand $brand): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    {
         return view('admin.brand.edit', compact('brand'));
     }
 
@@ -57,7 +60,7 @@ class BrandController extends Controller
         $validated = $request->validate(UpdateBrandRequest::rules($brand));
 
         try {
-            $brand->fillBrandData($validated);
+            $brand->fillAttributes($validated);
 
             if ($request->hasFile('image')) {
                 $brand->image = $this->imageService->saveImage($request->file('image'), 'brands');

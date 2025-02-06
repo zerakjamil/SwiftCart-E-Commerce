@@ -3,6 +3,7 @@
 namespace App\Models\Admin\V1;
 
 use App\Models\Admin\V1\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends BaseModel
 {
@@ -12,7 +13,7 @@ class Category extends BaseModel
         'description',
         'image',
     ];
-    public function products()
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
