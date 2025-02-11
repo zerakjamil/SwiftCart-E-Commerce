@@ -69,7 +69,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="pname">
                                     <div class="image">
-                                        <img src="{{asset('uploads/products/thumbnails/'.$product->image)}}" alt="{{ $product->name }}"
+                                        <img src="{{asset('uploads/products/'.$product->image)}}" alt="{{ $product->name }}"
                                              class="image">
                                     </div>
                                     <div class="name">
