@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 
 class ImageService
 {
-    public function saveImage($image, $folder): string
+    public function saveImage($image, $folder, $width = 124 , $height = 124) : string
     {
         $fileName = $this->generateFileName($image);
         $path = public_path("uploads/$folder");
 
         $this->ensureDirectoryExists($path);
         $this->ensureImageExists($fileName, $folder);
-        $this->processImage($image, $path, $fileName);
+        $this->processImage($image, $path, $fileName, $width, $height);
 
         return $fileName;
     }
@@ -25,19 +25,36 @@ class ImageService
         return now()->timestamp . '_' . Str::random(10) . '.' . $image->guessExtension();
     }
 
-    private function ensureDirectoryExists($path): void
+   public function deleteImage($image, $folder, $subFolder = ''): void
+   {
+       $path = public_path('uploads/' . $folder . '/' . ($subFolder ? "/$subFolder/" : '') . $image);
+       if (File::exists($path)) {
+           File::delete($path);
+       }
+   }
+
+    public function deleteImages($images, $folder, $subFolder = ''): void
     {
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0755, true);
+        foreach ($images as $image) {
+            $this->deleteImage($image->thumbnail, $folder, $subFolder);
         }
     }
 
-    private function ensureImageExists($image, $folder): void
-    {
-        if (!File::exists(public_path("uploads/$folder/$image"))) {
-            File::delete(public_path("uploads/$folder/$image"));
-        }
-    }
+   private function ensureDirectoryExists($path, $subFolder = ''): void
+   {
+       $fullPath = $path . ($subFolder ? "/$subFolder" : '');
+       if (!File::exists($fullPath)) {
+           File::makeDirectory($fullPath, 0755, true);
+       }
+   }
+
+  private function ensureImageExists($image, $folder, $subFolder = ''): void
+  {
+      $path = public_path("uploads/$folder" . ($subFolder ? "/$subFolder" : '') . "/$image");
+      if (File::exists($path)) {
+          File::delete($path);
+      }
+  }
 
     public function optimize($path)
     {
@@ -45,19 +62,24 @@ class ImageService
         return $img->response('jpg');
     }
 
-    public function deleteImage($image, $folder): void
-    {
-        if (File::exists(public_path('uploads/' . $folder . '/' . $image))) {
-            File::delete(public_path('uploads/' . $folder . '/' . $image));
-        }
-    }
-
-    private function processImage($image, $path, $fileName): void
+    private function processImage($image, $path, $fileName, $width , $height): void
     {
         Image::read($image->path())
-            ->cover(124,124,"top")
-            ->resize(124, 124,function ($constraint) {
+            ->cover($width,$height,"top")
+            ->resize($width, $height,function ($constraint) {
             $constraint->aspectRatio();
         })->save($path . '/' . $fileName);
     }
+
+public function generateThumbnail($image, $folder, $subFolder = '', $width = 104, $height = 104): string
+{
+    $fileName = $this->generateFileName($image);
+    $path = public_path("uploads/$folder" . ($subFolder ? "/$subFolder" : ''));
+
+    $this->ensureDirectoryExists($path);
+    $this->ensureImageExists($fileName, $folder);
+    $this->processImage($image, $path, $fileName, $width, $height);
+
+    return $fileName;
+}
 }

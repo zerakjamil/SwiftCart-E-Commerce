@@ -10,22 +10,34 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->decimal('price', 8, 2);
-            $table->decimal('sale_price', 8, 2)->nullable();
-            $table->string('sku')->unique();
-            $table->string('category');
-            $table->string('brand')->nullable();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
-            $table->boolean('featured')->default(false);
-            $table->enum('stock', ['instock', 'outstock'])->default('instock');
-            $table->integer('quantity')->default(0);
-            $table->string('image')->nullable();
-            $table->timestamps();
-        });
+    {Schema::create('products', function (Blueprint $table) {
+        $table->id();
+
+        $table->string('name', 255);
+        $table->string('slug', 191)->unique();
+        $table->string('SKU', 50)->unique();
+        $table->text('description');
+        $table->string('short_description', 500)->nullable();
+
+        $table->decimal('regular_price', 8, 2)->index();
+        $table->decimal('sale_price', 8, 2)->nullable()->index();
+
+        $table->enum('stock_status', ['instock', 'outofstock'])->index();
+        $table->unsignedInteger('quantity')->default(10);
+
+        $table->string('image', 2048)->nullable();
+        $table->json('images')->nullable();
+
+        $table->foreignId('category_id')->nullable()
+            ->constrained('categories')->onDelete('cascade');
+        $table->foreignId('brand_id')->nullable()
+            ->constrained('brands')->onDelete('cascade');
+
+        $table->boolean('featured')->default(false)->index();
+        $table->timestamps();
+
+        $table->index(['regular_price', 'sale_price']);
+    });
     }
 
     /**

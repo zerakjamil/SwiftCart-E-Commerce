@@ -36,6 +36,11 @@
                             class="icon-plus"></i>Add new</a>
                 </div>
                 <div class="table-responsive">
+                    @if(Session::has('success'))
+                        <div class="alert alert-success">{{Session::get('success')}}</div>
+                    @elseif(Session::has('error'))
+                        <div class="alert alert-danger">{{Session::get('error')}}</div>
+                    @endif
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -64,11 +69,11 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="pname">
                                     <div class="image">
-                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                        <img src="{{asset('uploads/products/thumbnails/'.$product->image)}}" alt="{{ $product->name }}"
                                              class="image">
                                     </div>
                                     <div class="name">
-                                        <a href="{{ route('product.show', $product->id) }}"
+                                        <a href="{{ route('product.edit', $product->id) }}"
                                            class="body-title-2">{{ $product->name }}</a>
                                         <div class="text-tiny mt-3">{{ $product->slug }}</div>
                                     </div>
@@ -83,7 +88,7 @@
                                 <td>{{ $product->quantity }}</td>
                                 <td>
                                     <div class="list-icon-function">
-                                        <a href="{{ route('product.show', $product->id) }}" target="_blank">
+                                        <a href="{{ route('product.edit', $product->id) }}" target="_blank">
                                             <div class="item eye">
                                                 <i class="icon-eye"></i>
                                             </div>
