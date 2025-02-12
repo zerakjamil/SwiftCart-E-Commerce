@@ -58,6 +58,7 @@ class ProductController extends Controller
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $gallery[] = [
+                        'full' => $this->imageService->saveImage($image, 'products', 540, 689),
                         'thumbnail' => $this->imageService->generateThumbnail($image, 'products', 'thumbnails', 104, 104),
                     ];
                 }
@@ -85,9 +86,13 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.product.edit',[
+            'product' => Product::findOrFail($product->id),
+            'categories' => Category::select('id','name')->orderBy('name')->get(),
+            'brands' => Brand::select('id','name')->orderBy('name')->get(),
+        ]);
     }
 
     /**

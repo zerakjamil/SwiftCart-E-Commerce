@@ -21,7 +21,7 @@ class Product extends BaseModel
         return $this->belongsTo(Category::class, 'category_id');
     }
 
- public function brands(): BelongsTo
+ public function brand(): BelongsTo
  {
      return $this->belongsTo(Brand::class,'brand_id');
  }
