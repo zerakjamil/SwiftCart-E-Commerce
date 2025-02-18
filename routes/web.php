@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\V1\AdminController;
 use App\Http\Controllers\Admin\V1\BrandController;
 use App\Http\Controllers\Admin\V1\CategoryController;
 use App\Http\Controllers\Admin\V1\ProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\User\V1\HomeController;
 use App\Http\Controllers\User\V1\UserController;
 use App\Http\Middleware\V1\AuthAdmin;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');

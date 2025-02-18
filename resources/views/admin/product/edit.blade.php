@@ -216,89 +216,170 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(function() {
-            let galleryFiles = [];
-            let existingGalleryItems = [];
+<script>
+$(function() {
+    const galleryFiles = [];
+    let existingGalleryItems = [];
 
-            $('#gallery-preview .gallery-item').each(function(index) {
-                existingGalleryItems.push({
-                    src: $(this).find('img').attr('src'),
-                    full: $(this).data('full')
-                });
-            });
+    // Initialize existing gallery items
+    $('#gallery-preview .gallery-item').each(function() {
+        existingGalleryItems.push({
+            src: $(this).find('img').attr('src'),
+            full: $(this).data('full')
+        });
+    });
 
-            function renderGallery() {
-                $('#gallery-preview').empty();
-                existingGalleryItems.forEach((item, index) => {
-                    let previewHtml = `
-                        <div class="gallery-item" data-index="${index}" data-full="${item.full}" style="position: relative; display: inline-block; margin: 5px;">
-                            <img src="${item.src}" alt="Gallery Preview" style="cursor: pointer; width: 100px; height: auto;">
-                            <button type="button" class="remove-gallery" data-type="existing" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
-                                <i class="icon-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    $('#gallery-preview').append(previewHtml);
-                });
-                // ... (rest of the function)
-            }
+    // Render gallery items
+    function renderGallery() {
+        const $galleryPreview = $('#gallery-preview');
+        $galleryPreview.empty();
 
-            $('#gFile').on('change', function(e) {
-                let files = e.target.files;
-                for (let i = 0; i < files.length; i++){
-                    galleryFiles.push(files[i]);
-                }
-                renderGallery();
-                $(this).val('');
-            });
-
-            $('#gallery-preview').on('click', '.remove-gallery', function() {
-                let $item = $(this).closest('.gallery-item');
-                let index = $item.data('index');
-                let type = $(this).data('type');
-                if (type === 'existing') {
-                    existingGalleryItems.splice(index, 1);
-                    $('<input>').attr({
-                        type: 'hidden',
-                        name: 'deleted_images[]',
-                        value: $item.data('full')
-                    }).appendTo('form');
-                } else {
-                    galleryFiles.splice(index, 1);
-                }
-                renderGallery();
-            });
-
-            $('#myFile').change(function (e) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#main-image-preview').show();
-                    $('#main-image-preview img').attr('src', e.target.result);
-                    $('#upload-file').hide();
-                };
-                reader.readAsDataURL(this.files[0]);
-            });
-
-            $('#main-image-preview img').on('click', function () {
-                if (!document.fullscreenElement) {
-                    $(this).parent()[0].requestFullscreen().catch(err => {
-                        console.error(err);
-                    });
-                } else {
-                    document.exitFullscreen();
+        existingGalleryItems.forEach((item, index) => {
+            const $galleryItem = $('<div>', {
+                class: 'gallery-item',
+                'data-index': index,
+                'data-full': item.full,
+                css: {
+                    position: 'relative',
+                    display: 'inline-block',
+                    margin: '5px'
                 }
             });
 
-            $('#removeImagePreview').click(function () {
-                $('#main-image-preview').hide();
-                $('#main-image-preview img').attr('src', '');
-                $('#upload-file').show();
-                $('#myFile').val('');
-            });
+            $('<img>', {
+                src: item.src,
+                alt: 'Gallery Preview',
+                css: {
+                    cursor: 'pointer',
+                    width: '100px',
+                    height: 'auto'
+                }
+            }).appendTo($galleryItem);
 
-            renderGallery();
+            $('<button>', {
+                type: 'button',
+                class: 'remove-gallery',
+                'data-type': 'existing',
+                html: '<i class="icon-trash"></i>',
+                css: {
+                    position: 'absolute',
+                    top: '5px',
+                    right: '5px',
+                    backgroundColor: '#dc3545',
+                    border: 'none',
+                    color: '#fff',
+                    padding: '2px 5px',
+                    fontSize: '12px',
+                    borderRadius: '3px'
+                }
+            }).appendTo($galleryItem);
+
+            $galleryPreview.append($galleryItem);
         });
 
-    </script>
+        // Render new gallery files
+        galleryFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const $galleryItem = $('<div>', {
+                    class: 'gallery-item',
+                    'data-index': index,
+                    css: {
+                        position: 'relative',
+                        display: 'inline-block',
+                        margin: '5px'
+                    }
+                });
+
+                $('<img>', {
+                    src: e.target.result,
+                    alt: 'Gallery Preview',
+                    css: {
+                        cursor: 'pointer',
+                        width: '100px',
+                        height: 'auto'
+                    }
+                }).appendTo($galleryItem);
+
+                $('<button>', {
+                    type: 'button',
+                    class: 'remove-gallery',
+                    'data-type': 'new',
+                    html: '<i class="icon-trash"></i>',
+                    css: {
+                        position: 'absolute',
+                        top: '5px',
+                        right: '5px',
+                        backgroundColor: '#dc3545',
+                        border: 'none',
+                        color: '#fff',
+                        padding: '2px 5px',
+                        fontSize: '12px',
+                        borderRadius: '3px'
+                    }
+                }).appendTo($galleryItem);
+
+                $galleryPreview.append($galleryItem);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Handle gallery file selection
+    $('#gFile').on('change', function(e) {
+        Array.from(e.target.files).forEach(file => galleryFiles.push(file));
+        renderGallery();
+        $(this).val('');
+    });
+
+    // Handle gallery item removal
+    $('#gallery-preview').on('click', '.remove-gallery', function() {
+        const $item = $(this).closest('.gallery-item');
+        const index = $item.data('index');
+        const type = $(this).data('type');
+
+        if (type === 'existing') {
+            existingGalleryItems.splice(index, 1);
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'deleted_images[]',
+                value: $item.data('full')
+            }).appendTo('form');
+        } else {
+            galleryFiles.splice(index, 1);
+        }
+
+        renderGallery();
+    });
+
+    // Handle main image preview
+    $('#myFile').change(function(e) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#main-image-preview').show().find('img').attr('src', e.target.result);
+            $('#upload-file').hide();
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+
+    // Handle main image fullscreen
+    $('#main-image-preview img').on('click', function() {
+        if (!document.fullscreenElement) {
+            $(this).parent()[0].requestFullscreen().catch(console.error);
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    // Handle main image removal
+    $('#removeImagePreview').click(function() {
+        $('#main-image-preview').hide().find('img').attr('src', '');
+        $('#upload-file').show();
+        $('#myFile').val('');
+    });
+
+    // Initial gallery render
+    renderGallery();
+});
+</script>
 @endpush

@@ -98,15 +98,12 @@
                                                 <i class="icon-edit-3"></i>
                                             </div>
                                         </a>
-                                        <form action="{{ route('product.destroy', $product->id) }}" method="POST"
-                                              onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                        <form action="{{ route('product.destroy', $product->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <div class="item text-danger delete">
-                                                <button type="submit" style="background: none; border: none; padding: 0;">
+                                                <div class="item text-danger delete delete-confirmation">
                                                     <i class="icon-trash-2"></i>
-                                                </button>
-                                            </div>
+                                                </div>
                                         </form>
                                     </div>
                                 </td>
@@ -123,4 +120,10 @@
             </div>
         </div>
     </div>
+    <x-confirmation-script
+        title="Delete Product"
+        text="Once deleted, you will not be able to recover this product!">
+    </x-confirmation-script>
 @endsection
+
+

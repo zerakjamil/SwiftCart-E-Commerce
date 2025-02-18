@@ -11,153 +11,157 @@ use App\Models\Admin\V1\Category;
 use App\Models\Admin\V1\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     protected ImageService $imageService;
+
     public function __construct(ImageService $imageService)
     {
         $this->imageService = $imageService;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        return view('admin.product.index',[
-            'products' => Product::latest()->paginate(10)
-        ]);
+        $products = Product::latest()->paginate(10);
+        return view('admin.product.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.product.create',[
-            'categories' => Category::select('id','name')->orderBy('name')->get(),
-            'brands' => Brand::select('id','name')->orderBy('name')->get(),
-        ]);
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+        $brands = Brand::select('id', 'name')->orderBy('name')->get();
+        return view('admin.product.create', compact('categories', 'brands'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $validated = $request->validate(StoreProductRequest::rules());
-
         try {
+            DB::beginTransaction();
+
             $product = new Product();
-            $product->fillAttributes($validated);
+            $product->fillAttributes($request->validated());
 
             if ($request->hasFile('image')) {
                 $product->image = $this->imageService->saveImage($request->file('image'), 'products', 540, 689);
             }
 
-            $gallery = [];
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $gallery[] = [
-                        'full' => $this->imageService->saveImage($image, 'products', 540, 689),
-                        'thumbnail' => $this->imageService->generateThumbnail($image, 'products', 'thumbnails', 104, 104),
-                    ];
-                }
-            }
-
+            $gallery = $this->processGalleryImages($request->file('images', []));
             $product->images = json_encode($gallery);
 
             $product->save();
+
+            DB::commit();
             return redirect()->route('product.index')->withSuccess('Product created successfully.');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Product creation failed: ' . $e->getMessage());
             return back()->withError('Failed to create product. Please try again.');
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Product $product)
     {
-        return view('admin.product.edit',[
-            'product' => $product,
-            'gallery' => json_decode($product->images,true) ?? [],
-            'categories' => Category::select('id','name')->orderBy('name')->get(),
-            'brands' => Brand::select('id','name')->orderBy('name')->get(),
-        ]);
+        $gallery = json_decode($product->images, true) ?? [];
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+        $brands = Brand::select('id', 'name')->orderBy('name')->get();
+        return view('admin.product.edit', compact('product', 'gallery', 'categories', 'brands'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $validated = $request->validate(UpdateProductRequest::rules($product));
-
         try {
-            $product->fillAttributes($validated);
+            DB::beginTransaction();
+
+            $product->fillAttributes($request->validated());
 
             if ($request->hasFile('image')) {
                 $this->imageService->deleteImage($product->image, 'products');
                 $product->image = $this->imageService->saveImage($request->file('image'), 'products', 540, 689);
             }
 
-            $existingGallery = json_decode($product->images, true) ?? [];
-
-            if ($request->has('deleted_images')) {
-                foreach ($request->deleted_images as $deletedImage) {
-                    foreach ($existingGallery as $key => $image) {
-                        if ($image['full'] === $deletedImage) {
-                            $this->imageService->deleteImage($image['full'], 'products');
-                            $this->imageService->deleteImage($image['thumbnail'], 'products', 'thumbnails');
-                            unset($existingGallery[$key]);
-                        }
-                    }
-                }
-                $existingGallery = array_values($existingGallery);
-            }
-
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $existingGallery[] = [
-                        'full' => $this->imageService->saveImage($image, 'products', 540, 689),
-                        'thumbnail' => $this->imageService->generateThumbnail($image, 'products', 'thumbnails', 104, 104),
-                    ];
-                }
-            }
-
+            $existingGallery = $this->updateGallery($product, $request);
             $product->images = json_encode($existingGallery);
+
             $product->save();
 
+            DB::commit();
             return redirect()->route('product.index')->withSuccess('Product updated successfully.');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Product update failed: ' . $e->getMessage());
             return back()->withError('Failed to update product. Please try again.');
         }
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Product $product)
     {
         try {
+            DB::beginTransaction();
+
             $product->delete();
-            $this->imageService->deleteImage($product->image, 'products');
-            $this->imageService->deleteImages(json_decode($product->images), 'products', 'thumbnails');
+            $this->deleteProductImages($product);
+
+            DB::commit();
             return redirect()->route('product.index')->withSuccess('Product deleted successfully.');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Product deletion failed: ' . $e->getMessage());
             return back()->withError('Failed to delete product. Please try again.');
+        }
+    }
+
+    private function processGalleryImages(array $images): array
+    {
+        $gallery = [];
+        foreach ($images as $image) {
+            $gallery[] = [
+                'full' => $this->imageService->saveImage($image, 'products', 540, 689),
+                'thumbnail' => $this->imageService->generateThumbnail($image, 'products', 'thumbnails', 104, 104),
+            ];
+        }
+        return $gallery;
+    }
+
+    private function updateGallery(Product $product, Request $request): array
+    {
+        $existingGallery = json_decode($product->images, true) ?? [];
+
+        if ($request->has('deleted_images')) {
+            $existingGallery = $this->removeDeletedImages($existingGallery, $request->deleted_images);
+        }
+
+        if ($request->hasFile('images')) {
+            $newImages = $this->processGalleryImages($request->file('images'));
+            $existingGallery = array_merge($existingGallery, $newImages);
+        }
+
+        return $existingGallery;
+    }
+
+    private function removeDeletedImages(array $existingGallery, array $deletedImages): array
+    {
+        foreach ($deletedImages as $deletedImage) {
+            $existingGallery = array_filter($existingGallery, function ($image) use ($deletedImage) {
+                if ($image['full'] === $deletedImage) {
+                    $this->imageService->deleteImage($image['full'], 'products');
+                    $this->imageService->deleteImage($image['thumbnail'], 'products', 'thumbnails');
+                    return false;
+                }
+                return true;
+            });
+        }
+        return array_values($existingGallery);
+    }
+
+    private function deleteProductImages(Product $product): void
+    {
+        $this->imageService->deleteImage($product->image, 'products');
+        $gallery = json_decode($product->images, true) ?? [];
+        foreach ($gallery as $image) {
+            $this->imageService->deleteImage($image['full'], 'products');
+            $this->imageService->deleteImage($image['thumbnail'], 'products', 'thumbnails');
         }
     }
 }
