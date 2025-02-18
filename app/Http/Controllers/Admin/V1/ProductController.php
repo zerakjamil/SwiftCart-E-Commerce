@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\ProductRequests\StoreProductRequest;
+use App\Http\Requests\V1\ProductRequests\UpdateProductRequest;
 use App\Http\Services\ImageService;
 use App\Models\Admin\V1\Brand;
 use App\Models\Admin\V1\Category;
@@ -89,7 +90,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('admin.product.edit',[
-            'product' => Product::findOrFail($product->id),
+            'product' => $product,
+            'gallery' => json_decode($product->images,true) ?? [],
             'categories' => Category::select('id','name')->orderBy('name')->get(),
             'brands' => Brand::select('id','name')->orderBy('name')->get(),
         ]);
@@ -98,11 +100,51 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
-    }
+        $validated = $request->validate(UpdateProductRequest::rules($product));
 
+        try {
+            $product->fillAttributes($validated);
+
+            if ($request->hasFile('image')) {
+                $this->imageService->deleteImage($product->image, 'products');
+                $product->image = $this->imageService->saveImage($request->file('image'), 'products', 540, 689);
+            }
+
+            $existingGallery = json_decode($product->images, true) ?? [];
+
+            if ($request->has('deleted_images')) {
+                foreach ($request->deleted_images as $deletedImage) {
+                    foreach ($existingGallery as $key => $image) {
+                        if ($image['full'] === $deletedImage) {
+                            $this->imageService->deleteImage($image['full'], 'products');
+                            $this->imageService->deleteImage($image['thumbnail'], 'products', 'thumbnails');
+                            unset($existingGallery[$key]);
+                        }
+                    }
+                }
+                $existingGallery = array_values($existingGallery);
+            }
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $existingGallery[] = [
+                        'full' => $this->imageService->saveImage($image, 'products', 540, 689),
+                        'thumbnail' => $this->imageService->generateThumbnail($image, 'products', 'thumbnails', 104, 104),
+                    ];
+                }
+            }
+
+            $product->images = json_encode($existingGallery);
+            $product->save();
+
+            return redirect()->route('product.index')->withSuccess('Product updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Product update failed: ' . $e->getMessage());
+            return back()->withError('Failed to update product. Please try again.');
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */

@@ -28,10 +28,10 @@
                 </ul>
             </div>
 
-            <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data" action="{{ route('product.store') }}">
+            <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data" action="{{ route('product.update', $product->id) }}">
                 @csrf
+                @method('PUT')
                 <div class="wg-box">
-                    <!-- Product name -->
                     <fieldset class="name">
                         <div class="body-title mb-10">Product Name <span class="tf-color-1">*</span></div>
                         <input type="text" placeholder="Enter product name" name="name" value="{{ $product->name }}" required>
@@ -40,8 +40,6 @@
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </fieldset>
-
-                    <!-- Slug -->
                     <fieldset class="name">
                         <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
                         <input type="text" placeholder="Enter product slug" name="slug" value="{{ $product->slug }}" required>
@@ -50,9 +48,7 @@
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </fieldset>
-
                     <div class="gap22 cols">
-                        <!-- Dynamic Category Select -->
                         <fieldset class="category">
                             <div class="body-title mb-10">Category <span class="tf-color-1">*</span></div>
                             <div class="select">
@@ -69,8 +65,6 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </fieldset>
-
-                        <!-- Dynamic Brand Select -->
                         <fieldset class="brand">
                             <div class="body-title mb-10">Brand <span class="tf-color-1">*</span></div>
                             <div class="select">
@@ -88,8 +82,6 @@
                             @enderror
                         </fieldset>
                     </div>
-
-                    <!-- Short Description -->
                     <fieldset class="shortdescription">
                         <div class="body-title mb-10">Short Description <span class="tf-color-1">*</span></div>
                         <textarea class="ht-150" name="short_description" placeholder="Short Description" required>{{ $product->short_description }}</textarea>
@@ -98,8 +90,6 @@
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </fieldset>
-
-                    <!-- Description -->
                     <fieldset class="description">
                         <div class="body-title mb-10">Description <span class="tf-color-1">*</span></div>
                         <textarea name="description" placeholder="Description" required>{{ $product->description }}</textarea>
@@ -109,19 +99,19 @@
                         @enderror
                     </fieldset>
                 </div>
-
                 <div class="wg-box">
-                    <!-- Main Image Upload -->
                     <fieldset>
                         <div class="body-title">Upload Image <span class="tf-color-1">*</span></div>
                         <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview" style="display: {{$product->image ? '' : 'none'}}; position: relative;">
-                                <img src="{{ $product->image ? asset('uploads/products/'.$product->image) : '' }}" class="effect8" alt="Image preview" style="cursor: pointer;">
-                                <button type="button" id="removeImagePreview" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
-                                    <i class="icon-trash"></i>
-                                </button>
+                            <div id="main-image-preview" style="display: {{ $product->image ? '' : 'none' }};">
+                                <div class="item" style="position: relative; display: inline-block; margin: 5px;">
+                                    <img src="{{ $product->image ? asset('uploads/products/'.$product->image) : '' }}" class="effect8" alt="Image preview" style="cursor: pointer; width: 100px; height: auto;">
+                                    <button type="button" id="removeImagePreview" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
+                                        <i class="icon-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div id="upload-file" class="item up-load">
+                            <div id="upload-file" class="item up-load" style="display: {{ $product->image ? 'none' : '' }};">
                                 <label class="uploadfile" for="myFile">
                                     <span class="icon"><i class="icon-upload-cloud"></i></span>
                                     <span class="body-text">Drop your image here or click to browse</span>
@@ -133,13 +123,19 @@
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </fieldset>
-                    <!-- Gallery Images Upload -->
                     <fieldset>
                         <div class="body-title mb-10">Upload Gallery Images</div>
                         <div class="upload-image mb-16">
-                            <!-- Container for gallery image previews -->
-                            <div id="gallery-preview" class="gallery-preview"></div>
-                            <!-- File input container -->
+                            <div id="gallery-preview" class="gallery-preview">
+                                @foreach($gallery as $image)
+                                    <div class="gallery-item" data-full="{{ $image['full'] }}" style="position: relative; display: inline-block; margin: 5px;">
+                                        <img src="{{ asset('uploads/products/thumbnails/'.$image['thumbnail']) }}" alt="Gallery Preview" style="cursor: pointer; width: 100px; height: auto;">
+                                        <button type="button" class="remove-gallery" data-type="existing" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
+                                            <i class="icon-trash"></i>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
                             <div id="galUpload" class="item up-load">
                                 <label class="uploadfile" for="gFile">
                                     <span class="icon"><i class="icon-upload-cloud"></i></span>
@@ -153,7 +149,6 @@
                         @enderror
                     </fieldset>
                     <div class="cols gap22">
-                        <!-- Regular Price -->
                         <fieldset class="name">
                             <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
                             <input type="text" placeholder="Enter regular price" name="regular_price" value="{{ $product->regular_price }}" required>
@@ -161,19 +156,15 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </fieldset>
-
-                        <!-- Sale Price -->
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
-                            <input type="text" placeholder="Enter sale price" name="sale_price" value="{{ $product->sale_price}}" required>
+                            <input type="text" placeholder="Enter sale price" name="sale_price" value="{{ $product->sale_price }}" required>
                             @error('sale_price')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </fieldset>
                     </div>
-
                     <div class="cols gap22">
-                        <!-- SKU -->
                         <fieldset class="name">
                             <div class="body-title mb-10">SKU <span class="tf-color-1">*</span></div>
                             <input type="text" placeholder="Enter SKU" name="SKU" value="{{ $product->SKU }}" required>
@@ -181,8 +172,6 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </fieldset>
-
-                        <!-- Quantity -->
                         <fieldset class="name">
                             <div class="body-title mb-10">Quantity <span class="tf-color-1">*</span></div>
                             <input type="number" placeholder="Enter quantity" name="quantity" value="{{ $product->quantity }}" required>
@@ -191,9 +180,7 @@
                             @enderror
                         </fieldset>
                     </div>
-
                     <div class="cols gap22">
-                        <!-- Stock Status -->
                         <fieldset class="name">
                             <div class="body-title mb-10">Stock</div>
                             <div class="select mb-10">
@@ -206,8 +193,6 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </fieldset>
-
-                        <!-- Featured -->
                         <fieldset class="name">
                             <div class="body-title mb-10">Featured</div>
                             <div class="select mb-10">
@@ -221,7 +206,6 @@
                             @enderror
                         </fieldset>
                     </div>
-
                     <div class="cols gap10">
                         <button class="tf-button w-full" type="submit">Edit Product</button>
                     </div>
@@ -234,59 +218,30 @@
 @push('scripts')
     <script>
         $(function() {
-            $('#myFile').change(function (e) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imgpreview').show();
-                    $('#imgpreview img').attr('src', e.target.result);
-                    $('#upload-file').hide();
-                };
-                reader.readAsDataURL(this.files[0]);
-            });
-
-            $('#imgpreview img').on('click', function () {
-                if (!document.fullscreenElement) {
-                    $(this).parent()[0].requestFullscreen().catch(err => {
-                        console.error("Error attempting to enable full-screen mode:", err);
-                    });
-                } else {
-                    document.exitFullscreen();
-                }
-            });
-
-            $('#removeImagePreview').click(function () {
-                $('#imgpreview').hide();
-                $('#imgpreview img').attr('src', '');
-                $('#upload-file').show();
-                $('#myFile').val('');
-            });
-
             let galleryFiles = [];
+            let existingGalleryItems = [];
+
+            $('#gallery-preview .gallery-item').each(function(index) {
+                existingGalleryItems.push({
+                    src: $(this).find('img').attr('src'),
+                    full: $(this).data('full')
+                });
+            });
 
             function renderGallery() {
                 $('#gallery-preview').empty();
-                if (galleryFiles.length > 0) {
-                    $('#galUpload').hide();
-                } else {
-                    $('#galUpload').show();
-                }
-
-                galleryFiles.forEach((file, index) => {
-                    let reader = new FileReader();
-                    reader.onload = function(e) {
-                        let previewHtml = `
-          <div class="gallery-item" data-index="${index}" style="position: relative; display: inline-block; margin: 5px;">
-            <img src="${e.target.result}" alt="Gallery Preview" style="cursor: pointer; width: 100px; height: auto;">
-            <button type="button" class="remove-gallery" style="position: absolute; top: 5px; right: 5px;
-              background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
-              <i class="icon-trash"></i>
-            </button>
-          </div>
-        `;
-                        $('#gallery-preview').append(previewHtml);
-                    }
-                    reader.readAsDataURL(file);
+                existingGalleryItems.forEach((item, index) => {
+                    let previewHtml = `
+                        <div class="gallery-item" data-index="${index}" data-full="${item.full}" style="position: relative; display: inline-block; margin: 5px;">
+                            <img src="${item.src}" alt="Gallery Preview" style="cursor: pointer; width: 100px; height: auto;">
+                            <button type="button" class="remove-gallery" data-type="existing" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; border: none; color: #fff; padding: 2px 5px; font-size: 12px; border-radius: 3px;">
+                                <i class="icon-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    $('#gallery-preview').append(previewHtml);
                 });
+                // ... (rest of the function)
             }
 
             $('#gFile').on('change', function(e) {
@@ -299,10 +254,51 @@
             });
 
             $('#gallery-preview').on('click', '.remove-gallery', function() {
-                let index = $(this).parent('.gallery-item').data('index');
-                galleryFiles.splice(index, 1);
+                let $item = $(this).closest('.gallery-item');
+                let index = $item.data('index');
+                let type = $(this).data('type');
+                if (type === 'existing') {
+                    existingGalleryItems.splice(index, 1);
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'deleted_images[]',
+                        value: $item.data('full')
+                    }).appendTo('form');
+                } else {
+                    galleryFiles.splice(index, 1);
+                }
                 renderGallery();
             });
+
+            $('#myFile').change(function (e) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#main-image-preview').show();
+                    $('#main-image-preview img').attr('src', e.target.result);
+                    $('#upload-file').hide();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $('#main-image-preview img').on('click', function () {
+                if (!document.fullscreenElement) {
+                    $(this).parent()[0].requestFullscreen().catch(err => {
+                        console.error(err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            $('#removeImagePreview').click(function () {
+                $('#main-image-preview').hide();
+                $('#main-image-preview img').attr('src', '');
+                $('#upload-file').show();
+                $('#myFile').val('');
+            });
+
+            renderGallery();
         });
+
     </script>
 @endpush

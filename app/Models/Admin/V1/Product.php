@@ -12,8 +12,16 @@ class Product extends BaseModel
         'name',
         'slug',
         'description',
-        'price',
+        'short_description',
+        'regular_price',
+        'sale_price',
         'image',
+        'images',
+        'SKU',
+        'featured',
+        'quantity',
+        'stock_status',
+        'brand_id',
         'category_id',
     ];
     public function category(): BelongsTo
