@@ -78,7 +78,7 @@
                                         <div class="text-tiny mt-3">{{ $product->slug }}</div>
                                     </div>
                                 </td>
-                                <td>${{ number_format($product->price, 2) }}</td>
+                                <td>${{ number_format($product->regular_price, 2) }}</td>
                                 <td>${{ number_format($product->sale_price, 2) }}</td>
                                 <td>{{ $product->SKU }}</td>
                                 <td>{{ $product->category->name ?? 'N/A' }}</td>
