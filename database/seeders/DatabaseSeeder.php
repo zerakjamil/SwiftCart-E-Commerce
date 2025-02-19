@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin\V1\Brand;
+use App\Models\Admin\V1\Category;
+use App\Models\Admin\V1\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\Admin\V1\CategorySeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,6 +19,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        Brand::factory(10)->create();
+        Category::factory(10)->create();
+        Product::factory(10)->create();
 
         User::factory()->create([
             'name' => 'User',

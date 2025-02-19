@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Admin\V1;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +17,10 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'slug' => $this->faker->slug,
+            'description' => $this->faker->text,
+            'parent_id' => null,
         ];
     }
 }

@@ -312,7 +312,7 @@
                         <a href="{{route('home.index')}}" class="navigation__link">{{__('nav.home')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="shop.html" class="navigation__link">{{__('nav.shop')}}</a>
+                        <a href="{{route('shop.index')}}" class="navigation__link">{{__('nav.shop')}}</a>
                     </li>
                     <li class="navigation__item">
                         <a href="cart.html" class="navigation__link">{{__('nav.cart')}}</a>
@@ -404,7 +404,7 @@
                         <a href="{{route('home.index')}}" class="navigation__link">{{__('nav.home')}}</a>
                     </li>
                     <li class="navigation__item">
-                        <a href="shop.html" class="navigation__link">{{__('nav.shop')}}</a>
+                        <a href="{{route('shop.index')}}" class="navigation__link">{{__('nav.shop')}}</a>
                     </li>
                     <li class="navigation__item">
                         <a href="cart.html" class="navigation__link">{{__('nav.cart')}}</a>

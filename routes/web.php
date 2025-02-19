@@ -15,12 +15,20 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
+//route for shop
+Route::prefix('shop')->name('shop')->group(function(){
+    Route::get('/', [ShopController::class, 'index'])->name('.index');
+    Route::get('/{product:slug}', [ShopController::class, 'show'])->name('.show');
+    Route::get('/category/{category}', [ShopController::class, 'category'])->name('.category');
+    Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('.brand');
+});
+//route for user
 Route::middleware(['auth'])->group(function(){
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
 });
 
+//route for admin
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
@@ -52,6 +60,7 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
     ]);
 });
 
+//route for language switch
 Route::get('/greeting/{locale}', function(string $locale){
     if (!in_array($locale, ['en', 'ar', 'kr'])) {
         abort(400);

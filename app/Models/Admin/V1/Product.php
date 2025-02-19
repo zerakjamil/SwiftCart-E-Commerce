@@ -2,9 +2,8 @@
 
 namespace App\Models\Admin\V1;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Product extends BaseModel
 {
@@ -24,6 +23,25 @@ class Product extends BaseModel
         'brand_id',
         'category_id',
     ];
+
+    protected function discountPercentage(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                if (!$this->sale_price || $this->regular_price <= 0) {
+                    return null;
+                }
+                $discount = (($this->regular_price - $this->sale_price) / $this->regular_price) * 100;
+                return number_format($discount, 0);
+            }
+        );
+    }
+
+    public function isOnSale(): bool
+    {
+        return $this->sale_price && $this->sale_price < $this->regular_price;
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
