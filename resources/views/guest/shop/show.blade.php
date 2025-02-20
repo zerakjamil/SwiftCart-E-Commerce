@@ -96,7 +96,7 @@
                                 </svg></a>
                         </div><!-- /.shop-acs -->
                     </div>
-                    <h1 class="product-single__name">{{$product->name}}</h1>
+                    <h1 id="h1" class="product-single__name">{{$product->name}}</h1>
                     <div class="product-single__rating">
                         <div class="reviews-group d-flex">
                             <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
