@@ -24,22 +24,34 @@ class Product extends BaseModel
         'category_id',
     ];
 
-    protected function discountPercentage(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                if (!$this->sale_price || $this->regular_price <= 0) {
-                    return null;
-                }
-                $discount = (($this->regular_price - $this->sale_price) / $this->regular_price) * 100;
-                return number_format($discount, 0);
+ protected function discountPercentage(): Attribute
+{
+    return Attribute::make(
+        get: function ($value, $attributes) {
+            if (!$this->sale_price || $this->regular_price <= 0) {
+                return null;
             }
-        );
-    }
+            $discount = (($this->regular_price - $this->sale_price) / $this->regular_price) * 100;
+            return number_format($discount, 0);
+        }
+    );
+}
 
     public function isOnSale(): bool
     {
         return $this->sale_price && $this->sale_price < $this->regular_price;
+    }
+
+    protected function images(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (is_array($value)) {
+                    return $value;
+                }
+                return json_decode($value, true) ?? [];
+            },
+        );
     }
 
     public function category(): BelongsTo

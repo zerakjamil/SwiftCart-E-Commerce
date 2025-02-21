@@ -15,6 +15,7 @@ class ShopController extends Controller
 
     public function show(Product $product): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        return view('guest.shop.show',compact('product'));
+        $related_products = Product::where('slug', '<>',$product->slug)->inRandomOrder()->limit(8)->get();
+        return view('guest.shop.show',compact('product','related_products'));
     }
 }

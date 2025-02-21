@@ -63,7 +63,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $gallery = json_decode($product->images, true) ?? [];
+        $gallery = $product->images ?? [];
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         $brands = Brand::select('id', 'name')->orderBy('name')->get();
         return view('admin.product.edit', compact('product', 'gallery', 'categories', 'brands'));
@@ -126,7 +126,7 @@ class ProductController extends Controller
 
     private function updateGallery(Product $product, Request $request): array
     {
-        $existingGallery = json_decode($product->images, true) ?? [];
+        $existingGallery = $product->images ?? [];
 
         if ($request->has('deleted_images')) {
             $existingGallery = $this->removeDeletedImages($existingGallery, $request->deleted_images);
@@ -158,7 +158,7 @@ class ProductController extends Controller
     private function deleteProductImages(Product $product): void
     {
         $this->imageService->deleteImage($product->image, 'products');
-        $gallery = json_decode($product->images, true) ?? [];
+        $gallery = $product->images ?? [];
         foreach ($gallery as $image) {
             $this->imageService->deleteImage($image['full'], 'products');
             $this->imageService->deleteImage($image['thumbnail'], 'products', 'thumbnails');

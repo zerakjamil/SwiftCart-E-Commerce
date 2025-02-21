@@ -362,6 +362,21 @@
                 </div>
 
                 <div class="products-grid row row-cols-2 row-cols-md-3" id="products-grid">
+                    @if($products->isEmpty())
+                        <div class="col-12 text-center py-5">
+                            <div class="no-products-message">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-muted">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="8" y1="15" x2="16" y2="15"></line>
+                                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                </svg>
+                                <h3 class="mb-3">Oops! No Products Found</h3>
+                                <p class="text-muted mb-4">We're sorry, but it looks like we don't have any products available at the moment.</p>
+                                <a href="{{ route('home.index') }}" class="btn btn-primary rounded-1">Return to Home</a>
+                            </div>
+                        </div>
+                    @else
                     @foreach($products as $product)
                         <div class="product-card-wrapper">
                             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
@@ -369,11 +384,8 @@
                                     <div class="swiper-container background-img js-swiper-slider"
                                          data-settings='{"resizeObserver": true}'>
                                         <div class="swiper-wrapper">
-                                            @php
-                                                $images = json_decode($product->images, true);
-                                            @endphp
-                                            @if($images && is_array($images))
-                                                @foreach($images as $image)
+                                            @if($product->images && is_array($product->images))
+                                                @foreach($product->images as $image)
                                                     <div class="swiper-slide">
                                                         <a href="{{ route('shop.show', $product->slug) }}">
                                                             <img loading="lazy"
@@ -482,6 +494,7 @@
                             </div>
                         </div>
                     @endforeach
+                    @endif
                 </div>
 
                 <div class="divider"></div>
