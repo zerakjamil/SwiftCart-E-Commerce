@@ -27,21 +27,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@test.com',
             'password' => Hash::make('12345678'),
-            'utype' => 'USER',
             'mobile' => '12345678901',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('12345678'),
-            'utype' => 'ADMIN',
-            'mobile' => '12345678902',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
+        $this->call(AdminSeeder::class);
     }
 }

@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     protected function redirectTo(){
         if (Auth::user()->utype === 'ADMIN') {
-            return route('admin.index');
+            return route('admin.dashboard');
         }
         return route('home.index');
     }

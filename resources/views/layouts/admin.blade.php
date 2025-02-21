@@ -36,7 +36,7 @@
 
             <div class="section-menu-left">
                 <div class="box-logo">
-                    <a href="{{route('admin.index')}}" id="site-logo-inner">
+                    <a href="{{route('admin.dashboard')}}" id="site-logo-inner">
                         <img class="" id="logo_header" alt="" src="{{ asset('images/logo/logo.png') }}"
                              data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
                     </a>
@@ -49,7 +49,7 @@
                         <div class="center-heading">Main Home</div>
                         <ul class="menu-list">
                             <li class="menu-item">
-                                <a href="{{route('admin.index')}}" class="">
+                                <a href="{{route('admin.dashboard')}}" class="">
                                     <div class="icon"><i class="icon-grid"></i></div>
                                     <div class="text">Dashboard</div>
                                 </a>
@@ -275,7 +275,7 @@
                                                     </div>
                                                     <div class="flex items-center justify-between gap20 flex-grow">
                                                         <div class="name">
-                                                            <a href="product-list.html" class="body-text">{{Auth::user()->name}}</a>
+                                                            <a href="product-list.html" class="body-text">{{Auth::guard('admin')->user()->name}}</a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -395,7 +395,7 @@
                                                     <img src="{{ asset('images/avatar/user-1.png') }}" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">{{Auth::user()->name}}</span>
+                                                    <span class="body-title mb-2">{{Auth::guard('admin')->user()->name}}</span>
                                                     <span class="text-tiny">Admin</span>
                                                 </span>
                                             </span>

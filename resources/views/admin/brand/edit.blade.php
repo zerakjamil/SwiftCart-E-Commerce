@@ -6,7 +6,7 @@
                 <h3>Brand Information</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
-                        <a href="{{ route('admin.index') }}">
+                        <a href="{{ route('admin.dashboard') }}">
                             <div class="text-tiny">Dashboard</div>
                         </a>
                     </li>

@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             \App\Http\Middleware\V1\setLocale::class,
         ]);
+        $middleware->alias([
+            'auth.admin' => \App\Http\Middleware\V1\AuthAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

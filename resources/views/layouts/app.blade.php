@@ -331,7 +331,7 @@
 
         <div class="border-top mt-auto pb-2">
             <div class="customer-links container mt-4 mb-2 pb-1">
-                <a href="{{ Auth::user() ? Auth::user()->utype === 'ADMIN' ? route('admin.index') : route('user.index') : route('login') }}">
+                <a href="{{ route('user.index') }}">
                     <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_user" />
@@ -499,7 +499,7 @@
                 </div>
                 @else
                     <div class="header-tools__item hover-container">
-                        <a href="{{ Auth::user()->utype === 'ADMIN' ? route('admin.index') : route('user.index') }}" class="header-tools__item">
+                        <a href="{{ route('user.index') }}" class="header-tools__item">
                             <span class="pr-6px " >{{Auth::user()->name}}</span>
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
