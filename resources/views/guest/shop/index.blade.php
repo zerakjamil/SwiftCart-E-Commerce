@@ -326,7 +326,9 @@
                         <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
                     </div>
 
-                    <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+                    <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1 ">
+                    <x-partials.select :size="$size" />
+
                         <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
                                 name="total-number">
                             <option selected>Default Sorting</option>
@@ -385,11 +387,71 @@
 
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                    {{$products->links('pagination::bootstrap-5')}}
+                    {{$products->withQueryString()->links('pagination::bootstrap-5')}}
                 </div>
 
             </div>
         </section>
     </main>
 
+    <form action="{{route('shop.index')}}" method="GET" id="filter-form">
+        @csrf
+        <input type="hidden" name="page" value="{{$products->currentPage()}}">
+        <input type="hidden" name="size" id="size" value="{{$size}}">
+    </form>
+
 @endsection
+
+@push('scripts')
+    <script>
+        $(function(){
+            $("#pageSize").change(function(){
+                $("#size").val($("#pageSize option:selected").val());
+                $("#filter-form").submit();
+            });
+        })
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        .custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px 32px 8px 12px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-select:hover, .custom-select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.custom-select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+}
+
+.custom-select:hover + .custom-select-icon,
+.custom-select:focus + .custom-select-icon {
+    color: #007bff;
+}
+    </style>
+@endpush

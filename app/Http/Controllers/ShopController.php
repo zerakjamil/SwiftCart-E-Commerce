@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    public function index(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        $products = Product::latest()->paginate(12);
-        return view('guest.shop.index',compact('products'));
+        $size = $request->query('size') ?? 12;
+        $products = Product::latest()->paginate($size);
+        return view('guest.shop.index',compact('products','size'));
     }
 
     public function show(Product $product): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
