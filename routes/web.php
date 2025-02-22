@@ -16,15 +16,22 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-Route::prefix('shop')->name('shop')->group(function(){
-    Route::get('/', [ShopController::class, 'index'])->name('.index');
-    Route::get('/{product:slug}', [ShopController::class, 'show'])->name('.show');
-    Route::get('/category/{category}', [ShopController::class, 'category'])->name('.category');
-    Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('.brand');
+Route::prefix('shop')->name('shop.')->group(function(){
+    Route::get('/', [ShopController::class, 'index'])->name('index');
+    Route::get('/{product:slug}', [ShopController::class, 'show'])->name('show');
+    Route::get('/category/{category}', [ShopController::class, 'category'])->name('category');
+    Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('brand');
 });
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+Route::prefix('cart')->name('cart.')->group(function(){
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/', [CartController::class, 'add'])->name('add');
+    Route::put('/cart/increment/{rowId}', [CartController::class, 'increment'])->name('increment');
+    Route::put('/cart/decrement/{rowId}', [CartController::class, 'decrement'])->name('decrement');
+    Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('remove');
+});
+
+
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');

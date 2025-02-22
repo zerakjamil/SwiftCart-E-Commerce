@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'SwiftCart') }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="surfside media" />
+    <meta name="author" content="SwiftCart" />
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link

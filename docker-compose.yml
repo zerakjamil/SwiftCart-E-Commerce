@@ -42,10 +42,10 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: ecommerce
-      MYSQL_ROOT_PASSWORD: Shaqlawa12
+      MYSQL_ROOT_PASSWORD: your_db_password
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:

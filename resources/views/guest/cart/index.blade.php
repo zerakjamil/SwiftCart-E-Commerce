@@ -77,7 +77,6 @@
                         </div>
                         <h2 class="mb-3">Your Cart is Empty</h2>
                         <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
-                        <
                         <x-partials.button
                             tag="a"
                             :route="'shop.index'"
