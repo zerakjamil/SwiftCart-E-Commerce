@@ -6,4 +6,5 @@ return [
     'cart' => 'السلة',
     'about' => 'حول',
     'contact' => 'اتصل',
+    'wishlist' => 'المفضلة',
 ];

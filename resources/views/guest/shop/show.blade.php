@@ -104,36 +104,68 @@
                             @endif
                         @else
                             <span class="fs-5">
-                                                        ${{number_format($product->regular_price, 2)}}
-                                                    </span>
+                               ${{number_format($product->regular_price, 2)}}
+                            </span>
                         @endif
                     </div>
                     <div class="product-single__short-desc">
                         <p>{{$product->short_description}}</p>
                     </div>
-                    <form name="addtocart-form" method="post">
-                        <div class="product-single__addtocart">
-                            <div class="qty-control position-relative">
-                                <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
-                                <div class="qty-control__reduce">-</div>
-                                <div class="qty-control__increase">+</div>
-                            </div><!-- .qty-control -->
-                            <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to
-                                Cart</button>
-                        </div>
-                    </form>
+
+                    @if(\App\Models\Admin\V1\Cart::productAddedToCart($product->id))
+                        <x-partials.button
+                            type="a"
+                            href="{{ route('cart.index')}}"
+                            class="btn btn-warning mb-3"
+                        >
+                            Go to Cart
+                        </x-partials.button>
+                    @else
+                        <form name="addtocart-form" method="post" action="{{route('cart.add')}}">
+                            @csrf
+                            <div id="flash-message" class="hidden fixed top-4 right-4 z-50 transform transition-all duration-300 ease-in-out"></div>
+                            <div class="product-single__addtocart">
+                                <div class="qty-control position-relative">
+                                    <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
+                                    <div class="qty-control__reduce">-</div>
+                                    <div class="qty-control__increase">+</div>
+                                </div>
+
+                                <input type="hidden" name="id" value="{{$product->id}}">
+                                <input type="hidden" name="name" value="{{$product->name}}">
+                                <input type="hidden" name="price" value="{{$product->sale_price ?? $product->regular_price}}">
+
+                                <x-partials.button
+                                    type="submit"
+                                    class="btn btn-primary btn-addtocart"
+                                    data-adide="cartDrawing"
+                                >
+                                    Add to Cart
+                                </x-partials.button>
+                            </div>
+                        </form>
+                    @endif
+
                     <div class="product-single__addtolinks">
-                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20"
+                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist">
+                            <svg width="16" height="16" viewBox="0 0 20 20"
                                                                                           fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_heart" />
-                            </svg><span>Add to Wishlist</span></a>
+                            </svg>
+                            <span>Add to Wishlist</span>
+                        </a>
                         <share-button class="share-button">
-                            <button class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
-                                <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_sharing" />
+
+                            <x-partials.button
+                                class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center"
+                            >
+                                <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_sharing"/>
                                 </svg>
                                 <span>Share</span>
-                            </button>
+                            </x-partials.button>
+
                             <details id="Details-share-template__main" class="m-1 xl:m-1.5" hidden="">
                                 <summary class="btn-solid m-1 xl:m-1.5 pt-3.5 pb-3 px-5">+</summary>
                                 <div id="Article-share-template__main"
@@ -344,7 +376,12 @@
                                     </label>
                                 </div>
                                 <div class="form-action">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <x-partials.button
+                                        type="submit"
+                                        class="btn btn-primary"
+                                    >
+                                        Submit
+                                    </x-partials.button>
                                 </div>
                             </form>
                         </div>
@@ -396,9 +433,35 @@
                                 <a href="{{route('shop.show', $related_product->slug)}}">
                                     <img loading="lazy" src="{{asset('uploads/products/'.$related_product->image)}}" width="330" height="400" alt="{{$related_product->name}}" class="pc__img">
                                 </a>
-                                <button
-                                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                                    data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                                @if(\App\Models\Admin\V1\Cart::productAddedToCart($related_product->id))
+                                    <x-partials.button
+                                        type="a"
+                                        href="{{ route('cart.index')}}"
+                                        class="pc__atc  anim_appear-bottom btn btn-warning position-absolute border-0 text-uppercase fw-medium "
+                                        data-aside="cartDrawer"
+                                        title="Go To Cart"
+                                    >
+                                        Go to Cart
+                                    </x-partials.button>
+                                @else
+                                    <form name="addtocart-form-{{ $related_product->id }}" method="post" action="{{route('cart.add')}}">
+                                        @csrf
+                                        <x-partials.button
+                                            type="submit"
+                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium "
+                                            data-aside="cartDrawer"
+                                            title="Add To Cart"
+                                            id="add-to-cart-{{ $related_product->id }}"
+                                        >
+                                            Add To Cart
+                                        </x-partials.button>
+
+                                        <input type="hidden" name="id" value="{{$related_product->id}}">
+                                        <input type="hidden" name="name" value="{{$related_product->name}}">
+                                        <input type="hidden" name="price" value="{{$related_product->sale_price ?? $related_product->regular_price}}">
+                                        <input type="hidden" name="quantity" value="1">
+                                    </form>
+                                @endif
                             </div>
 
                             <div class="pc__info position-relative">
@@ -460,7 +523,7 @@
         </section>
     </main>
 
-    @push('styles')
+@push('styles')
     <style>
         .discount-badge {
             position: absolute;

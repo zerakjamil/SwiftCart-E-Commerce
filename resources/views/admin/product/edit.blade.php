@@ -158,7 +158,7 @@
                         </fieldset>
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
-                            <input type="text" placeholder="Enter sale price" name="sale_price" value="{{ $product->sale_price }}" required>
+                            <input type="text" placeholder="Enter sale price" name="sale_price" value="{{ $product->sale_price }}" >
                             @error('sale_price')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror

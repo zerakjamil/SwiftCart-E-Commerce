@@ -5,21 +5,21 @@
         <section class="shop-checkout container">
             <h2 class="page-title">Cart</h2>
             <div class="checkout-steps">
-                <a href="{{route('cart.index')}}" class="checkout-steps__item active">
+                <a href="javascript:void(0)" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">01</span>
                     <span class="checkout-steps__item-title">
             <span>Shopping Bag</span>
             <em>Manage Your Items List</em>
           </span>
                 </a>
-                <a href="checkout.html" class="checkout-steps__item">
+                <a href="javascript:void(0)" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
             <span>Shipping and Checkout</span>
             <em>Checkout Your Items List</em>
           </span>
                 </a>
-                <a href="order-confirmation.html" class="checkout-steps__item">
+                <a href="javascript:void(0)" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
             <span>Confirmation</span>
@@ -28,6 +28,7 @@
                 </a>
             </div>
             <div class="shopping-cart">
+                @if($items->count() > 0)
                 <div class="cart-table__wrapper">
                     <table class="cart-table">
                         <thead>
@@ -41,179 +42,62 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <div class="shopping-cart__product-item">
-                                    <img loading="lazy" src="assets/images/cart-item-1.jpg" width="120" height="120" alt="" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="shopping-cart__product-item__detail">
-                                    <h4>Zessi Dresses</h4>
-                                    <ul class="shopping-cart__product-item__options">
-                                        <li>Color: Yellow</li>
-                                        <li>Size: L</li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__product-price">$99</span>
-                            </td>
-                            <td>
-                                <div class="qty-control position-relative">
-                                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                                    <div class="qty-control__reduce">-</div>
-                                    <div class="qty-control__increase">+</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__subtotal">$297</span>
-                            </td>
-                            <td>
-                                <a href="#" class="remove-cart">
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="shopping-cart__product-item">
-                                    <img loading="lazy" src="assets/images/cart-item-2.jpg" width="120" height="120" alt="" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="shopping-cart__product-item__detail">
-                                    <h4>Kirby T-Shirt</h4>
-                                    <ul class="shopping-cart__product-item__options">
-                                        <li>Color: Yellow</li>
-                                        <li>Size: L</li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__product-price">$99</span>
-                            </td>
-                            <td>
-                                <div class="qty-control position-relative">
-                                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                                    <div class="qty-control__reduce">-</div>
-                                    <div class="qty-control__increase">+</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__subtotal">$297</span>
-                            </td>
-                            <td>
-                                <a href="#" class="remove-cart">
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="shopping-cart__product-item">
-                                    <img loading="lazy" src="assets/images/cart-item-3.jpg" width="120" height="120" alt="" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="shopping-cart__product-item__detail">
-                                    <h4>Cobleknit Shawl</h4>
-                                    <ul class="shopping-cart__product-item__options">
-                                        <li>Color: Yellow</li>
-                                        <li>Size: L</li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__product-price">$99</span>
-                            </td>
-                            <td>
-                                <div class="qty-control position-relative">
-                                    <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                                    <div class="qty-control__reduce">-</div>
-                                    <div class="qty-control__increase">+</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="shopping-cart__subtotal">$297</span>
-                            </td>
-                            <td>
-                                <a href="#" class="remove-cart">
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                        <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach($items as $item)
+                        <x-cart.cart-item :item="$item" />
+                        @endforeach
                         </tbody>
                     </table>
                     <div class="cart-table-footer">
                         <form action="#" class="position-relative bg-body">
                             <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
-                            <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                                   value="APPLY COUPON">
+                            <x-partials.button
+                                tag="input"
+                                type="submit"
+                                value="APPLY COUPON"
+                                class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
+                            />
                         </form>
-                        <button class="btn btn-light">UPDATE CART</button>
+                        <x-partials.button
+                            class="btn btn-light"
+                        >
+                            UPDATE CART
+                        </x-partials.button>
                     </div>
                 </div>
-                <div class="shopping-cart__totals-wrapper">
-                    <div class="sticky-content">
-                        <div class="shopping-cart__totals">
-                            <h3>Cart Totals</h3>
-                            <table class="cart-totals">
-                                <tbody>
-                                <tr>
-                                    <th>Subtotal</th>
-                                    <td>$1300</td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping</th>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                                                   id="free_shipping">
-                                            <label class="form-check-label" for="free_shipping">Free shipping</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="flat_rate">
-                                            <label class="form-check-label" for="flat_rate">Flat rate: $49</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                                                   id="local_pickup">
-                                            <label class="form-check-label" for="local_pickup">Local pickup: $8</label>
-                                        </div>
-                                        <div>Shipping to AL.</div>
-                                        <div>
-                                            <a href="#" class="menu-link menu-link_us-s">CHANGE ADDRESS</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>VAT</th>
-                                    <td>$19</td>
-                                </tr>
-                                <tr>
-                                    <th>Total</th>
-                                    <td>$1319</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <x-cart.cart-total />
+                @else
+                    <div class="empty-cart-container text-center py-5">
+                        <div class="empty-cart-icon mb-4">
+                            <svg width="120" height="120" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z"
+                                    stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="mobile_fixed-btn_wrapper">
-                            <div class="button-wrapper container">
-                                <a href="checkout.html" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
-                            </div>
+                        <h2 class="mb-3">Your Cart is Empty</h2>
+                        <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+                        <
+                        <x-partials.button
+                            tag="a"
+                            :route="'shop.index'"
+                            class="btn btn-primary btn-lg"
+                            icon="fa fa-shopping-bag"
+                        >
+                            Start Shopping
+                        </x-partials.button>
+                    </div>
+                    <div class="suggested-products mt-5">
+                        <h3 class="text-center mb-4">You Might Like</h3>
+                        <div class="row">
+                            @foreach($suggested_products as $product)
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <x-product-card :product="$product"/>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </section>
     </main>

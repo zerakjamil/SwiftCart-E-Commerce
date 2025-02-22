@@ -6,4 +6,5 @@ return [
     'cart' => 'CartController',
     'about' => 'About',
     'contact' => 'Contact',
+    'wishlist' => 'Wishlist',
 ];
