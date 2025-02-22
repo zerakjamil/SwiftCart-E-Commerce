@@ -57,11 +57,16 @@
                                 class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
                             />
                         </form>
-                        <x-partials.button
-                            class="btn btn-light"
-                        >
-                            UPDATE CART
-                        </x-partials.button>
+                        <form action="{{route('cart.clear',$item->rowId)}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <x-partials.button
+                                type="submit"
+                                class="btn btn-light"
+                            >
+                                CLEAR CART
+                            </x-partials.button>
+                        </form>
                     </div>
                 </div>
                 <x-cart.cart-total />

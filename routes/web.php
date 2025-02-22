@@ -26,9 +26,10 @@ Route::prefix('shop')->name('shop.')->group(function(){
 Route::prefix('cart')->name('cart.')->group(function(){
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/', [CartController::class, 'add'])->name('add');
-    Route::put('/cart/increment/{rowId}', [CartController::class, 'increment'])->name('increment');
-    Route::put('/cart/decrement/{rowId}', [CartController::class, 'decrement'])->name('decrement');
-    Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('remove');
+    Route::put('/increment/{rowId}', [CartController::class, 'increment'])->name('increment');
+    Route::put('/decrement/{rowId}', [CartController::class, 'decrement'])->name('decrement');
+    Route::delete('/remove/{rowId}', [CartController::class, 'remove'])->name('remove');
+    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
 });
 
 

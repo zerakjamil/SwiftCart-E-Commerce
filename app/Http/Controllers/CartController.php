@@ -71,4 +71,15 @@ public function remove($rowId)
     }
 }
 
+public function clear()
+{
+    try {
+        Cart::instance('cart')->destroy();
+        return redirect()->back()->with('success', 'Cart cleared successfully');
+    } catch (\Exception $e) {
+        Log::error('Error clearing cart: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while clearing the cart.');
+    }
+}
+
 }

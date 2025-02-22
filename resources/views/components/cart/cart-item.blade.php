@@ -64,13 +64,12 @@
         <form method="post" action="{{route('cart.remove', $item->rowId)}}">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-remove-cart"
-                    style="background: none; border: none; cursor: pointer; padding: 0;">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
-                    <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
-                </svg>
-            </button>
+        <a href="javascript:void(0)" class="remove-cart">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
+                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
+            </svg>
+        </a>
         </form>
     </td>
 </tr>
@@ -85,8 +84,7 @@
                 $(this).closest('form').submit();
             });
             $('.remove-cart').on('click', function(e){
-                e.preventDefault();
-                $(this).closest('tr').find('form').submit();
+                $(this).closest('form').submit();
             });
         })
     </script>
