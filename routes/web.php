@@ -56,7 +56,7 @@ Route::prefix('admin')->group(function(){
                     'edit' => 'admin.edit',
                     'update' => 'admin.update',
                     'destroy' => 'admin.destroy',
-                ]);
+                ])->middleware('permission:edit admins|delete admins|create admins');
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',
