@@ -158,6 +158,27 @@
                                 </a>
                             </li>
 
+                            @if(Auth::guard('admin')->user()->hasRole('superadmin'))
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><i class="icon-admin"></i></div>
+                                        <div class="text">Admins</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{route('admin.create')}}" class="">
+                                                <div class="text">Create New Admin</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{route('admin.index')}}" class="">
+                                                <div class="text">Admins</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
+
                             <li class="menu-item">
                                 <form method="POST" action="{{route('logout')}}" id="logout-form">
                                     @csrf
@@ -396,7 +417,7 @@
                                                 </span>
                                                 <span class="flex flex-column">
                                                     <span class="body-title mb-2">{{Auth::guard('admin')->user()->name}}</span>
-                                                    <span class="text-tiny">Admin</span>
+                                                    <span class="text-tiny">{{ Auth::guard('admin')->user()->roles->pluck('name')->implode(', ') }}</span>
                                                 </span>
                                             </span>
                                     </button>

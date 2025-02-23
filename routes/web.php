@@ -10,7 +10,7 @@ use App\Http\Controllers\User\V1\UserController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\V1\AdminAuthController;
+use App\Http\Controllers\Admin\V1\AdminController;
 
 Auth::routes();
 
@@ -40,14 +40,23 @@ Route::middleware(['auth'])->group(function(){
 
 Route::prefix('admin')->group(function(){
 
-    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('login', [AdminAuthController::class, 'login']);
-    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::get('login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminController::class, 'login']);
+    Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     Route::group(['middleware' => 'auth.admin'], function(){
         Route::get('dashboard', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
+
+                Route::resource('admins', AdminController::class)->names([
+                    'index' => 'admin.index',
+                    'create' => 'admin.create',
+                    'store' => 'admin.store',
+                    'edit' => 'admin.edit',
+                    'update' => 'admin.update',
+                    'destroy' => 'admin.destroy',
+                ]);
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',

@@ -65,7 +65,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $utype = Str::contains($data['name'], ['admin', 'Admin', 'ADMIN']) ? 'ADMIN' : 'USER';
+        $utype = Str::contains($data['name'], ['admin', 'AdminRequests', 'ADMIN']) ? 'ADMIN' : 'USER';
 
         return User::create([
             'name' => $data['name'],
