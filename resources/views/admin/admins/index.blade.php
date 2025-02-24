@@ -55,18 +55,16 @@
                             <tbody>
                             @if(count($admins) == 0)
                                 <tr>
-                                    <td colspan="5" class="text-center text-gray-500 italic">No brands found</td>
+                                    <td colspan="5" class="text-center text-gray-500 italic">No Admins found</td>
                                 </tr>
                             @endif
                             @foreach($admins as $admin)
                                 <tr>
-                                    <td class="name">
-                                            <div class="avatar bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <td class="name d-flex align-items-center  gap10">
+                                            <span class="avatar bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
                                                 {{ strtoupper(substr($admin->name, 0, 1)) }}
-                                            </div>
-                                        <div class="name">
+                                            </span>
                                             <a href="#" class="body-title-2">{{$admin->name}}</a>
-                                        </div>
                                     </td>
                                     <td>{{$admin->email}}</td>
                                     <td><a href="#" target="_blank">{{ $admin->roles->pluck('name')->implode(', ') }}</a></td>

@@ -12,17 +12,17 @@ class AdminSeeder extends Seeder
 {
     public function run()
     {
-        Permission::create(['name' => 'create admins', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'edit admins', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'delete admins', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'create', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'edit', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'delete', 'guard_name' => 'admin']);
 
         $superadminRole = Role::create(['name' => 'superadmin', 'guard_name' => 'admin']);
-        $superadminRole->givePermissionTo(['create admins', 'edit admins', 'delete admins']);
+        $superadminRole->givePermissionTo(['create', 'edit', 'delete']);
 
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'admin']);
-        $adminRole->givePermissionTo(['edit admins']);
+        $adminRole->givePermissionTo(['edit']);
 
-        if (app()->environment('local') && env('ALLOW_ADMIN_SEEDING', false)) {
+        if (app()->environment('local') && env('ALLOW_ADMIN_SEEDING', true)) {
             $superAdmin = Admin::create([
                 'name' => 'Super Admin',
                 'email' => 'admin@tst.com',

@@ -298,9 +298,11 @@
                                                     <div class="divider"></div>
                                                 </li>
                                                 <li class="product-item gap14 mb-10">
-                                                    <div class="image no-bg">
-                                                        <img src="{{ asset('images/products/21.png') }}" alt="">
-                                                    </div>
+                                                      <span
+                                                          class="avatar bg-dark text-white rounded-circle d-flex align-items-center justify-content-center"
+                                                          style="width: 36px; height: 36px;">
+                                                            {{ strtoupper(substr(Auth::guard('admin')->user()->name, 0, 1)) }}
+                                                    </span>
                                                     <div class="flex items-center justify-between gap20 flex-grow">
                                                         <div class="name">
                                                             <a href="product-list.html" class="body-text">{{Auth::guard('admin')->user()->name}}</a>
@@ -419,9 +421,11 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-user wg-user">
-                                                <span class="image">
-                                                    <img src="{{ asset('images/avatar/user-1.png') }}" alt="">
-                                                </span>
+                                                <span
+                                                    class="avatar bg-dark text-white rounded-circle d-flex align-items-center justify-content-center"
+                                                    style="width: 36px; height: 36px;">
+                                                            {{ strtoupper(substr(Auth::guard('admin')->user()->name, 0, 1)) }}
+                                                    </span>
                                                 <span class="flex flex-column">
                                                     <span class="body-title mb-2">{{Auth::guard('admin')->user()->name}}</span>
                                                     <span class="text-tiny">{{ Auth::guard('admin')->user()->roles->pluck('name')->implode(', ') }}</span>

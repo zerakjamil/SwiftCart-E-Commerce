@@ -21,15 +21,4 @@
     </span>
 </div>
 
-@push('scripts')
-    <script>
-        $(function(){
-            $(".custom-select").change(function(){
-                if ($(this).attr('name') === 'pagesize') {
-                    $("#size").val($(this).val());
-                }
-                $("#filter-form").submit();
-            });
-        })
-    </script>
-@endpush
+

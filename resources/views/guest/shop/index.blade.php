@@ -256,7 +256,7 @@
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
                                             Women's <br /><strong>ACCESSORIES</strong></h2>
                                         <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
+                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -277,7 +277,7 @@
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
                                             Women's <br /><strong>ACCESSORIES</strong></h2>
                                         <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
+                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -298,7 +298,7 @@
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
                                             Women's <br /><strong>ACCESSORIES</strong></h2>
                                         <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
+                                            update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -347,11 +347,14 @@
                             id="orderby"
                             ariaLabel="Sort Items"
                             :options="[
-                                'desc' => 'Default',
+                                'DESC' => 'Default',
                                 'latest' => 'Latest',
                                 'oldest' => 'Oldest',
-                                'lowtohigh' => 'Price, Lowest to highest',
-                                'hightolow' => 'Price, Highest to lowest'
+                                'lowToHigh' => 'Price, Lowest to highest',
+                                'highToLow' => 'Price, Highest to lowest',
+                                'aToZ' => 'Alphabetically, A-Z',
+                                'zToA' => 'Alphabetically, Z-A',
+                                'discount' => 'Discount'
                             ]"
                             :selected="$order"
                             class=""
@@ -417,6 +420,25 @@
     </form>
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(function(){
+            $(".custom-select").change(function(){
+                if ($(this).attr('name') === 'pagesize') {
+                    $("#size").val($(this).val());
+                }
+                $("#filter-form").submit();
+            });
+
+            $("#orderby").change(function(){
+                $("#order").val($("#orderby option:selected").val());
+                $("#filter-form").submit();
+            });
+        })
+    </script>
+@endpush
+
 
 @push('styles')
     <style>
