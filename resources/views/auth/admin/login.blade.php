@@ -11,7 +11,7 @@
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
                         </div>
-                        <h2 class="text-black fw-bold mb-2 display-6">SECURE ADMIN PORTAL</h2>
+                        <h2 class="text-black fw-bold mb-2 display-6">ADMIN PORTAL</h2>
                         <div class="divider mx-auto bg-black" style="width: 60px; height: 2px;"></div>
                     </div>
                     <div class="card-body px-5 py-4">
@@ -57,11 +57,6 @@
                     </div>
                     <div class="card-footer bg-white border-0 text-center py-4">
                         <div class="links">
-                            @if (Route::has('password.request'))
-                                <a class="text-decoration-underline text-dark hover-opacity" href="{{ route('password.request') }}">
-                                    FORGOT CREDENTIALS?
-                                </a><br>
-                            @endif
                             <a href="{{ route('login') }}" class="d-block mt-3 text-dark hover-opacity">
                                 ← RETURN TO PUBLIC SITE
                             </a>
@@ -83,9 +78,6 @@
             border-radius: 0;
             box-shadow: 0 15px 40px rgba(0,0,0,0.12);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card:hover {
-            transform: translateY(-5px);
         }
         .form-control {
             border: none;

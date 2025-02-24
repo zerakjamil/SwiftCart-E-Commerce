@@ -146,7 +146,7 @@
 
                             <li class="menu-item">
                                 <a href="users.html" class="">
-                                    <div class="icon"><i class="icon-user"></i></div>
+                                    <div class="icon"><i class="icon-users"></i></div>
                                     <div class="text">User</div>
                                 </a>
                             </li>
@@ -161,7 +161,14 @@
                             @if(Auth::guard('admin')->user()->hasRole('superadmin'))
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><i class="icon-admin"></i></div>
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
+                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                                <circle cx="8.5" cy="7" r="4"/>
+                                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                                <line x1="23" y1="11" x2="17" y2="11"/>
+                                            </svg>
+                                        </div>
                                         <div class="text">Admins</div>
                                     </a>
                                     <ul class="sub-menu">
@@ -180,9 +187,9 @@
                             @endif
 
                             <li class="menu-item">
-                                <form method="POST" action="{{route('logout')}}" id="logout-form">
+                                <form method="POST" action="{{route('admin.logout')}}" id="logout-form">
                                     @csrf
-                                    <a href="{{route('logout')}}" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    <a href="javascript:void(0)" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                         <div class="icon"><i class="icon-log-out"></i></div>
                                         <div class="text">Logout</div>
                                     </a>
@@ -457,9 +464,10 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <form method="POST" action="{{route('logout')}}">
+                                            <form method="POST" action="{{route('admin.logout')}}">
                                                 @csrf
-                                                <a href="" type="submit" class="user-item">
+                                                @method('DELETE')
+                                                <a href="javascript:void(0)" type="submit" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-log-out"></i>
                                                     </div>
@@ -478,7 +486,7 @@
                     @yield('content')
 
                     <div class="bottom-page">
-                        <div class="body-text">Copyright © 2024 SurfsideMedia</div>
+                        <div class="body-text">Copyright © 2025 SwiftCart</div>
                     </div>
                 </div>
 
@@ -486,7 +494,11 @@
         </div>
     </div>
 </div>
-
+<style>
+    .icon-users:before {
+  content: "\ea22";
+}
+</style>
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
