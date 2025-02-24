@@ -2,11 +2,16 @@
 
 namespace App\Models\Admin\V1;
 
+use App\Traits\FillableAttributes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class Product extends BaseModel
+class Product extends Model
 {
+    use HasFactory,FillableAttributes;
+
     protected $fillable = [
         'name',
         'slug',

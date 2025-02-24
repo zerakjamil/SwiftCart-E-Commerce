@@ -25,16 +25,11 @@ class UpdateAdminRequest extends FormRequest
         $adminId = $this->route('admin');
 
         return [
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('admins')->ignore($adminId),
-            ],
-            'old_password' => 'required_with:password|current_password:admin',
-            'password' => 'nullable|string|min:8|confirmed',
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|string|email|max:255|unique:admins,email,' . $this->route('admin')->id,
+            'old_password' => 'required_with:password',
+            'password' => 'sometimes|required|string|min:8|confirmed',
+            'password_confirmation' => 'sometimes|required_with:password',
         ];
     }
 }

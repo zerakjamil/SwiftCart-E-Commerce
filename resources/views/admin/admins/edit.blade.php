@@ -21,6 +21,11 @@
                 </ul>
             </div>
             <div class="wg-box">
+                @if(Session::has('success'))
+                    <div class="alert alert-success">{{Session::get('success')}}</div>
+                @elseif(Session::has('error'))
+                    <div class="alert alert-danger">{{Session::get('error')}}</div>
+                @endif
                 <form class="form-new-product form-style-1" action="{{ route('admin.update',[$admin->id]) }}" method="POST">
                     @csrf
                     @method('PUT')

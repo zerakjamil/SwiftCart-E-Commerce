@@ -2,11 +2,15 @@
 
 namespace App\Models\Admin\V1;
 
-use App\Models\Admin\V1\BaseModel;
+use App\Traits\FillableAttributes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends BaseModel
+class Category extends Model
 {
+    use HasFactory,FillableAttributes;
+
     protected $fillable = [
         'name',
         'slug',

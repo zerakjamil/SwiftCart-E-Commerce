@@ -327,16 +327,35 @@
                     </div>
 
                     <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1 ">
-                    <x-partials.select :size="$size" />
+                        <x-partials.select
+                            name="pagesize"
+                            id="pageSize"
+                            ariaLabel="Page Size"
+                            :options="[
+                                '' => 'Show',
+                                '12' => '12 items',
+                                '24' => '24 items',
+                                '48' => '48 items',
+                                '102' => '102 items'
+                            ]"
+                            :selected="$size"
+                            class="me-1"
+                        />
 
-                        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
-                                name="total-number">
-                            <option value="desc" selected>Default Sorting</option>
-                            <option value="1">Latest</option>
-                            <option value="2">Oldest</option>
-                            <option value="3">Price, Lowest to highest</option>
-                            <option value="4">price, Highest to lowest</option>
-                        </select>
+                        <x-partials.select
+                            name="orderby"
+                            id="orderby"
+                            ariaLabel="Sort Items"
+                            :options="[
+                                'desc' => 'Default',
+                                'latest' => 'Latest',
+                                'oldest' => 'Oldest',
+                                'lowtohigh' => 'Price, Lowest to highest',
+                                'hightolow' => 'Price, Highest to lowest'
+                            ]"
+                            :selected="$order"
+                            class=""
+                        />
 
                         <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
@@ -394,20 +413,10 @@
         @csrf
         <input type="hidden" name="page" value="{{$products->currentPage()}}">
         <input type="hidden" name="size" id="size" value="{{$size}}">
+        <input type="hidden" name="order" id="order" value="{{$order}}">
     </form>
 
 @endsection
-
-@push('scripts')
-    <script>
-        $(function(){
-            $("#pageSize").change(function(){
-                $("#size").val($("#pageSize option:selected").val());
-                $("#filter-form").submit();
-            });
-        })
-    </script>
-@endpush
 
 @push('styles')
     <style>

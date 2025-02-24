@@ -56,7 +56,7 @@ Route::prefix('admin')->group(function(){
                     'edit' => 'admin.edit',
                     'update' => 'admin.update',
                     'destroy' => 'admin.destroy',
-                ])->middleware('isSuperAdmin');
+                ])->middleware('isSuperAdmin');;
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',
