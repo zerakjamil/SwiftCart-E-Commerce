@@ -29,6 +29,8 @@ class Product extends Model
         'category_id',
     ];
 
+
+
  protected function discountPercentage(): Attribute
 {
     return Attribute::make(

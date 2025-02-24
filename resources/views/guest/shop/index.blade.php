@@ -29,36 +29,11 @@
                              aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
                             <div class="accordion-body px-0 pb-0 pt-3">
                                 <ul class="list list-inline mb-0">
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Dresses</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Shorts</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Sweatshirts</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Swimwear</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Jackets</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">T-Shirts & Tops</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Jeans</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Trousers</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Men</a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="menu-link py-1">Jumpers & Cardigans</a>
-                                    </li>
+{{--                                    @foreach ($categories as $category)--}}
+{{--                                    <li class="list-item">--}}
+{{--                                        <a href="#" class="menu-link py-1">{{$category->name}}</a>--}}
+{{--                                    </li>--}}
+{{--                                    @endforeach--}}
                                 </ul>
                             </div>
                         </div>
@@ -149,52 +124,22 @@
                         <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
                              aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
                             <div class="search-field multi-select accordion-body px-0 pb-0">
-                                <select class="d-none" multiple name="total-numbers-list">
-                                    <option value="1">Adidas</option>
-                                    <option value="2">Balmain</option>
-                                    <option value="3">Balenciaga</option>
-                                    <option value="4">Burberry</option>
-                                    <option value="5">Kenzo</option>
-                                    <option value="5">Givenchy</option>
-                                    <option value="5">Zara</option>
-                                </select>
-                                <div class="search-field__input-wrapper mb-3">
-                                    <input type="text" name="search_text"
-                                           class="search-field__input form-control form-control-sm border-light border-2"
-                                           placeholder="Search" />
-                                </div>
-                                <ul class="multi-select__list list-unstyled">
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Adidas</span>
-                                        <span class="text-secondary">2</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balmain</span>
-                                        <span class="text-secondary">7</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balenciaga</span>
-                                        <span class="text-secondary">10</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Burberry</span>
-                                        <span class="text-secondary">39</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Kenzo</span>
-                                        <span class="text-secondary">95</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Givenchy</span>
-                                        <span class="text-secondary">1092</span>
-                                    </li>
-                                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Zara</span>
-                                        <span class="text-secondary">48</span>
-                                    </li>
+                                <ul class="list list-inline mb-0 brand-list">
+                                    @foreach($brands as $brand)
+                                        <li class=" list-item">
+                                            <span class="menu-link py-1">
+                                                <input type="checkbox" name="brands" value="{{$brand->id}}" class="chk-brand"
+                                                @if(in_array($brand->id,explode(",",$fbrand))) checked="checked" @endif/>
+                                                {{$brand->name}}
+                                            </span>
+                                            <span class="text-right float-end">
+                                                {{$brand->products->count()}}
+                                            </span>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
-                        </div>
+                            </div>
                     </div>
                 </div>
 
@@ -397,9 +342,9 @@
                             </div>
                         </div>
                     @else
-                    @foreach($products as $product)
-                        <x-product-card :product="$product" />
-                    @endforeach
+                        @foreach($products as $product)
+                            <x-product-card :product="$product" />
+                        @endforeach
                     @endif
                 </div>
 
@@ -412,15 +357,16 @@
         </section>
     </main>
 
-    <form action="{{route('shop.index')}}" method="GET" id="filter-form">
-        @csrf
-        <input type="hidden" name="page" value="{{$products->currentPage()}}">
-        <input type="hidden" name="size" id="size" value="{{$size}}">
-        <input type="hidden" name="order" id="order" value="{{$order}}">
-    </form>
 
 @endsection
 
+<form action="{{route('shop.index')}}" method="GET" id="filter-form">
+    @csrf
+    <input type="hidden" name="page" value="{{$products->currentPage()}}">
+    <input type="hidden" name="size" id="size" value="{{$size}}">
+    <input type="hidden" name="order" id="order" value="{{$order}}">
+    <input type="hidden" name="brands" id="hdnBrands">
+</form>
 @push('scripts')
     <script>
         $(function(){
@@ -433,6 +379,20 @@
 
             $("#orderby").change(function(){
                 $("#order").val($("#orderby option:selected").val());
+                $("#filter-form").submit();
+            });
+
+            $("input[name='brands']").change(function(){
+                var brands = "";
+                $("input[name='brands']:checked").each(function(){
+                    if(brands === ""){
+                        brands += $(this).val();
+                    }else{
+                        brands += "," + $(this).val();
+                    }
+                    brands.push($(this).val());
+                });
+                $("#hdnBrands").val(brands);
                 $("#filter-form").submit();
             });
         })

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ProductSortOptions;
+use App\Models\Admin\V1\Brand;
 use App\Models\Admin\V1\Product;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,22 @@ class ShopController extends Controller
     {
         $size = $request->query('size', 12);
         $order = $request->query('order', 'latest');
+        $fbrand = $request->query('brands');
 
         [$column, $direction] = ProductSortOptions::ORDER_OPTIONS[$order] ?? ['id', 'DESC'];
 
-        $products = Product::orderBy($column, $direction)->paginate($size);
+        $brands = Brand::orderBy('name','ASC')->get();
+        $products = Product::where(function($query) use ($fbrand){
+            $query->whereIn('brand_id',explode(',',$fbrand))->orWhereRaw("'".$fbrand."' = ''");
+        })->orderBy($column, $direction)->paginate($size);
 
-        return view('guest.shop.index', compact('products', 'size', 'order'));
+        return view('guest.shop.index', compact(
+            'products',
+            'size',
+            'order',
+            'brands',
+            'fbrand'
+        ));
     }
 
     public function show(Product $product): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
