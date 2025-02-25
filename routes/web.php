@@ -33,10 +33,12 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
 });
 
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
-
-
+Route::prefix('wishlist')->group(function(){
+    Route::get('/', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/remove/{rowId}', [WishlistController::class, 'removeItemFromWishlist'])->name('wishlist.remove');
+    Route::delete('/clear', [WishlistController::class, 'clearWishlist'])->name('wishlist.clear');
+});
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
