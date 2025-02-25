@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\User\V1\HomeController;
 use App\Http\Controllers\User\V1\UserController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,9 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::delete('/remove/{rowId}', [CartController::class, 'remove'])->name('remove');
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
 });
+
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 
 
 

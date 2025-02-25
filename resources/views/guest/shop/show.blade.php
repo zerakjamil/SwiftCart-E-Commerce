@@ -52,7 +52,7 @@
                             <a href="{{route('home.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
                             <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
                             <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
-                        </div><!-- /.breadcrumb -->
+                        </div>
 
                         <div
                             class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
@@ -64,7 +64,7 @@
                                     width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                                     <use href="#icon_next_md" />
                                 </svg></a>
-                        </div><!-- /.shop-acs -->
+                        </div>
                     </div>
                     <h1 class="product-single__name">{{$product->name}}</h1>
                     <div class="product-single__rating">
@@ -90,12 +90,12 @@
                     <div class="product-single__price">
                         @if($product->isOnSale())
                             <div class="d-flex align-items-center mb-1">
-                                                        <span class="text-muted text-decoration-line-through me-2">
-                                                            ${{number_format($product->regular_price, 2)}}
-                                                        </span>
+                                <span class="text-muted text-decoration-line-through me-2">
+                                    ${{number_format($product->regular_price, 2)}}
+                                </span>
                                 <span class="text-red">
-                                                            ${{number_format($product->sale_price, 2)}}
-                                                        </span>
+                                    ${{number_format($product->sale_price, 2)}}
+                                </span>
                             </div>
                             @if($product->discount_percentage)
                                 <div class="badge bg-red rounded-pill">
@@ -147,13 +147,8 @@
                     @endif
 
                     <div class="product-single__addtolinks">
-                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist">
-                            <svg width="16" height="16" viewBox="0 0 20 20"
-                                                                                          fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_heart" />
-                            </svg>
-                            <span>Add to Wishlist</span>
-                        </a>
+                   <x-wishlistButton :product="$product" />
+
                         <share-button class="share-button">
 
                             <x-partials.button
@@ -492,12 +487,7 @@
                                     </div>
                                 </div>
 
-                                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <use href="#icon_heart" />
-                                    </svg>
-                                </button>
+                                <x-wishlistButton :product="$related_product" :showText="false"/>
                             </div>
                         </div>
                         @endforeach
@@ -525,6 +515,9 @@
 
 @push('styles')
     <style>
+        .filled-heart{
+            color: orange;
+        }
         .discount-badge {
             position: absolute;
             top: 10px;
