@@ -127,7 +127,8 @@
                     </div>
                     <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                 </div>
-           <x-wishlistButton :product="$product" :showText="false"/>
+
+                <x-wishlistButton :product="$product" :showText="false"/>
 
             </div>
         </div>
