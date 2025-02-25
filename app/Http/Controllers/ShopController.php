@@ -35,7 +35,8 @@ class ShopController extends Controller
             'order' => $request->query('order', 'latest'),
             'brands' => $request->query('brands'),
             'categories' => $request->query('categories'),
-            'price' => $request->query('price'),
+            'min' => $request->query('min') ?? 1,
+            'max' => $request->query('max') ?? 1000,
         ];
     }
 
@@ -63,6 +64,10 @@ class ShopController extends Controller
         })
         ->when($filters['categories'], function ($query) use ($filters) {
             $query->whereIn('category_id', explode(',', $filters['categories']));
+        })
+        ->when(function($query) use ($filters){
+                $query->whereBetween('regular_price', [$filters['min'], $filters['max']])
+                      ->orWhereBetween('sale_price', [$filters['min'], $filters['max']]);
         })
         ->orderBy($column, $direction)
         ->paginate($filters['size']);
