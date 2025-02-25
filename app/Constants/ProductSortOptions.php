@@ -5,7 +5,7 @@ namespace App\Constants;
 class ProductSortOptions
 {
     public const ORDER_OPTIONS = [
-        'latest' => ['created_at', 'DESC'],
+        'newest' => ['created_at', 'DESC'],
         'oldest' => ['created_at', 'ASC'],
         'lowToHigh' => ['regular_price', 'ASC'],
         'highToLow' => ['regular_price', 'DESC'],

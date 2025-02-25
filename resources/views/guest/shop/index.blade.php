@@ -29,12 +29,20 @@
                              aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
                             <div class="accordion-body px-0 pb-0 pt-3">
                                 <ul class="list list-inline mb-0">
-{{--                                    @foreach ($categories as $category)--}}
-{{--                                    <li class="list-item">--}}
-{{--                                        <a href="#" class="menu-link py-1">{{$category->name}}</a>--}}
-{{--                                    </li>--}}
-{{--                                    @endforeach--}}
+                                    @foreach ($categories as $category)
+                                    <li class="list-item">
+                                        <span class="menu-link py-1">
+                                            <input type="checkbox" name="categories" value="{{ $category->id }}" class="chk-category"
+                                                {{ in_array($category->id, explode(',', $filters['categories'] ?? '')) ? 'checked' : '' }}>
+                                            {{ $category->name }}
+                                        </span>
+                                        <span class="text-right float-end">
+                                            {{ $category->products_count }}
+                                        </span>
+                                    </li>
+                                    @endforeach
                                 </ul>
+                                <button id="reset-categories" class="btn btn-sm btn-outline-secondary mt-2">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -126,18 +134,19 @@
                             <div class="search-field multi-select accordion-body px-0 pb-0">
                                 <ul class="list list-inline mb-0 brand-list">
                                     @foreach($brands as $brand)
-                                        <li class=" list-item">
+                                        <li class="list-item">
                                             <span class="menu-link py-1">
-                                                <input type="checkbox" name="brands" value="{{$brand->id}}" class="chk-brand"
-                                                @if(in_array($brand->id,explode(",",$fbrand))) checked="checked" @endif/>
-                                                {{$brand->name}}
+                                                <input type="checkbox" name="brands" value="{{ $brand->id }}" class="chk-brand"
+                                                    {{ in_array($brand->id, explode(',', $filters['brands'] ?? '')) ? 'checked' : '' }}>
+                                                {{ $brand->name }}
                                             </span>
                                             <span class="text-right float-end">
-                                                {{$brand->products->count()}}
+                                                {{ $brand->products_count }}
                                             </span>
                                         </li>
                                     @endforeach
                                 </ul>
+                                <button id="reset-brands" class="btn btn-sm btn-outline-secondary mt-2">Reset</button>
                             </div>
                             </div>
                     </div>
@@ -283,7 +292,7 @@
                                 '48' => '48 items',
                                 '102' => '102 items'
                             ]"
-                            :selected="$size"
+                            :selected="$filters['size']"
                             class="me-1"
                         />
 
@@ -293,7 +302,7 @@
                             ariaLabel="Sort Items"
                             :options="[
                                 'DESC' => 'Default',
-                                'latest' => 'Latest',
+                                'newest' => 'Newest',
                                 'oldest' => 'Oldest',
                                 'lowToHigh' => 'Price, Lowest to highest',
                                 'highToLow' => 'Price, Highest to lowest',
@@ -301,7 +310,7 @@
                                 'zToA' => 'Alphabetically, Z-A',
                                 'discount' => 'Discount'
                             ]"
-                            :selected="$order"
+                            :selected="$filters['order']"
                             class=""
                         />
 
@@ -360,12 +369,13 @@
 
 @endsection
 
-<form action="{{route('shop.index')}}" method="GET" id="filter-form">
+<form action="{{ route('shop.index') }}" method="GET" id="filter-form">
     @csrf
-    <input type="hidden" name="page" value="{{$products->currentPage()}}">
-    <input type="hidden" name="size" id="size" value="{{$size}}">
-    <input type="hidden" name="order" id="order" value="{{$order}}">
-    <input type="hidden" name="brands" id="hdnBrands">
+    <input type="hidden" name="page" value="{{ $products->currentPage() }}">
+    <input type="hidden" name="size" id="size" value="{{ $filters['size'] }}">
+    <input type="hidden" name="order" id="order" value="{{ $filters['order'] }}">
+    <input type="hidden" name="brands" id="hdnBrands" value="{{ $filters['brands'] }}">
+    <input type="hidden" name="categories" id="hdnCategories" value="{{ $filters['categories'] }}">
 </form>
 @push('scripts')
     <script>
@@ -378,24 +388,40 @@
             });
 
             $("#orderby").change(function(){
-                $("#order").val($("#orderby option:selected").val());
+                $("#order").val($(this).val());
                 $("#filter-form").submit();
             });
 
             $("input[name='brands']").change(function(){
-                var brands = "";
-                $("input[name='brands']:checked").each(function(){
-                    if(brands === ""){
-                        brands += $(this).val();
-                    }else{
-                        brands += "," + $(this).val();
-                    }
-                    brands.push($(this).val());
-                });
+                var brands = $("input[name='brands']:checked").map(function(){
+                    return $(this).val();
+                }).get().join(',');
                 $("#hdnBrands").val(brands);
                 $("#filter-form").submit();
             });
-        })
+
+            $("input[name='categories']").change(function(){
+                var categories = $("input[name='categories']:checked").map(function(){
+                    return $(this).val();
+                }).get().join(',');
+                $("#hdnCategories").val(categories);
+                $("#filter-form").submit();
+            });
+        });
+
+        $(document).on('click', '#reset-brands', function(e){
+            e.preventDefault();
+            $("input[name='brands']").prop('checked', false);
+            $("#hdnBrands").val('');
+            $("#filter-form").submit();
+        });
+
+        $(document).on('click', '#reset-categories', function(e){
+            e.preventDefault();
+            $("input[name='categories']").prop('checked', false);
+            $("#hdnCategories").val('');
+            $("#filter-form").submit();
+        });
     </script>
 @endpush
 
