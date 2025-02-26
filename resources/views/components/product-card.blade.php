@@ -33,15 +33,15 @@
                         @endif
                     </div>
                     <span class="pc__img-prev">
-                                            <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_prev_sm"/>
-                                            </svg>
-                                        </span>
+                        <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_prev_sm"/>
+                        </svg>
+                    </span>
                     <span class="pc__img-next">
-                                            <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_next_sm"/>
-                                            </svg>
-                                        </span>
+                        <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_next_sm"/>
+                        </svg>
+                    </span>
                 </div>
                 @if(\App\Models\Admin\V1\Cart::productAddedToCart($product->id))
                     <x-partials.button
@@ -91,7 +91,7 @@
                                     </div>
                                     @if($product->discount_percentage)
                                         <div class="badge bg-red rounded-pill">
-                                            {{$product->discount_percentage}}% OFF
+                                            {{$product->discount_percentage}}% {{__('shop.off')}}
                                         </div>
                                     @endif
                                 @else
@@ -125,7 +125,7 @@
                             <use href="#icon_star"/>
                         </svg>
                     </div>
-                    <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
+                    <span class="reviews-note text-lowercase text-secondary ms-1">8k+ {{__('shop.reviews')}}</span>
                 </div>
 
                 <x-wishlistButton :product="$product" :showText="false"/>

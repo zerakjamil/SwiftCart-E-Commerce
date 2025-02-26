@@ -16,7 +16,7 @@
                         <h5 class="accordion-header" id="accordion-heading-1">
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#accordion-filter-1" aria-expanded="true" aria-controls="accordion-filter-1">
-                                Product Categories
+                                {{__('shop.categories')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                                         <path
@@ -42,7 +42,7 @@
                                     </li>
                                     @endforeach
                                 </ul>
-                                <button id="reset-categories" class="btn btn-sm btn-outline-secondary mt-2">Reset</button>
+                                <button id="reset-categories" class="btn btn-sm btn-outline-secondary mt-2">{{__('shop.reset')}}</button>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <h5 class="accordion-header" id="accordion-heading-1">
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
-                                Color
+                                {{__('shop.color')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                                         <path
@@ -89,7 +89,7 @@
                         <h5 class="accordion-header" id="accordion-heading-size">
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#accordion-filter-size" aria-expanded="true" aria-controls="accordion-filter-size">
-                                Sizes
+                                {{__('shop.sizes')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                                         <path
@@ -120,7 +120,7 @@
                         <h5 class="accordion-header" id="accordion-heading-brand">
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#accordion-filter-brand" aria-expanded="true" aria-controls="accordion-filter-brand">
-                                Brands
+                                {{__('shop.brands')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                                         <path
@@ -146,7 +146,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <button id="reset-brands" class="btn btn-sm btn-outline-secondary mt-2">Reset</button>
+                                <button id="reset-brands" class="btn btn-sm btn-outline-secondary mt-2">{{__('shop.reset')}}</button>
                             </div>
                             </div>
                     </div>
@@ -158,7 +158,7 @@
                         <h5 class="accordion-header mb-2" id="accordion-heading-price">
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#accordion-filter-price" aria-expanded="true" aria-controls="accordion-filter-price">
-                                Price
+                                {{__('shop.price')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                                         <path
@@ -173,11 +173,11 @@
                                    data-slider-max="700" data-slider-step="5" data-slider-value="[{{$filters['min']}},{{$filters['max']}}]" data-currency="$" />
                             <div class="price-range__info d-flex align-items-center mt-2">
                                 <div class="me-auto">
-                                    <span class="text-secondary">Min Price: </span>
+                                    <span class="text-secondary">{{__('shop.minPrice')}}: </span>
                                     <span class="price-range__min">$1</span>
                                 </div>
                                 <div>
-                                    <span class="text-secondary">Max Price: </span>
+                                    <span class="text-secondary">{{__('shop.maxPrice')}}: </span>
                                     <span class="price-range__max">$700</span>
                                 </div>
                             </div>
@@ -275,9 +275,9 @@
 
                 <div class="d-flex justify-content-between mb-4 pb-md-2">
                     <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">{{__('shop.home')}}</a>
                         <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">{{__('shop.shop')}}</a>
                     </div>
 
                     <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1 ">
@@ -287,10 +287,10 @@
                             ariaLabel="Page Size"
                             :options="[
                                 '' => 'Show',
-                                '12' => '12 items',
-                                '24' => '24 items',
-                                '48' => '48 items',
-                                '102' => '102 items'
+                                '12' => __('shop.items',['item' => 12]),
+                                '24' => __('shop.items',['item' => 24]),
+                                '48' => __('shop.items',['item' => 48]),
+                                '102' => __('shop.items',['item' => 102]),
                             ]"
                             :selected="$filters['size']"
                             class="me-1"
@@ -301,14 +301,14 @@
                             id="orderby"
                             ariaLabel="Sort Items"
                             :options="[
-                                'DESC' => 'Default',
-                                'newest' => 'Newest',
-                                'oldest' => 'Oldest',
-                                'lowToHigh' => 'Price, Lowest to highest',
-                                'highToLow' => 'Price, Highest to lowest',
-                                'aToZ' => 'Alphabetically, A-Z',
-                                'zToA' => 'Alphabetically, Z-A',
-                                'discount' => 'Discount'
+                                'DESC' => __('shop.default'),
+                                'newest' => __('shop.newest'),
+                                'oldest' => __('shop.oldest'),
+                                'lowToHigh' => __('shop.lowToHigh'),
+                                'highToLow' => __('shop.highToLow'),
+                                'aToZ' => __('shop.aToZ'),
+                                'zToA' => __('shop.zToA'),
+                                'discount' => __('shop.discount'),
                             ]"
                             :selected="$filters['order']"
                             class=""
@@ -317,7 +317,7 @@
                         <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
                         <div class="col-size align-items-center order-1 d-none d-lg-flex">
-                            <span class="text-uppercase fw-medium me-2">View</span>
+                            <span class="text-uppercase fw-medium me-2">{{__('shop.view')}}</span>
                             <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="2">2</button>
                             <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="3">3</button>
                             <button class="btn-link fw-medium js-cols-size" data-target="products-grid" data-cols="4">4</button>
@@ -329,7 +329,7 @@
                                      xmlns="http://www.w3.org/2000/svg">
                                     <use href="#icon_filter" />
                                 </svg>
-                                <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
+                                <span class="text-uppercase fw-medium d-inline-block align-middle">{{__('filter')}}</span>
                             </button>
                         </div>
                     </div>
@@ -345,9 +345,9 @@
                                     <line x1="9" y1="9" x2="9.01" y2="9"></line>
                                     <line x1="15" y1="9" x2="15.01" y2="9"></line>
                                 </svg>
-                                <h3 class="mb-3">Oops! No Products Found</h3>
-                                <p class="text-muted mb-4">We're sorry, but it looks like we don't have any products available at the moment.</p>
-                                <a href="{{ route('home.index') }}" class="btn btn-primary rounded-1">Return to Home</a>
+                                <h3 class="mb-3">{{__('shop.noProductsFoundHeader')}}</h3>
+                                <p class="text-muted mb-4">{{__('shop.noProductsFoundText')}}</p>
+                                <a href="{{ route('home.index') }}" class="btn btn-primary rounded-1">{{__('returnHome')}}</a>
                             </div>
                         </div>
                     @else
