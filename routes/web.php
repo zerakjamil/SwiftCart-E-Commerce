@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
-use App\Http\Controllers\User\V1\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
@@ -15,7 +15,9 @@ use App\Http\Controllers\Admin\V1\ProductController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/',function(){
+   return view('index');
+})->name('home.index');
 
 Route::name('shop.')->prefix('shop')->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('index');
@@ -38,6 +40,7 @@ Route::name('wishlist.')->prefix('wishlist')->group(function () {
     Route::post('/add', [WishlistController::class, 'add'])->name('add');
     Route::delete('/remove/{rowId}', [WishlistController::class, 'removeItemFromWishlist'])->name('remove');
     Route::delete('/clear', [WishlistController::class, 'clearWishlist'])->name('clear');
+    Route::post('/move-to-cart/{rowId}', [WishlistController::class, 'moveToCart'])->name('moveToCart');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -63,15 +66,45 @@ Route::prefix('admin')->group(function () {
             ]);
         });
 
-        Route::resources([
-            'brands' => BrandController::class,
-            'products' => ProductController::class,
-            'categories' => CategoryController::class,
-        ], ['except' => ['show'], 'as' => 'admin']);
+        Route::resource('/brands', BrandController::class)->names([
+            'index' => 'brand.index',
+            'create' => 'brand.create',
+            'store' => 'brand.store',
+            'edit' => 'brand.edit',
+            'update' => 'brand.update',
+            'destroy' => 'brand.destroy',
+        ]);
+
+        Route::resource('/products', ProductController::class)->names([
+            'index' => 'product.index',
+            'create' => 'product.create',
+            'store' => 'product.store',
+            'edit' => 'product.edit',
+            'update' => 'product.update',
+            'destroy' => 'product.destroy',
+        ]);
+
+        Route::resource('/categories', CategoryController::class)->names([
+            'index' => 'category.index',
+            'create' => 'category.create',
+            'store' => 'category.store',
+            'edit' => 'category.edit',
+            'update' => 'category.update',
+            'destroy' => 'category.destroy',
+        ]);
+
+        Route::resource('/coupons', CouponController::class)->names([
+            'index' => 'coupon.index',
+            'create' => 'coupon.create',
+            'store' => 'coupon.store',
+            'edit' => 'coupon.edit',
+            'update' => 'coupon.update',
+            'destroy' => 'coupon.destroy',
+        ]);
     });
 });
 
-Route::get('/greeting/{locale}', function (string $locale) {
+Route::get('/greeting/{locale}', function(string $locale){
     if (!in_array($locale, ['en', 'ar', 'kr'])) {
         abort(400);
     }
