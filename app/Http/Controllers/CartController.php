@@ -107,6 +107,12 @@ class CartController extends Controller
 
     public function removeCouponCode()
     {
-        
+        try {
+            $this->discountService->removeDiscount();
+            return redirect()->route('cart.index')->withSuccess('Coupon removed successfully.');
+        } catch (\Exception $e) {
+            Log::error('Coupon remove was unsuccessful: ' . $e->getMessage());
+            return back()->withError('Failed to delete Coupon. Please try again.');
+        }
     }
 }

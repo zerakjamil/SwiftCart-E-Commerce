@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\{DB,Log};
 
 class CouponController extends Controller
 {
-    protected CouponService $couponService;
+    protected $couponService;
 
     public function __construct(CouponService $couponService)
     {
@@ -68,11 +68,11 @@ class CouponController extends Controller
     {
         try {
             $this->couponService->deleteCoupon($coupon);
-            return redirect()->route('coupon.index')->withSuccess('status','Coupon deleted successfully.');
+            return redirect()->route('coupon.index')->withSuccess('Coupon deleted successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Coupon deletion failed: ' . $e->getMessage());
-            return back()->withError('status','Failed to delete Coupon. Please try again.');
+            return back()->withError('Failed to delete Coupon. Please try again.');
         }
     }
 }
