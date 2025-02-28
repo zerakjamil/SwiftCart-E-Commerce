@@ -48,15 +48,18 @@
                         </tbody>
                     </table>
                     <div class="cart-table-footer">
-                        <form action="#" class="position-relative bg-body">
-                            <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
+                        @if(Auth::check())
+                        <form action="{{ Session::has('coupon') ? route('coupon.remove') : route('coupon.apply') }}" method="POST" class="position-relative bg-body">
+                            @csrf
+                            <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code" value="@if(Session::has('coupon')) {{Session::get('coupon')['code']}} Applied! @endif">
                             <x-partials.button
                                 tag="input"
                                 type="submit"
-                                value="APPLY COUPON"
+                                value="{{Session::has('coupon') ? 'REMOVE COUPON' : 'APPLY COUPON' }}"
                                 class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
                             />
                         </form>
+                        @endif
                         <form action="{{route('cart.clear',$item->rowId)}}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -67,6 +70,13 @@
                                 CLEAR CART
                             </x-partials.button>
                         </form>
+                    </div>
+                    <div>
+                         @if(Session::has('success'))
+                            <div class="alert alert-success">{{Session::get('success')}}</div>
+                          @elseif(Session::has('error'))
+                            <div class="alert alert-danger">{{Session::get('error')}}</div>
+                          @endif
                     </div>
                 </div>
                 <x-cart.cart-total />

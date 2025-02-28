@@ -101,6 +101,8 @@ Route::prefix('admin')->group(function () {
             'update' => 'coupon.update',
             'destroy' => 'coupon.destroy',
         ]);
+        Route::post('/coupons/apply', [CartController::class, 'applyCouponCode'])->name('coupon.apply');
+        Route::post('/coupons/remove', [CartController::class, 'removeCouponCode'])->name('coupon.remove');
     });
 });
 

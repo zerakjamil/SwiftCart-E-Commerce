@@ -56,10 +56,7 @@
                     @enderror
                     <fieldset class="name">
                         <div class="body-title">Value <span class="tf-color-1">*</span></div>
-                        <div class="input-group">
-                            <span class="input-group-addon">$</span>
                             <input class="flex-grow" type="number" placeholder="Coupon Value" name="value" tabindex="0" value="{{ old('value', $coupon->value) }}" aria-required="true" required="">
-                        </div>
                     </fieldset>
                     @error('value')
                     <span class="alert alert-danger text-center">

@@ -386,7 +386,13 @@
         </section>
         <section class="products-carousel container">
             <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">Related <strong>Products</strong></h2>
-
+            @if($related_products->isEmpty())
+                <div class="text-center py-5">
+                    <h3 class="mb-4">Oops! No related products found</h3>
+                    <p class="mb-4">We couldn't find any related products at the moment. But don't worry, we have plenty of other amazing items!</p>
+                    <a href="{{ route('shop.index') }}" class="btn btn-primary">Explore All Products</a>
+                </div>
+            @else
             <div id="related_products" class="position-relative">
                 <div class="swiper-container js-swiper-slider" data-settings='{
             "autoplay": false,
@@ -508,6 +514,7 @@
                 <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center">
 {{--                    {{$related_product->links('pagination::bootstrap-5')}}--}}
                 </div>
+                @endif
             </div>
 
         </section>
