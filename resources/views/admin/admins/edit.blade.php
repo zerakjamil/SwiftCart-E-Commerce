@@ -31,8 +31,7 @@
                     @method('PUT')
                     <fieldset class="name">
                         <div class="body-title">Admin Name <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="text" placeholder="Admin name" name="name"
-                               value="{{ $admin->name }}" >
+                        <input class="flex-grow" type="text" placeholder="Admin name" name="name" value="{{ $admin->name }}" >
                         @error('name')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -40,8 +39,7 @@
 
                     <fieldset class="name">
                         <div class="body-title">Email <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="email" placeholder="Email" name="email"
-                               value="{{ $admin->email }}" >
+                        <input class="flex-grow" type="email" placeholder="Email" name="email" value="{{ $admin->email }}" >
                         @error('email')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -49,7 +47,7 @@
 
                     <fieldset class="name">
                         <div class="body-title">Old Password <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="password" placeholder="Old Password" name="old_password">
+                        <input class="flex-grow" type="password" placeholder="Old Password" name="old_password" value="{{ old('old_password') }}">
                         @error('old_password')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -57,7 +55,7 @@
 
                     <fieldset class="name">
                         <div class="body-title">New Password</div>
-                        <input class="flex-grow" type="password" placeholder="New Password" name="password">
+                        <input class="flex-grow" type="password" placeholder="New Password" name="password" value="{{ old('password') }}">
                         @error('password')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror
@@ -65,7 +63,7 @@
 
                     <fieldset class="name">
                         <div class="body-title">Confirm New Password</div>
-                        <input class="flex-grow" type="password" placeholder="Confirm New Password" name="password_confirmation">
+                        <input class="flex-grow" type="password" placeholder="Confirm New Password" name="password_confirmation" value="{{ old('password_confirmation') }}">
                         @error('password_confirmation')
                         <div class="text-tiny alert alert-danger mt-1">{{ $message }}</div>
                         @enderror

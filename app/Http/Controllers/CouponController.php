@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\V1\CouponRequests\StoreCouponRequest;
+use App\Http\Services\CouponService;
 use App\Models\Admin\V1\Coupon;
 use Illuminate\Support\Facades\{DB,Log};
 
 class CouponController extends Controller
 {
-    public function index()
+    protected CouponService $couponService;
+
+    public function __construct(CouponService $couponService)
     {
-        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(10);
+        $this->couponService = $couponService;
+    }
+
+    public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        $coupons = $this->couponService->getPaginatedCoupons();
         return view('admin.coupon.index', compact('coupons'));
     }
 
-    public function create()
+    public function create(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('admin.coupon.create');
     }
@@ -22,27 +30,44 @@ class CouponController extends Controller
     public function store(StoreCouponRequest $request)
     {
         try {
-            DB::beginTransaction();
-
-            $coupon = new Coupon();
-            $coupon->fillAttributes($request->validated());
-            $coupon->save();
-
-            DB::commit();
-            return redirect()->route('coupon.index')->withSuccess('Coupon geberated successfully.');
+            $this->couponService->createCoupon($request->validated());
+            return redirect()->route('coupon.index')->withSuccess('Coupon generated successfully.');
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Coupon creation failed: ' . $e->getMessage());
-            return back()->withError('Failed to create Coupon. Please try again.');
+            Log::error('Coupon creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()
+                ->withError(__('coupon.creation_failed'))
+                ->instance($request->validated());
+        }
+    }
+
+    public function edit(Coupon $coupon): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        return view('admin.coupon.edit', compact('coupon'));
+    }
+
+    public function update(StoreCouponRequest $request, Coupon $coupon)
+    {
+        try {
+            $this->couponService->updateCoupon($coupon, $request->validated());
+            return redirect()->route('coupon.index')->withSuccess('Coupon updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Coupon updation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()
+                ->withError(__('coupon.updation_failed'))
+                ->instance($request->validated());
         }
     }
 
     public function destroy(Coupon $coupon)
     {
         try {
-            DB::beginTransaction();
-            $coupon->delete();
-            DB::commit();
+            $this->couponService->deleteCoupon($coupon);
             return redirect()->route('coupon.index')->withSuccess('status','Coupon deleted successfully.');
         } catch (\Exception $e) {
             DB::rollBack();

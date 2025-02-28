@@ -37,10 +37,10 @@
                     </div>
                     <div class="wg-table table-all-user">
                         <div class="table-responsive">
-                            @if(Session::has('status'))
-                                <div class="alert alert-success">
-                                    {{Session::get('status')}}
-                                </div>
+                            @if(Session::has('success'))
+                                <div class="alert alert-success">{{Session::get('success')}}</div>
+                            @elseif(Session::has('error'))
+                                <div class="alert alert-danger">{{Session::get('error')}}</div>
                             @endif
                             <table class="table table-striped table-bordered">
                                 <thead>
@@ -67,10 +67,9 @@
                                         <td>{{$coupon->type}}</td>
                                         <td>{{$coupon->value}}</td>
                                         <td>${{$coupon->cart_value}}</td>
-                                        <td>{{$coupon->expiry_date}}</td>
-                                        <td>
+                                        <td>{{ $coupon->expiry_date ? $coupon->expiry_date->format('Y-m-d H:i:s') : 'N/A' }}</td>                                        <td>
                                             <div class="list-icon-function">
-                                                <a href="#">
+                                                <a href="{{ route('coupon.edit', $coupon->id) }}">
                                                     <div class="item edit">
                                                         <i class="icon-edit-3"></i>
                                                     </div>

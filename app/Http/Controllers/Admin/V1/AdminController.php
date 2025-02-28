@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdminLoginRequest;
-use App\Http\Requests\V1\AdminRequests\StoreAdminRequest;
-use App\Http\Requests\V1\AdminRequests\UpdateAdminRequest;
+use App\Http\Requests\V1\AdminRequests\{StoreAdminRequest, UpdateAdminRequest};
+use App\Http\Services\AdminService;
 use App\Models\Admin\V1\Admin;
-use App\Services\AdminService;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\{RedirectResponse,Request};
+use Illuminate\Support\Facades\{Auth,Log};
 use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
