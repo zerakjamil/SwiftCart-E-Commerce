@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    protected $adminService;
+    protected AdminService $adminService;
 
     public function __construct(AdminService $adminService)
     {
@@ -21,39 +21,13 @@ class AdminController extends Controller
         $this->adminService = $adminService;
     }
 
-    public function showLoginForm()
-    {
-        return view('auth.admin.login');
-    }
-
-    public function login(AdminLoginRequest $request)
-    {
-        try {
-            $admin = $this->adminService->attemptLogin($request);
-            return $this->successfulLogin($admin);
-        } catch (ValidationException $e) {
-            $this->logFailedLoginAttempt($request);
-            throw $e;
-        }
-    }
-
-    public function logout(Request $request)
-    {
-        $admin_id = Auth::guard('admin')->id();
-        $this->adminService->logout($request);
-        Log::info('Admin logged out', ['admin_id' => $admin_id]);
-
-        return redirect()->route('admin.login')
-            ->with('status', __('auth.logout_success'));
-    }
-
-    public function index()
+    public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $admins = $this->adminService->getPaginatedAdmins();
         return view('admin.admins.index', compact('admins'));
     }
 
-    public function create()
+    public function create(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('admin.admins.create');
     }
@@ -110,14 +84,40 @@ class AdminController extends Controller
         }
     }
 
-    private function successfulLogin($admin)
+    public function showLoginForm(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    {
+        return view('auth.admin.login');
+    }
+
+    public function login(AdminLoginRequest $request): RedirectResponse
+    {
+        try {
+            $admin = $this->adminService->attemptLogin($request);
+            return $this->successfulLogin($admin);
+        } catch (ValidationException $e) {
+            $this->logFailedLoginAttempt($request);
+            throw $e;
+        }
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        $admin_id = Auth::guard('admin')->id();
+        $this->adminService->logout($request);
+        Log::info('Admin logged out', ['admin_id' => $admin_id]);
+
+        return redirect()->route('admin.login')
+            ->with('status', __('auth.logout_success'));
+    }
+
+    private function successfulLogin($admin): RedirectResponse
     {
         Log::info('Admin logged in', ['admin_id' => $admin->id]);
         return redirect()->intended(route('admin.dashboard'))
             ->with('status', __('auth.login_success'));
     }
 
-    private function logFailedLoginAttempt(Request $request)
+    private function logFailedLoginAttempt(Request $request): void
     {
         Log::warning('Failed admin login attempt', [
             'email' => $request->email,

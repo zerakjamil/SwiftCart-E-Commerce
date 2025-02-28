@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\{DB,Log};
 
 class CouponController extends Controller
 {
-    protected $couponService;
+    protected CouponService $couponService;
 
     public function __construct(CouponService $couponService)
     {

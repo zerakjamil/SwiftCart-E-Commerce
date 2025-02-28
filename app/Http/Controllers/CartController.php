@@ -10,15 +10,15 @@ use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
-    protected $couponService;
-    protected $discountService;
+    protected CouponService $couponService;
+    protected DiscountService $discountService;
 
     public function __construct(CouponService $couponService, DiscountService $discountService)
     {
         $this->couponService = $couponService;
         $this->discountService = $discountService;
     }
-    public function index()
+    public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $items = Cart::instance('cart')->content();
         $suggested_products = Product::inRandomOrder()->limit(4)->get();

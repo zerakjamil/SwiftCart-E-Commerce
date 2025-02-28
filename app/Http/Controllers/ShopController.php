@@ -55,23 +55,23 @@ class ShopController extends Controller
         return Category::withCount('products')->orderBy('name', 'ASC')->get();
     }
 
-private function getFilteredProducts(array $filters, array $sortingOptions)
-{
-    [$column, $direction] = $sortingOptions;
+    private function getFilteredProducts(array $filters, array $sortingOptions)
+    {
+        [$column, $direction] = $sortingOptions;
 
-    return Product::when($filters['brands'], function ($query) use ($filters) {
-        $query->whereIn('brand_id', explode(',', $filters['brands']));
-    })
-    ->when($filters['categories'], function ($query) use ($filters) {
-        $query->whereIn('category_id', explode(',', $filters['categories']));
-    })
-    ->where(function($query) use ($filters){
-        $query->whereBetween('regular_price', [$filters['min'], $filters['max']])
-              ->orWhereBetween('sale_price', [$filters['min'], $filters['max']]);
-    })
-    ->orderBy($column, $direction)
-    ->paginate($filters['size']);
-}
+        return Product::when($filters['brands'], function ($query) use ($filters) {
+            $query->whereIn('brand_id', explode(',', $filters['brands']));
+        })
+            ->when($filters['categories'], function ($query) use ($filters) {
+                $query->whereIn('category_id', explode(',', $filters['categories']));
+            })
+            ->where(function ($query) use ($filters) {
+                $query->whereBetween('regular_price', [$filters['min'], $filters['max']])
+                    ->orWhereBetween('sale_price', [$filters['min'], $filters['max']]);
+            })
+            ->orderBy($column, $direction)
+            ->paginate($filters['size']);
+    }
 
     public function show(Product $product): View
     {
