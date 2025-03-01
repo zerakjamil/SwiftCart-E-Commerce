@@ -18,91 +18,60 @@ class CartController extends Controller
         $this->couponService = $couponService;
         $this->discountService = $discountService;
     }
+
     public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $items = Cart::instance('cart')->content();
         $suggested_products = Product::inRandomOrder()->limit(4)->get();
-        return view('guest.cart.index', compact('items','suggested_products'));
+        return view('guest.cart.index', compact('items', 'suggested_products'));
     }
 
-    public function add(Request $request)
+    public function add(Request $request): \Illuminate\Http\RedirectResponse
     {
-        Cart::instance('cart')->add($request->id, $request->name, $request->quantity, $request->price)->associate(Product::class);
+        Cart::instance('cart')->add($request->id, $request->name, $request->quantity, $request->price)
+            ->associate(Product::class);
         $this->discountService->calculateDiscount();
-        return redirect()->back()->with('success', 'Product added to cart successfully');
+        return $this->respondSuccess('Product added to cart successfully');
     }
 
-    public function increment($rowId)
+    public function increment($rowId): \Illuminate\Http\RedirectResponse
     {
-        try {
-            $cart = Cart::instance('cart');
-            $item = $cart->get($rowId);
-
-            if (!$item) {
-                return redirect()->back()->with('error', 'Item not found in cart');
-            }
-
-            $cart->update($rowId, $item->qty + 1);
-
-            return redirect()->back()->with('success', 'Item quantity updated');
-        } catch (\Exception $e) {
-            Log::error('Error incrementing cart item: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to update cart'], 500);
-        }
+        return $this->updateCartItemQuantity($rowId, 1);
     }
 
-    public function decrement($rowId)
+    public function decrement($rowId): \Illuminate\Http\RedirectResponse
     {
-        try {
-            $cart = Cart::instance('cart');
-            $item = $cart->get($rowId);
-
-            if (!$item) {
-                return redirect()->back()->with('error', 'Cart item not found.');
-            }
-
-            $cart->update($rowId, $item->qty - 1);
-
-            return redirect()->back()->with('success', 'Cart item quantity decreased.');
-        } catch (\Exception $e) {
-            Log::error('Error decrementing cart item: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while updating the cart.');
-        }
+        return $this->updateCartItemQuantity($rowId, -1);
     }
 
-    public function remove($rowId)
+    public function remove($rowId): \Illuminate\Http\RedirectResponse
     {
         try {
             Cart::instance('cart')->remove($rowId);
             $this->discountService->removeDiscount();
-            return redirect()->back()->with('success', 'Item removed from cart');
+            return $this->respondSuccess('Item removed from cart');
         } catch (\Exception $e) {
-            Log::error('Error removing cart item: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while removing the item from the cart.');
+            return $this->handleException($e, 'Error removing cart item');
         }
     }
 
-    public function clear()
+    public function clear(): \Illuminate\Http\RedirectResponse
     {
         try {
             Cart::instance('cart')->destroy();
             $this->discountService->dismissCouponOnCartClear();
-            return redirect()->back()->with('success', 'Cart cleared successfully');
+            return $this->respondSuccess('Cart cleared successfully');
         } catch (\Exception $e) {
-            Log::error('Error clearing cart: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while clearing the cart.');
+            return $this->handleException($e, 'Error clearing cart');
         }
     }
 
-    public function applyCouponCode(Request $request)
+    public function applyCouponCode(Request $request): \Illuminate\Http\RedirectResponse
     {
         $result = $this->couponService->applyCoupon($request->coupon_code);
-
-        if ($result['success']) {
-            return redirect()->back()->withSuccess($result['message']);
-        } else {
-            return redirect()->back()->withError($result['message']);
-        }
+        return $result['success']
+            ? $this->respondSuccess($result['message'])
+            : $this->respondError($result['message']);
     }
 
     public function removeCouponCode()
@@ -111,8 +80,40 @@ class CartController extends Controller
             $this->discountService->removeDiscount();
             return redirect()->route('cart.index')->withSuccess('Coupon removed successfully.');
         } catch (\Exception $e) {
-            Log::error('Coupon remove was unsuccessful: ' . $e->getMessage());
-            return back()->withError('Failed to delete Coupon. Please try again.');
+            return $this->handleException($e, 'Coupon remove was unsuccessful');
         }
+    }
+
+    private function updateCartItemQuantity($rowId, $change): \Illuminate\Http\RedirectResponse
+    {
+        try {
+            $cart = Cart::instance('cart');
+            $item = $cart->get($rowId);
+
+            if (!$item) {
+                return $this->respondError('Item not found in cart');
+            }
+
+            $cart->update($rowId, $item->qty + $change);
+            return $this->respondSuccess('Item quantity updated');
+        } catch (\Exception $e) {
+            return $this->handleException($e, 'Error updating cart item');
+        }
+    }
+
+    private function respondSuccess($message): \Illuminate\Http\RedirectResponse
+    {
+        return redirect()->back()->withSuccess($message);
+    }
+
+    private function respondError($message): \Illuminate\Http\RedirectResponse
+    {
+        return redirect()->back()->withError($message);
+    }
+
+    private function handleException(\Exception $e, $message): \Illuminate\Http\RedirectResponse
+    {
+        Log::error($message . ': ' . $e->getMessage());
+        return $this->respondError('An error occurred. Please try again.');
     }
 }

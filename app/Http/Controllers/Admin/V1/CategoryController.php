@@ -48,7 +48,7 @@ class CategoryController extends Controller
             $category->save();
 
             DB::commit();
-            return redirect()->route('category.index')->with('success', 'Category created successfully.');
+            return redirect()->route('category.index')->withSuccess('Category created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Category creation failed: ' . $e->getMessage());
@@ -93,7 +93,7 @@ class CategoryController extends Controller
             $this->imageService->deleteImage($category->image, 'categories');
 
             DB::commit();
-            return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
+            return redirect()->route('category.index')->withSuccess('Category deleted successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Category deletion failed: ' . $e->getMessage());

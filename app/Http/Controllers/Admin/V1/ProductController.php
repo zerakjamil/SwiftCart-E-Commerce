@@ -22,13 +22,13 @@ class ProductController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function index()
+    public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $products = Product::latest()->paginate(10);
         return view('admin.product.index', compact('products'));
     }
 
-    public function create()
+    public function create(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         $brands = Brand::select('id', 'name')->orderBy('name')->get();
