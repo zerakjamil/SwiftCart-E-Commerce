@@ -68,6 +68,9 @@ class CartController extends Controller
 
     public function applyCouponCode(Request $request): \Illuminate\Http\RedirectResponse
     {
+        if ($request->coupon_code === null){
+            return redirect()->back()->withError('Coupon code is required');
+        }
         $result = $this->couponService->applyCoupon($request->coupon_code);
         return $result['success']
             ? $this->respondSuccess($result['message'])
@@ -93,8 +96,8 @@ class CartController extends Controller
             if (!$item) {
                 return $this->respondError('Item not found in cart');
             }
-
             $cart->update($rowId, $item->qty + $change);
+            $this->discountService->updateCartTotals();
             return $this->respondSuccess('Item quantity updated');
         } catch (\Exception $e) {
             return $this->handleException($e, 'Error updating cart item');

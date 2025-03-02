@@ -73,9 +73,9 @@
                     </div>
                     <div>
                          @if(Session::has('success'))
-                            <div class="alert alert-success">{{Session::get('success')}}</div>
+                            <p class="text text-success fw-bold">{{Session::get('success')}}</p>
                           @elseif(Session::has('error'))
-                            <div class="alert alert-danger">{{Session::get('error')}}</div>
+                            <p class="text text-danger fw-bold">{{Session::get('error')}}</p>
                           @endif
                     </div>
                 </div>

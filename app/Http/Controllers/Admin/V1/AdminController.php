@@ -7,8 +7,8 @@ use App\Http\Requests\Auth\AdminLoginRequest;
 use App\Http\Requests\V1\AdminRequests\{StoreAdminRequest, UpdateAdminRequest};
 use App\Http\Services\AdminService;
 use App\Models\Admin\V1\Admin;
-use Illuminate\Http\{RedirectResponse,Request};
-use Illuminate\Support\Facades\{Auth,Log};
+use Illuminate\Http\{RedirectResponse, Request};
+use Illuminate\Support\Facades\{Auth, Log, Cache};
 use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
@@ -23,7 +23,11 @@ class AdminController extends Controller
 
     public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $admins = $this->adminService->getPaginatedAdmins();
+        $cacheKey = 'admins_list_page_' . request('page', 1);
+        $admins = Cache::remember($cacheKey, 60, function () {
+            return $this->adminService->getPaginatedAdmins();
+        });
+
         return view('admin.admins.index', compact('admins'));
     }
 
@@ -35,7 +39,8 @@ class AdminController extends Controller
     public function store(StoreAdminRequest $request): RedirectResponse
     {
         try {
-            $admin = $this->adminService->createAdmin($request->validated());
+            $this->adminService->createAdmin($request->validated());
+            Cache::forget('admins_list_page_1');
             return redirect()->route('admin.index')
                 ->with('success', __('admin.created_successfully'));
         } catch (\Exception $e) {
@@ -49,7 +54,7 @@ class AdminController extends Controller
         }
     }
 
-    public function edit(Admin $admin)
+    public function edit(Admin $admin): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('admin.admins.edit', compact('admin'));
     }
@@ -58,6 +63,7 @@ class AdminController extends Controller
     {
         try {
             $this->adminService->updateAdmin($admin, $request->validated());
+            Cache::forget('admins_list_page_1');
             return redirect()->route('admin.index')
                 ->with('success', __('admin.updated_successfully'));
         } catch (\Exception $e) {
@@ -76,8 +82,9 @@ class AdminController extends Controller
     {
         try {
             $this->adminService->deleteAdmin($admin);
+            Cache::forget('admins_list_page_1');
             return redirect()->route('admin.index')
-                ->with('success', __('admin.deleted_successfully'));
+                   ->with('success', __('admin.deleted_successfully'));
         } catch (\Exception $e) {
             Log::error('Admin deletion failed: ' . $e->getMessage());
             return back()->withError(__('admin.deletion_failed'));
