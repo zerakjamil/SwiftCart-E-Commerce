@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,11 @@ Route::name('wishlist.')->prefix('wishlist')->group(function () {
     Route::delete('/remove/{rowId}', [WishlistController::class, 'removeItemFromWishlist'])->name('remove');
     Route::delete('/clear', [WishlistController::class, 'clearWishlist'])->name('clear');
     Route::post('/move-to-cart/{rowId}', [WishlistController::class, 'moveToCart'])->name('moveToCart');
+});
+
+Route::prefix('checkout')->name('checkout.')->group(function (){
+   Route::get('/',[CheckoutController::class,'index'])->name('index');
+   Route::get('/create', [CheckoutController::class, 'create'])->name('create');
 });
 
 Route::middleware(['auth'])->group(function () {
