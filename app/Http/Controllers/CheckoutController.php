@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CheckoutService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
-    protected $checkoutService;
+    protected CheckoutService $checkoutService;
 
     public function __construct(CheckoutService $checkoutService)
     {
+        $this->middleware('auth');
         $this->checkoutService = $checkoutService;
     }
 
@@ -19,15 +23,20 @@ class CheckoutController extends Controller
     {
         $cartValidation = $this->checkoutService->validateCart();
         if (!$cartValidation['valid']) {
-            return redirect()->route('cart.index')->withError($cartValidation['message']);
+            return redirect()->route('cart.index')
+                ->with('error', $cartValidation['message']);
         }
 
         $addressValidation = $this->checkoutService->validateAddress();
         if (!$addressValidation['valid']) {
-//            return redirect()->route('address.create')->withError($addressValidation['message']);
+            return redirect()->route('user.index', ['tab' => 'address'])
+                ->with('error', $addressValidation['message']);
         }
 
         $address = $addressValidation['address'];
-        return view('guest.checkout.index', compact('address'));
+        $cartContent = Cart::instance('cart')->content();
+        $cartTotal = Cart::instance('cart')->total();
+
+        return view('guest.checkout.index', compact('address', 'cartContent', 'cartTotal'));
     }
 }

@@ -44,10 +44,11 @@ Route::name('wishlist.')->prefix('wishlist')->group(function () {
     Route::post('/move-to-cart/{rowId}', [WishlistController::class, 'moveToCart'])->name('moveToCart');
 });
 
-Route::prefix('checkout')->name('checkout.')->group(function (){
-   Route::get('/',[CheckoutController::class,'index'])->name('index');
-   Route::get('/create', [CheckoutController::class, 'create'])->name('create');
+Route::prefix('checkout')->name('checkout.')->middleware(['auth'])->group(function (){
+   Route::get('/', [CheckoutController::class, 'index'])->name('index');
+   Route::post('/place-order', [CheckoutController::class, 'create'])->name('create');
 });
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');

@@ -12,7 +12,7 @@
             <em>Manage Your Items List</em>
           </span>
                 </a>
-                <a href="javascript:void(0)" class="checkout-steps__item">
+                <a href="{{ route('checkout.index') }}" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
             <span>Shipping and Checkout</span>
