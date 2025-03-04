@@ -46,7 +46,9 @@ Route::name('wishlist.')->prefix('wishlist')->group(function () {
 
 Route::prefix('checkout')->name('checkout.')->middleware(['auth'])->group(function (){
    Route::get('/', [CheckoutController::class, 'index'])->name('index');
-   Route::post('/place-order', [CheckoutController::class, 'create'])->name('create');
+   Route::get('/place-order', [CheckoutController::class, 'create'])->name('create');
+   Route::post('/place-order', [CheckoutController::class,'store'])->name('store');
+   Route::get('/order-confirmation', [CheckoutController::class, 'orderConfirmation'])->name('orderConfirmation');
 });
 
 
