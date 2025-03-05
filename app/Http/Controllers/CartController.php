@@ -13,10 +13,10 @@ class CartController extends Controller
     protected CouponService $couponService;
     protected DiscountService $discountService;
 
-    public function __construct(CouponService $couponService, DiscountService $discountService)
+        public function __construct(CouponService $couponService = null, DiscountService $discountService = null)
     {
-        $this->couponService = $couponService;
-        $this->discountService = $discountService;
+        $this->couponService = $couponService ?? new CouponService();
+        $this->discountService = $discountService ?? new DiscountService();
     }
 
     public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

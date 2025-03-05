@@ -15,7 +15,7 @@ class Order extends Model
 
     public function getPaymentMethodLabel(): string
     {
-        return match ($this->mode) {
+        return match ($this->transactions->mode) {
             'cod' => 'Paying Cash on Delivery',
             'paypal' => 'Paid with Paypal',
             default => 'Paid with debit card',
@@ -37,9 +37,9 @@ class Order extends Model
         return $this->hasOne(Transaction::class);
     }
 
-    public function address(): HasOne
+    public function address(): BelongsTo
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
 

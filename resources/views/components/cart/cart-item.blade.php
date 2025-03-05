@@ -18,26 +18,6 @@
         <div class="product-card__price d-flex">
             <div class="product-card__price d-flex">
                 ${{$item->price}}
-{{--                @if($item->isOnSale())--}}
-{{--                    <div class="d-flex align-items-center mb-1">--}}
-{{--                        <span class="text-muted text-decoration-line-through me-2">--}}
-{{--                            ${{number_format($item->regular_price, 2)}}--}}
-{{--                        </span>--}}
-{{--                        <span class="fw-bold text-red">--}}
-{{--                           ${{number_format($item->sale_price, 2)}}--}}
-{{--                        </span>--}}
-{{--                    </div>--}}
-{{--                    @if($item->discount_percentage)--}}
-{{--                        <div class="discount-badge">--}}
-{{--                            <span class="discount-percentage">{{$item->discount_percentage}}%</span>--}}
-{{--                            <span class="discount-label">OFF</span>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-{{--                @else--}}
-{{--                    <span class="fw-bold fs-5">--}}
-{{--                        ${{number_format($item->regular_price, 2)}}--}}
-{{--                    </span>--}}
-{{--                @endif--}}
             </div>
         </div>
     </td>

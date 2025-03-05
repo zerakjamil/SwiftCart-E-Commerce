@@ -11,9 +11,9 @@ class CouponService
 {
     private $discountService;
 
-    public function __construct(DiscountService $discountService)
+    public function __construct(DiscountService $discountService = null)
     {
-        $this->discountService = $discountService;
+        $this->discountService = $discountService ?? new DiscountService();
     }
 
     public function getPaginatedCoupons()

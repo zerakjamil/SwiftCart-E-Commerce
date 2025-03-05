@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\ProductRequests\StoreProductRequest;
-use App\Http\Requests\V1\ProductRequests\UpdateProductRequest;
+use App\Http\Services\CartService;
+use App\Http\Requests\V1\ProductRequests\{StoreProductRequest,UpdateProductRequest};
 use App\Http\Services\ImageService;
-use App\Models\Admin\V1\Brand;
-use App\Models\Admin\V1\Category;
-use App\Models\Admin\V1\Product;
+use App\Models\Admin\V1\{Brand,Category,Product,};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{Log,DB};
 
 class ProductController extends Controller
 {
     protected ImageService $imageService;
+    protected CartService $cartService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService = null, CartService $cartService = null)
     {
-        $this->imageService = $imageService;
+        $this->imageService = $imageService ?? new ImageService();
+        $this->cartService = $cartService ?? new CartService();
     }
 
     public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -100,9 +99,9 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
+            $this->cartService->removeProductFromCart($product->id);
             $product->delete();
             $this->deleteProductImages($product);
-
             DB::commit();
             return redirect()->route('product.index')->withSuccess('Product deleted successfully.');
         } catch (\Exception $e) {

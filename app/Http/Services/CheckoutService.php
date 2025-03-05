@@ -121,10 +121,10 @@ class CheckoutService
         $order = new Order();
         $order->user_id = Auth::id();
 
-        $order->subtotal = Session::get('checkout')['subtotal'];
-        $order->discount = Session::get('checkout')['discount'];
-        $order->tax = Session::get('checkout')['tax'];
-        $order->total = Session::get('checkout')['total'];
+        $order->subtotal = $this->formatCartValue(Session::get('checkout')['subtotal']);
+        $order->discount = $this->formatCartValue(Session::get('checkout')['discount']);
+        $order->tax = $this->formatCartValue(Session::get('checkout')['tax']);
+        $order->total = $this->formatCartValue(Session::get('checkout')['total']);
 
         $order->billing_name = $address->name;
         $order->billing_phone = $address->phone;
@@ -133,6 +133,21 @@ class CheckoutService
         $order->save();
 
         return $order;
+    }
+
+    /**
+     * Format a cart value by removing commas and converting to float
+     *
+     * @param string|float $value
+     * @return float
+     */
+    private function formatCartValue($value): float
+    {
+        if (is_string($value)) {
+            return (float)str_replace(',', '', $value);
+        }
+
+        return (float)$value;
     }
 
     /**
