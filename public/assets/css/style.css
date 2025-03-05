@@ -6050,7 +6050,7 @@ progress {
  *
  * bootstrap-slider is released under the MIT License
  * Copyright (c) 2019 Kyle Kemp, Rohit Kalkur, and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -6059,10 +6059,10 @@ progress {
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -15539,3 +15539,544 @@ body.coming-soon-page {
     display: none; }
   .btn-video-player.playing svg.btn-pause {
     display: block; }
+
+.address-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 0;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.address-card__header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f5f5f5;
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.address-card__name {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 0;
+    color: #333;
+    letter-spacing: -0.5px;
+}
+
+.address-card__badge {
+    position: absolute;
+    right: 20px;
+    top: 18px;
+    font-size: 12px;
+    background: #4361ee;
+    color: white;
+    padding: 5px 15px 5px 10px;
+    border-radius: 30px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(67, 97, 238, 0.25);
+}
+
+.address-svg-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.address-card__body {
+    padding: 25px;
+    display: flex;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafc 100%);
+}
+
+.address-card__icon {
+    margin-right: 20px;
+    color: #4361ee;
+    padding-top: 3px;
+}
+
+.address-location-icon {
+    width: 28px;
+    height: 28px;
+    stroke: #4361ee;
+    stroke-width: 2;
+}
+
+.address-phone-icon, .address-zip-icon {
+    width: 16px;
+    height: 16px;
+    stroke: #4361ee;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.address-card__content {
+    flex: 1;
+}
+
+.address-card__details {
+    position: relative;
+}
+
+.address-card__line {
+    margin-bottom: 8px;
+    color: #555;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.address-card__line:last-child {
+    margin-bottom: 0;
+}
+
+.zip-code {
+    font-weight: 500;
+    background: rgba(67, 97, 238, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.address-card__divider {
+    margin: 15px 0;
+    position: relative;
+    height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.divider-svg {
+    width: 100%;
+    height: 2px;
+    stroke: #e0e0e0;
+    stroke-width: 1;
+    stroke-dasharray: 5, 5;
+}
+
+.address-card__contact {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+    background: rgba(67, 97, 238, 0.05);
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.address-card__footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 15px 25px;
+    text-align: right;
+    background: #f8f9fa;
+}
+
+.address-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    color: #4361ee;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.address-edit-btn:hover {
+    color: #2c3eb7;
+    text-decoration: none;
+}
+
+.edit-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .address-card {
+        margin-bottom: 20px;
+        border-radius: 12px;
+    }
+
+    .address-card__header {
+        padding: 15px 20px;
+    }
+
+    .address-card__body {
+        padding: 15px 20px;
+        flex-direction: column;
+    }
+
+    .address-card__icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .address-location-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .address-card__badge {
+        font-size: 11px;
+        padding: 4px 12px 4px 8px;
+    }
+
+    .address-card__name {
+        font-size: 18px;
+        margin-right: 90px;
+    }
+}
+
+.order-summary {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.order-summary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(67, 97, 238, 0.12);
+}
+
+.order-summary__header {
+    display: flex;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #4361ee;
+    margin-right: 15px;
+}
+
+.summary-title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.order-summary__content {
+    padding: 20px 25px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.07);
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-weight: 500;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #333;
+}
+
+.discount-row {
+    background-color: rgba(67, 97, 238, 0.05);
+    margin: 0 -25px;
+    padding: 12px 25px;
+    border-radius: 0;
+}
+
+.discount-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-right: 8px;
+}
+
+.discount-icon {
+    width: 14px;
+    height: 14px;
+    stroke: #ff6b6b;
+    margin-right: 4px;
+}
+
+.discount-value {
+    color: #ff6b6b;
+}
+
+.subtotal-after {
+    background-color: rgba(67, 97, 238, 0.02);
+    font-weight: 500;
+}
+
+.shipping-icon {
+    width: 18px;
+    height: 18px;
+    stroke: #4361ee;
+    margin-right: 8px;
+}
+
+.shipping-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.shipping-radio {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #4361ee;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+}
+
+.shipping-radio:checked::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #4361ee;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.summary-divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(67, 97, 238, 0) 0%, rgba(67, 97, 238, 0.3) 50%, rgba(67, 97, 238, 0) 100%);
+    margin: 8px 0;
+}
+
+.total-row {
+    padding-top: 20px;
+    border-bottom: none;
+}
+
+.total-row .summary-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.total-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4361ee;
+}
+
+@media (max-width: 768px) {
+    .order-summary {
+        border-radius: 12px;
+    }
+
+    .order-summary__header {
+        padding: 15px 20px;
+    }
+
+    .order-summary__content {
+        padding: 15px 20px;
+    }
+
+    .discount-row {
+        margin: 0 -20px;
+        padding: 12px 20px;
+    }
+
+    .summary-row {
+        padding: 10px 0;
+    }
+
+    .total-row .summary-label,
+    .total-value {
+        font-size: 16px;
+    }
+}
+
+.shipping-address-form {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    margin-bottom: 2rem;
+    border: 1px solid #f0f0f0;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.form-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.section-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #4361ee;
+    stroke-width: 2;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    stroke: #4361ee;
+    stroke-width: 2;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.form-control {
+    padding: 0.75rem 1rem 0.75rem 2.8rem;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #f9fafc;
+    box-shadow: none;
+    height: auto;
+    color: #495057;
+}
+
+.form-control:focus {
+    border-color: #4361ee;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+}
+
+.form-control::placeholder {
+    color: #adb5bd;
+    opacity: 0.7;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+    font-weight: 500;
+    padding-left: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .shipping-address-form {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 0.95rem;
+    }
+
+    .input-container {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+        padding: 0.7rem 1rem 0.7rem 2.5rem;
+    }
+
+    .input-icon {
+        left: 12px;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Hover and focus effects */
+.input-container:hover .input-icon {
+    opacity: 1;
+}
+
+.input-container:hover .form-control {
+    border-color: #c1c9d6;
+}
+
+/* Required field indicator */
+.form-control[required] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Ccircle cx='4' cy='4' r='3' fill='%23dc3545' opacity='0.7'/%3E%3C/svg%3E");
+    background-position: right 10px top 50%;
+    background-repeat: no-repeat;
+}
+
+/* Mobile row spacing */
+@media (max-width: 767px) {
+    .row.g-4 {
+        --bs-gutter-y: 1rem;
+    }
+}
+
+/* Button styling */
+.btn-checkout {
+    width: 100%;
+    padding: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.btn-checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(67, 97, 238, 0.2);
+}
