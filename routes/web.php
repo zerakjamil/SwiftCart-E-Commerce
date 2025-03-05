@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\{
-    CheckoutController,
+use App\Http\Controllers\{CheckoutController,
     CouponController,
+    OrderController,
     ShopController,
     CartController,
     User\V1\UserController,
@@ -10,8 +10,7 @@ use App\Http\Controllers\{
     Admin\V1\AdminController,
     Admin\V1\BrandController,
     Admin\V1\CategoryController,
-    Admin\V1\ProductController
-};
+    Admin\V1\ProductController};
 
 use Illuminate\Support\Facades\{Route,Auth,App};
 
@@ -75,6 +74,12 @@ Route::prefix('admin')->group(function () {
                 'destroy' => 'admin.destroy',
             ]);
         });
+
+        Route::resource('orders', OrderController::class)->names([
+            'index' => 'order.index',
+            'create' => 'order.create',
+            'store' => 'order.store',
+        ]);
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',
