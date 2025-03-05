@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\CouponController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\App;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\User\V1\UserController;
-use App\Http\Controllers\Admin\V1\AdminController;
-use App\Http\Controllers\Admin\V1\BrandController;
-use App\Http\Controllers\Admin\V1\CategoryController;
-use App\Http\Controllers\Admin\V1\ProductController;
+use App\Http\Controllers\{
+    CheckoutController,
+    CouponController,
+    ShopController,
+    CartController,
+    User\V1\UserController,
+    WishlistController,
+    Admin\V1\AdminController,
+    Admin\V1\BrandController,
+    Admin\V1\CategoryController,
+    Admin\V1\ProductController
+};
+
+use Illuminate\Support\Facades\{Route,Auth,App};
 
 Auth::routes();
 
@@ -48,7 +49,7 @@ Route::prefix('checkout')->name('checkout.')->middleware(['auth'])->group(functi
    Route::get('/', [CheckoutController::class, 'index'])->name('index');
    Route::get('/place-order', [CheckoutController::class, 'create'])->name('create');
    Route::post('/place-order', [CheckoutController::class,'store'])->name('store');
-   Route::get('/order-confirmation', [CheckoutController::class, 'orderConfirmation'])->name('orderConfirmation');
+   Route::get('/confirmation/{order}', [CheckoutController::class, 'orderConfirmation'])->name('orderConfirmation');
 });
 
 

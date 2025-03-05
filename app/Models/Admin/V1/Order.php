@@ -13,6 +13,15 @@ class Order extends Model
 {
     use HasFactory;
 
+    public function getPaymentMethodLabel(): string
+    {
+        return match ($this->mode) {
+            'cod' => 'Paying Cash on Delivery',
+            'paypal' => 'Paid with Paypal',
+            default => 'Paid with debit card',
+        };
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -23,8 +32,15 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function transaction(): HasOne
+    public function transactions(): HasOne
     {
         return $this->hasOne(Transaction::class);
     }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
+
+
 }

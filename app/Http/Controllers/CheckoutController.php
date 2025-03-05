@@ -66,7 +66,7 @@ public function store(StoreOrderRequest $request): RedirectResponse
 
         DB::commit();
 
-        return redirect()->route('checkout.orderConfirmation',compact('order'))
+        return redirect()->route('checkout.orderConfirmation', ['order' => $order->id])
             ->with('success', 'Your order has been placed successfully!');
     } catch (\Exception $e) {
         DB::rollBack();
@@ -77,8 +77,8 @@ public function store(StoreOrderRequest $request): RedirectResponse
     }
 }
 
-    public function orderConfirmation()
+    public function orderConfirmation(Order $order): View
     {
-        return view('guest.checkout.order-confirmation');
+        return view('guest.checkout.order-confirmation',compact('order'));
 }
 }

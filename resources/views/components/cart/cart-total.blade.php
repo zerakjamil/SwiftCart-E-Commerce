@@ -57,7 +57,7 @@
             <div class="button-wrapper container">
                 <x-partials.button
                     tag="a"
-                    href="checkout.html"
+                    route="checkout.index"
                     class="btn btn-primary btn-checkout"
                 >
                     PROCEED TO CHECKOUT

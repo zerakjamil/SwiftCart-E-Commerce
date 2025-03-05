@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('shipping_address_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->decimal('subtotal', 10, 2);
             $table->decimal('tax', 10, 2);
             $table->decimal('total', 10, 2);

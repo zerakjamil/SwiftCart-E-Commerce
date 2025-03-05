@@ -121,22 +121,14 @@ class CheckoutService
         $order = new Order();
         $order->user_id = Auth::id();
 
-        // Set financial details
         $order->subtotal = Session::get('checkout')['subtotal'];
         $order->discount = Session::get('checkout')['discount'];
         $order->tax = Session::get('checkout')['tax'];
         $order->total = Session::get('checkout')['total'];
 
-        // Set shipping details
-        $order->name = $address->name;
-        $order->phone = $address->phone;
-        $order->locality = $address->locality;
-        $order->address = $address->address;
-        $order->city = $address->city;
-        $order->state = $address->state;
-        $order->country = $address->country;
-        $order->landmark = $address->landmark;
-        $order->zip = $address->zip;
+        $order->billing_name = $address->name;
+        $order->billing_phone = $address->phone;
+        $order->address_id = $address->id;
 
         $order->save();
 
@@ -170,13 +162,13 @@ class CheckoutService
     {
         switch ($paymentMode) {
             case 'cash':
-                $this->createTransaction($orderId, $paymentMode, 'pending');
+                $this->createTransaction($orderId, 'cod', 'pending');
                 break;
             case 'card':
-                // Implement card payment logic
+                $this->createTransaction($orderId, 'card', 'pending');
                 break;
             case 'paypal':
-                // Implement PayPal payment logic
+                $this->createTransaction($orderId, 'paypal', 'pending');
                 break;
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdminLoginRequest;
+use Illuminate\View\View;
 use App\Http\Requests\V1\AdminRequests\{StoreAdminRequest, UpdateAdminRequest};
 use App\Http\Services\AdminService;
 use App\Models\Admin\V1\Admin;
@@ -54,12 +55,12 @@ class AdminController extends Controller
         }
     }
 
-    public function edit(Admin $admin): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function edit(Admin $admin): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|View
     {
         return view('admin.admins.edit', compact('admin'));
     }
 
-    public function update(UpdateAdminRequest $request, Admin $admin)
+    public function update(UpdateAdminRequest $request, Admin $admin): RedirectResponse
     {
         try {
             $this->adminService->updateAdmin($admin, $request->validated());
@@ -91,10 +92,13 @@ class AdminController extends Controller
         }
     }
 
-    public function showLoginForm(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
-    {
-        return view('auth.admin.login');
+public function showLoginForm(): RedirectResponse|View
+{
+    if (Auth::guard('admin')->check()) {
+        return redirect()->route('admin.dashboard');
     }
+    return view('auth.admin.login');
+}
 
     public function login(AdminLoginRequest $request): RedirectResponse
     {
