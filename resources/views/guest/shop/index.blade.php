@@ -215,8 +215,13 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                                             alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
+                                        <div class="placeholder-image d-flex align-items-center justify-content-center"
+                                             style="width: 630px; height: 450px; background-color: #1E1D2A; color: #f5f5f5; text-align: center;">
+                                            <div>
+                                                <p class="mb-0 fs-4">Placeholder Image</p>
+                                                <p class="mb-0">630 × 450</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -236,8 +241,13 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                                             alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
+                                        <div class="placeholder-image d-flex align-items-center justify-content-center"
+                                             style="width: 630px; height: 450px; background-color: #1E1D2A; color: #f5f5f5; text-align: center;">
+                                            <div>
+                                                <p class="mb-0 fs-4">Placeholder Image</p>
+                                                <p class="mb-0">630 × 450</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -257,8 +267,13 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                                             alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
+                                        <div class="placeholder-image d-flex align-items-center justify-content-center"
+                                             style="width: 630px; height: 450px; background-color: #1E1D2A; color: #f5f5f5; text-align: center;">
+                                            <div>
+                                                <p class="mb-0 fs-4">Placeholder Image</p>
+                                                <p class="mb-0">630 × 450</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

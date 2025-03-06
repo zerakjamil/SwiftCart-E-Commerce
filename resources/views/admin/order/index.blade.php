@@ -49,12 +49,15 @@
                                 <th class="text-center">Order Date</th>
                                 <th class="text-center">Total Items</th>
                                 <th class="text-center">Delivered On</th>
-                                <th></th>
                             </tr>
                             </thead>
-                            <tbody>
+                           <tbody>
+                            @if($orders->count() === 0)
+                                    <tr>
+                                        <td colspan="10" class="text-center">No Orders are Available at the Moment</td>
+                                    </tr>
+                            @endif
                             @foreach($orders as $order)
-
                             <tr>
                                 <td class="text-center">{{$order->id}}</td>
                                 <td class="text-center">{{$order->address->name}}</td>
@@ -78,7 +81,6 @@
                                 </td>
                             </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>
