@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdminLoginRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Illuminate\View\View;
 use App\Http\Requests\V1\AdminRequests\{StoreAdminRequest, UpdateAdminRequest};
 use App\Http\Services\AdminService;
@@ -22,7 +24,7 @@ class AdminController extends Controller
         $this->adminService = $adminService;
     }
 
-    public function index(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function index(): Application | Factory | View
     {
         $cacheKey = 'admins_list_page_' . request('page', 1);
         $admins = Cache::remember($cacheKey, 60, function () {
@@ -32,7 +34,7 @@ class AdminController extends Controller
         return view('admin.admins.index', compact('admins'));
     }
 
-    public function create(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function create(): Application|View
     {
         return view('admin.admins.create');
     }
@@ -55,7 +57,7 @@ class AdminController extends Controller
         }
     }
 
-    public function edit(Admin $admin): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|View
+    public function edit(Admin $admin): Application | Factory | View
     {
         return view('admin.admins.edit', compact('admin'));
     }
@@ -92,7 +94,7 @@ class AdminController extends Controller
         }
     }
 
-public function showLoginForm(): RedirectResponse|View
+public function showLoginForm(): RedirectResponse | View
 {
     if (Auth::guard('admin')->check()) {
         return redirect()->route('admin.dashboard');

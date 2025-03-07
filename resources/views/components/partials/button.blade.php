@@ -7,6 +7,7 @@
     'icon' => null,
     'value' => null,
     'title' => null,
+    'id' => null,
 ])
 
 @php
@@ -27,6 +28,10 @@
 
     if ($title) {
         $attributes = $attributes->merge(['title' => $title]);
+    }
+
+    if ($id) {  // Add this block
+        $attributes = $attributes->merge(['id' => $id]);
     }
 @endphp
 

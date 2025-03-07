@@ -44,17 +44,17 @@
                                 <th class="text-center">Subtotal</th>
                                 <th class="text-center">Tax</th>
                                 <th class="text-center">Total</th>
-
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Order Date</th>
                                 <th class="text-center">Total Items</th>
                                 <th class="text-center">Delivered On</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                             </thead>
                            <tbody>
                             @if($orders->count() === 0)
                                     <tr>
-                                        <td colspan="10" class="text-center">No Orders are Available at the Moment</td>
+                                        <td colspan="11" class="text-center">No Orders are Available at the Moment</td>
                                     </tr>
                             @endif
                             @foreach($orders as $order)
@@ -65,19 +65,37 @@
                                 <td class="text-center">${{$order->subtotal}}</td>
                                 <td class="text-center">${{$order->tax}}</td>
                                 <td class="text-center">${{$order->total}}</td>
-
-                                <td class="text-center">{{$order->status}}</td>
+                                <td class="text-center">
+                                    <span class="text-black status-{{ strtolower($order->status) }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </td>
                                 <td class="text-center">{{$order->created_at->format('F j, Y')}}</td>
                                 <td class="text-center">{{$order->quantity}}</td>
-                                <td></td>
                                 <td class="text-center">
-                                    <a href="order-details.html">
-                                        <div class="list-icon-function view-icon">
-                                            <div class="item eye">
-                                                <i class="icon-eye"></i>
-                                            </div>
-                                        </div>
-                                    </a>
+                                    @if($order->status === 'delivered')
+                                        {{$order->updated_at->format('F j, Y')}}
+                                    @else
+                                        <span class="text-muted">Pending</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="#" class="btn btn-sm btn-info" title="View Order">
+                                            <i class="icon-eye"></i>
+                                        </a>
+                                        <a
+                                            href="{{ route('order.invoice', ['order' => $order->id]) }}"
+                                            id="printInvoiceBtn-{{ $order->id }}"
+                                            class="btn btn-sm btn-secondary float-end"
+                                            data-order-id="{{ $order->id }}">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-1">
+                                                <path d="M4 6H12V4C12 2.89543 11.1046 2 10 2H6C4.89543 2 4 2.89543 4 4V6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M4 10H2V6C2 4.89543 2.89543 4 4 4H12C13.1046 4 14 4.89543 14 6V10H12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M4 8H12V13C12 13.5523 11.5523 14 11 14H5C4.44772 14 4 13.5523 4 13V8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -87,9 +105,32 @@
                 </div>
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
+                    {{ $orders->links() }}
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const printButtons = document.querySelectorAll('[id^="printInvoiceBtn-"]');
+
+        printButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const orderId = this.getAttribute('data-order-id');
+                printInvoice(orderId);
+            });
+        });
+
+        function printInvoice(orderId) {
+            const printWindow = window.open(`{{ url('/admin/orders/invoice') }}/${orderId}`, '_blank');
+            printWindow.onload = function() {
+                printWindow.print();
+            }
+        }
+    });
+</script>
+@endpush

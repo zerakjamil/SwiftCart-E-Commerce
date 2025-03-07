@@ -7,12 +7,13 @@ use App\Models\UserCoupon;
 use Illuminate\Support\Facades\{Auth, DB, Schema, Session};
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
-class CouponService
+class CouponService extends Service
 {
-    private $discountService;
+    private DiscountService $discountService;
 
-    public function __construct(DiscountService $discountService = null)
+    public function __construct(Coupon $coupon)
     {
+        parent::__construct($coupon);
         $this->discountService = $discountService ?? new DiscountService();
     }
 

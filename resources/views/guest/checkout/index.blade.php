@@ -17,7 +17,7 @@
                             </div>
                         </div>
 
-                       @if(!$address)
+                       @if($address)
                            <x-checkout.address :address="$address"/>
                        @else
                            <x-checkout.address-form />

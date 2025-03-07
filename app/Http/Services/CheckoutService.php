@@ -2,12 +2,16 @@
 
 namespace App\Http\Services;
 
-use App\Models\Admin\V1\{Address,Order,OrderItem,Transaction};
+use App\Models\Admin\V1\{Address,Transaction};
 use Illuminate\Support\Facades\{Auth,Session};
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
-class CheckoutService
+class CheckoutService extends Service
 {
+    public function __construct(Address $address)
+    {
+        parent::__construct($address);
+    }
     /**
      * Validate the cart contents
      *
@@ -109,39 +113,13 @@ class CheckoutService
             ]);
         }
     }
-
-    /**
-     * Create a new order
-     *
-     * @param Address $address
-     * @return Order
-     */
-    public function createOrder(Address $address): Order
-    {
-        $order = new Order();
-        $order->user_id = Auth::id();
-
-        $order->subtotal = $this->formatCartValue(Session::get('checkout')['subtotal']);
-        $order->discount = $this->formatCartValue(Session::get('checkout')['discount']);
-        $order->tax = $this->formatCartValue(Session::get('checkout')['tax']);
-        $order->total = $this->formatCartValue(Session::get('checkout')['total']);
-
-        $order->billing_name = $address->name;
-        $order->billing_phone = $address->phone;
-        $order->address_id = $address->id;
-
-        $order->save();
-
-        return $order;
-    }
-
     /**
      * Format a cart value by removing commas and converting to float
      *
      * @param string|float $value
      * @return float
      */
-    private function formatCartValue($value): float
+    public function formatCartValue($value): float
     {
         if (is_string($value)) {
             return (float)str_replace(',', '', $value);
@@ -151,29 +129,12 @@ class CheckoutService
     }
 
     /**
-     * Create order items from cart
-     *
-     * @param int $orderId
-     */
-    public function createOrderItems(int $orderId): void
-    {
-        foreach (Cart::instance('cart')->content() as $item) {
-            $orderItem = new OrderItem();
-            $orderItem->order_id = $orderId;
-            $orderItem->product_id = $item->id;
-            $orderItem->price = $item->price;
-            $orderItem->quantity = $item->qty;
-            $orderItem->save();
-        }
-    }
-
-    /**
      * Process payment transaction
      *
      * @param string $paymentMode
-     * @param int $orderId
+     * @param string $orderId
      */
-    public function processPayment(string $paymentMode, int $orderId): void
+    public function processPayment(string $paymentMode, string $orderId): void
     {
         switch ($paymentMode) {
             case 'cash':
@@ -191,12 +152,12 @@ class CheckoutService
     /**
      * Create a transaction record
      *
-     * @param int $orderId
+     * @param string $orderId
      * @param string $mode
      * @param string $status
      * @return Transaction
      */
-    private function createTransaction(int $orderId, string $mode, string $status): Transaction
+    private function createTransaction(string $orderId, string $mode, string $status): Transaction
     {
         $transaction = new Transaction();
         $transaction->user_id = Auth::id();

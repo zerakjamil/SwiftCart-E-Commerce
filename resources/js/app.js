@@ -1,4 +1,5 @@
 import './bootstrap';
+import './print-invoice';
 
     document.addEventListener('DOMContentLoaded', function() {
     const myFile = document.getElementById('myFile');

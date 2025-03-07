@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\V1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\CouponRequests\StoreCouponRequest;
 use App\Http\Services\CouponService;
 use App\Models\Admin\V1\Coupon;
-use Illuminate\Support\Facades\{DB,Log};
+use Illuminate\Support\Facades\{DB, Log};
 
 class CouponController extends Controller
 {

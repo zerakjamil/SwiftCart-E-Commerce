@@ -3,27 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\V1\OrderRequests\StoreOrderRequest;
-use App\Http\Services\CheckoutService;
-use App\Models\Admin\V1\Address;
 use App\Models\Admin\V1\Order;
-use App\Models\Admin\V1\OrderItem;
-use App\Models\Admin\V1\Transaction;
+use App\Http\Services\{CheckoutService,OrderService};
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\{DB,Log};
 use Illuminate\View\View;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
     protected CheckoutService $checkoutService;
+    protected OrderService $orderService;
 
-    public function __construct(CheckoutService $checkoutService)
+    public function __construct(CheckoutService $checkoutService, OrderService $orderService)
     {
         $this->middleware('auth');
         $this->checkoutService = $checkoutService;
+        $this->orderService = $orderService;
     }
 
     public function index(): View|RedirectResponse
@@ -56,9 +52,9 @@ public function store(StoreOrderRequest $request): RedirectResponse
 
         $this->checkoutService->setCheckoutAmounts();
 
-        $order = $this->checkoutService->createOrder($address);
+        $order = $this->orderService->createOrder($address);
 
-        $this->checkoutService->createOrderItems($order->id);
+        $this->orderService->createOrderItems($order->id);
 
         $this->checkoutService->processPayment($request->mode, $order->id);
 

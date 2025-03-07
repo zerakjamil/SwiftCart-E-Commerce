@@ -6,8 +6,12 @@ use App\Models\Admin\V1\Product;
 use Illuminate\Support\Facades\Log;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
-class CartService
+class CartService extends Service
 {
+    public function __construct(Product $product)
+    {
+        parent::__construct($product);
+    }
     /**
      * Remove a product from all carts by product ID
      *

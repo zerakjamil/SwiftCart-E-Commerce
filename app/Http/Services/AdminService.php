@@ -5,10 +5,14 @@ namespace App\Http\Services;
 use App\Models\Admin\V1\Admin;
 use Illuminate\Support\Facades\{Auth,DB,Hash};
 use Illuminate\Validation\ValidationException;
-
-class AdminService
+use \Illuminate\Contracts\Auth\Authenticatable;
+class AdminService extends Service
 {
-    public function attemptLogin($request): ?\Illuminate\Contracts\Auth\Authenticatable
+    public function __construct(Admin $admin)
+    {
+        parent::__construct($admin);
+    }
+    public function attemptLogin($request): ? Authenticatable
     {
         $credentials = $request->validated();
         if (!Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
@@ -27,11 +31,11 @@ class AdminService
         $request->session()->regenerateToken();
     }
 
-    public function getPaginatedAdmins()
+    public function getPaginatedAdmins($count = 5)
     {
         return Admin::whereHas('roles', fn($query) => $query->where('name', 'admin'))
             ->with('roles')
-            ->paginate(5);
+            ->paginate($count);
     }
 
     public function createAdmin($data)

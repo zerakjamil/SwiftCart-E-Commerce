@@ -1,18 +1,17 @@
 <?php
 
-use App\Http\Controllers\{CheckoutController,
-    CouponController,
-    OrderController,
-    ShopController,
-    CartController,
-    User\V1\UserController,
-    WishlistController,
-    Admin\V1\AdminController,
+use App\Http\Controllers\{Admin\V1\AdminController,
     Admin\V1\BrandController,
     Admin\V1\CategoryController,
-    Admin\V1\ProductController};
-
-use Illuminate\Support\Facades\{Route,Auth,App};
+    Admin\V1\CouponController,
+    Admin\V1\OrderController,
+    Admin\V1\ProductController,
+    CartController,
+    CheckoutController,
+    ShopController,
+    User\V1\UserController,
+    WishlistController};
+use Illuminate\Support\Facades\{App, Auth, Route};
 
 Auth::routes();
 
@@ -80,6 +79,7 @@ Route::prefix('admin')->group(function () {
             'create' => 'order.create',
             'store' => 'order.store',
         ]);
+        Route::get('/orders/invoice/{order}', [OrderController::class, 'generateInvoice'])->name('order.invoice');
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',

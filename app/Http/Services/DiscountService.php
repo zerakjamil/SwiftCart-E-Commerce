@@ -2,8 +2,8 @@
 
 namespace App\Http\Services;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\{Log, Session};
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class DiscountService

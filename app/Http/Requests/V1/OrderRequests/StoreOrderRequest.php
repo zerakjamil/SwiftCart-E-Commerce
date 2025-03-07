@@ -23,7 +23,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:100'],
-            'phone' => ['required' , 'numeric' , 'digits:10'],
+            'phone' => ['required' , 'numeric' , 'digits:11'],
             'zip' => ['required' , 'numeric' , 'digits:5'],
             'state' => ['required'],
             'city' => ['required'],
