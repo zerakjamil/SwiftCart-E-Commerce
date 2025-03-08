@@ -12,8 +12,8 @@ use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
-    protected CheckoutService $checkoutService;
-    protected OrderService $orderService;
+    protected $checkoutService;
+    protected $orderService;
 
     public function __construct(CheckoutService $checkoutService, OrderService $orderService)
     {
@@ -48,7 +48,7 @@ public function store(StoreOrderRequest $request): RedirectResponse
     try {
         DB::beginTransaction();
 
-        $address = $this->checkoutService->getOrCreateAddress($request->validated());
+        $address = $this->checkoutService->getAddress($request);
 
         $this->checkoutService->setCheckoutAmounts();
 

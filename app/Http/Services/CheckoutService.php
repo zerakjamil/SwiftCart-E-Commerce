@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Admin\V1\{Address,Transaction};
+use App\Http\Requests\V1\OrderRequests\StoreOrderRequest;
 use Illuminate\Support\Facades\{Auth,Session};
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
@@ -58,10 +59,10 @@ class CheckoutService extends Service
      *
      * @return Address|null
      */
-    public function getUserDefaultAddress()
+    public function getUserDefaultAddress(): ?Address
     {
         return Address::where('user_id', Auth::id())
-            ->where('is_default', true)
+            ->where('is_default', 1)
             ->first();
     }
 
@@ -71,17 +72,27 @@ class CheckoutService extends Service
      * @param array $addressData
      * @return Address
      */
-    public function getOrCreateAddress(array $addressData): Address
+    public function createAddress(array $addressData): Address
     {
-        $address = $this->getUserDefaultAddress();
-
-        if (!$address) {
             $address = new Address();
             $address->fillAttributes($addressData);
             $address->user_id = Auth::id();
             $address->country = 'kurdistan';
             $address->is_default = true;
             $address->save();
+
+        return $address;
+    }
+
+    public function getAddress(StoreOrderRequest $request): ?Address
+    {
+        if (!$request['use_existing_address']) {
+            $address = $this->createAddress($request->validated());
+            if (!$address) {
+                throw new \Exception('No default address found.');
+            }
+        } else {
+            $address = $this->getUserDefaultAddress();
         }
 
         return $address;

@@ -277,11 +277,13 @@
             </a>
         </div>
 
-        <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+        <a href="{{ route('cart.index') }}" class="header-tools__item header-tools__cart" data-aside="">
             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <use href="#icon_cart" />
             </svg>
-            <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
+            @if(Cart::instance('cart')->content()->count() > 0)
+                <span class="cart-amount d-block position-absolute js-cart-items-count">{{Cart::instance('cart')->content()->count()}}</span>
+            @endif
         </a>
     </div>
 
@@ -678,13 +680,15 @@
         </div>
 
         <div class="col-4">
-            <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+            <a href="{{route('wishlist.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
                 <div class="position-relative">
                     <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_heart" />
                     </svg>
-                    <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
+                    @if(Cart::instance('wishlist')->content()->count() > 0)
+                        <span class="wishlist-amount d-block position-absolute js-wishlist-count">{{Cart::instance('wishlist')->content()->count()}}</span>
+                    @endif
                 </div>
                 <span>{{__('nav.wishlist')}}</span>
             </a>

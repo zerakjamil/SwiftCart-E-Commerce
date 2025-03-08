@@ -41,4 +41,26 @@ class CartService extends Service
             return false;
         }
     }
+    public function removeProductFromWishlist(int $productId): bool{
+        try {
+            $wishItems = Cart::instance('wishlist')->content();
+            $found = false;
+
+            foreach ($wishItems as $wishItem) {
+                if ($wishItem->id == $productId) {
+                    Cart::instance('wishlist')->remove($wishItem->rowId);
+                    $found = true;
+                }
+            }
+
+            if (!$found) {
+                Log::info("Product {$productId} wasn't in any wishlist when deleted");
+            }
+
+            return true;
+        }catch(\Exception $e){
+            Log::error("Error removing product from wishlist: " . $e->getMessage());
+            return false;
+        }
+    }
 }

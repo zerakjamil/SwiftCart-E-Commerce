@@ -27,5 +27,9 @@ class OrderController extends Controller
         return $pdf->stream('invoice.pdf');
     }
 
+    public function details(Order $order): View
+    {
+        return view('admin.order.details', compact('order'));
+    }
 
 }

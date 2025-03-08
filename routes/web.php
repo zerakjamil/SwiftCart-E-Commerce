@@ -45,7 +45,6 @@ Route::name('wishlist.')->prefix('wishlist')->group(function () {
 
 Route::prefix('checkout')->name('checkout.')->middleware(['auth'])->group(function (){
    Route::get('/', [CheckoutController::class, 'index'])->name('index');
-   Route::get('/place-order', [CheckoutController::class, 'create'])->name('create');
    Route::post('/place-order', [CheckoutController::class,'store'])->name('store');
    Route::get('/confirmation/{order}', [CheckoutController::class, 'orderConfirmation'])->name('orderConfirmation');
 });
@@ -78,6 +77,7 @@ Route::prefix('admin')->group(function () {
             'index' => 'order.index',
             'create' => 'order.create',
             'store' => 'order.store',
+            'details' => 'order.detail',
         ]);
         Route::get('/orders/invoice/{order}', [OrderController::class, 'generateInvoice'])->name('order.invoice');
 

@@ -100,6 +100,7 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $this->cartService->removeProductFromCart($product->id);
+            $this->cartService->removeProductFromWishlist($product->id);
             $product->delete();
             $this->deleteProductImages($product);
             DB::commit();
