@@ -81,7 +81,7 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('order.detail', ['order' => $order->id]) }}" class="btn btn-sm btn-info" title="View Order">
+                                        <a href="{{ route('order.show', ['order' => $order->id]) }}" class="btn btn-sm btn-info" title="View Order">
                                             <i class="icon-eye"></i>
                                         </a>
                                         <a

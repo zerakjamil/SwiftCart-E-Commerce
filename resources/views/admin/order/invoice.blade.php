@@ -1,3 +1,4 @@
+@props(['order'])
 <!DOCTYPE html>
 <html lang="en">
 <head>

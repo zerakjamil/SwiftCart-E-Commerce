@@ -73,13 +73,12 @@ Route::prefix('admin')->group(function () {
             ]);
         });
 
-        Route::resource('orders', OrderController::class)->names([
-            'index' => 'order.index',
-            'create' => 'order.create',
-            'store' => 'order.store',
-            'details' => 'order.detail',
-        ]);
-        Route::get('/orders/invoice/{order}', [OrderController::class, 'generateInvoice'])->name('order.invoice');
+        Route::prefix('orders')->name('order.')->controller(OrderController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+            Route::get('/invoice/{order}', [OrderController::class, 'generateInvoice'])->name('invoice');
+
+        });
 
         Route::resource('/brands', BrandController::class)->names([
             'index' => 'brand.index',
