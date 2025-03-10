@@ -22,9 +22,44 @@
                 <div class="wg-box">
                     <div class="flex items-center justify-between gap10 flex-wrap">
                         <div class="wg-filter flex-grow">
+                            <h5>Ordered Details</h5>
+                        </div>
+                        <a class="tf-button style-1 w208" href="{{ route('order.index') }}">Back</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th>Order No</th>
+                                <td>{{$order->id}}</td>
+                                <th>Mobile</th>
+                                <td>{{$order->phone}}</td>
+                                <th>Zip Code</th>
+                                <td>{{$order->zip}}</td>
+                            </tr>
+                            <tr>
+                                <th>Ordered At</th>
+                                <td>{{$order->created_at}}</td>
+                                <th>Delivered Date</th>
+                                <td>{{$order->develivered_date}}</td>
+                                <th>Canceled Date</th>
+                                <td>{{$order->canceled_date}}</td>
+                            </tr>
+                            <tr>
+                                <th>Order Status</th>
+                                <td colspan="5">
+                                        {!! $order->checkStatus() !!}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="wg-box">
+                    <div class="flex items-center justify-between gap10 flex-wrap">
+                        <div class="wg-filter flex-grow">
                             <h5>Ordered Items</h5>
                         </div>
-                        <a class="tf-button style-1 w208" href="orders.html">Back</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
@@ -42,24 +77,24 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($orderItems as $item)
                             <tr>
-
                                 <td class="pname">
                                     <div class="image">
-                                        <img src="1718066538.html" alt="" class="image">
+                                        <img src="{{asset('uploads/products/'.$item->product->image)}}" alt="{{$item->product->name}}" class="image">
                                     </div>
                                     <div class="name">
                                         <a href="#" target="_blank"
-                                           class="body-title-2">Product1</a>
+                                           class="body-title-2">{{$item->product->name}}</a>
                                     </div>
                                 </td>
-                                <td class="text-center">$71.00</td>
-                                <td class="text-center">1</td>
-                                <td class="text-center">SHT01245</td>
-                                <td class="text-center">Category1</td>
-                                <td class="text-center">Brand1</td>
-                                <td class="text-center"></td>
-                                <td class="text-center">No</td>
+                                <td class="text-center">${{$item->price}}</td>
+                                <td class="text-center">{{$item->quantity}}</td>
+                                <td class="text-center">{{$item->product->SKU}}</td>
+                                <td class="text-center">{{$item->product->category->name}}</td>
+                                <td class="text-center">{{$item->product->brand->name}}</td>
+                                <td class="text-center">{{$item->options}}</td>
+                                <td class="text-center">{{$item->rstatus === 0 ? 'No' : 'Yes'}}</td>
                                 <td class="text-center">
                                     <div class="list-icon-function view-icon">
                                         <div class="item eye">
@@ -68,55 +103,28 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-
-                                <td class="pname">
-                                    <div class="image">
-                                        <img src="1718066673.html" alt="" class="image">
-                                    </div>
-                                    <div class="name">
-                                        <a href="#" target="_blank"
-                                           class="body-title-2">Product2</a>
-                                    </div>
-                                </td>
-                                <td class="text-center">$101.00</td>
-                                <td class="text-center">1</td>
-                                <td class="text-center">SHT99890</td>
-                                <td class="text-center">Category2</td>
-                                <td class="text-center">Brand1</td>
-                                <td class="text-center"></td>
-                                <td class="text-center">No</td>
-                                <td class="text-center">
-                                    <div class="list-icon-function view-icon">
-                                        <div class="item eye">
-                                            <i class="icon-eye"></i>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
 
                     <div class="divider"></div>
                     <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
+                        {{$orderItems->links()}}
                     </div>
                 </div>
-
                 <div class="wg-box mt-5">
                     <h5>Shipping Address</h5>
                     <div class="my-account__address-item col-md-6">
                         <div class="my-account__address-item__detail">
-                            <p>Divyansh Kumar</p>
-                            <p>Flat No - 13, R. K. Wing - B</p>
-                            <p>ABC, DEF</p>
-                            <p>GHT, </p>
-                            <p>AAA</p>
-                            <p>000000</p>
+                            <p>{{$order->name}}</p>
+                            <p>{{$order->address}}</p>
+                            <p>{{$order->locality}}</p>
+                            <p>{{$order->city}}</p>
+                            <p>{{$order->landmark}}</p>
+                            <p>{{$order->zip}}</p>
                             <br>
-                            <p>Mobile : 1234567891</p>
+                            <p>Mobile : {{$order->phone}}</p>
                         </div>
                     </div>
                 </div>
@@ -127,27 +135,19 @@
                         <tbody>
                         <tr>
                             <th>Subtotal</th>
-                            <td>172.00</td>
+                            <td>{{$order->subtotal}}</td>
                             <th>Tax</th>
-                            <td>36.12</td>
+                            <td>{{$order->tax}}</td>
                             <th>Discount</th>
-                            <td>0.00</td>
+                            <td>{{$order->discount}}</td>
                         </tr>
                         <tr>
                             <th>Total</th>
-                            <td>208.12</td>
+                            <td>{{$order->total}}</td>
                             <th>Payment Mode</th>
-                            <td>cod</td>
+                            <td>{{$transaction->mode}}</td>
                             <th>Status</th>
-                            <td>pending</td>
-                        </tr>
-                        <tr>
-                            <th>Order Date</th>
-                            <td>2024-07-11 00:54:14</td>
-                            <th>Delivered Date</th>
-                            <td></td>
-                            <th>Canceled Date</th>
-                            <td></td>
+                            <td>{!! $transaction->checkStatus() !!}</td>
                         </tr>
                         </tbody>
                     </table>

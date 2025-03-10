@@ -44,6 +44,15 @@ class Order extends Model
         };
     }
 
+    public function checkStatus(): string
+{
+    return match ($this->status) {
+        'delivered' => '<span class="badge bg-success">Delivered</span>',
+        'canceled' => '<span class="badge bg-danger">Canceled</span>',
+        default => '<span class="badge bg-info">Ordered</span>',
+    };
+}
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -38,7 +38,7 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th style="width:70px">OrderNo</th>
+                                <th class="text-center">OrderNo</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Phone</th>
                                 <th class="text-center">Subtotal</th>
@@ -71,7 +71,7 @@
                                     </span>
                                 </td>
                                 <td class="text-center">{{$order->created_at->format('F j, Y')}}</td>
-                                <td class="text-center">{{$order->quantity}}</td>
+                                <td class="text-center">{{$order->orderItems->count()}}</td>
                                 <td class="text-center">
                                     @if($order->status === 'delivered')
                                         {{$order->updated_at->format('F j, Y')}}
