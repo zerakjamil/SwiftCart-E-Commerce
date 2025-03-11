@@ -16,6 +16,7 @@ class Order extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $table = 'orders';
 
     public static function boot()
     {

@@ -113,47 +113,47 @@
                         {{$orderItems->links()}}
                     </div>
                 </div>
-            <div class="wg-box mt-5">
-                <h5 class="mb-4">Shipping Address</h5>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <strong>Name:</strong>
-                                        <span class="float-end">{{$order->address->name}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Address:</strong>
-                                        <span class="float-end">{{$order->address->address}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Locality:</strong>
-                                        <span class="float-end">{{$order->address->locality}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>City:</strong>
-                                        <span class="float-end">{{$order->address->city}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Landmark:</strong>
-                                        <span class="float-end">{{$order->address->landmark}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Zip:</strong>
-                                        <span class="float-end">{{$order->address->zip}}</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Mobile:</strong>
-                                        <span class="float-end">{{$order->address->phone}}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="wg-box mt-5">
+    <h5 class="mb-4">Shipping Address</h5>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Name:</strong>
+                            <span class="float-end">{{$order->address->name}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Address:</strong>
+                            <span class="float-end">{{$order->address->address}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Locality:</strong>
+                            <span class="float-end">{{$order->address->locality}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>City:</strong>
+                            <span class="float-end">{{$order->address->city}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Landmark:</strong>
+                            <span class="float-end">{{$order->address->landmark}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Zip:</strong>
+                            <span class="float-end">{{$order->address->zip}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Mobile:</strong>
+                            <span class="float-end">{{$order->address->phone}}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
                 <div class="wg-box mt-5">
                     <h5>Transactions</h5>
