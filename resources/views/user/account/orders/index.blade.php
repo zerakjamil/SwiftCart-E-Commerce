@@ -21,7 +21,67 @@
 
                 <div class="col-lg-10">
                     <div class="wg-table table-all-user">
-                        <div class="table-responsive">
+                        @if($orders->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Total</th>
+                                        <th class="text-center">Items</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($orders as $order)
+                                        <tr>
+                                            <td class="align-middle">
+                                                #{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                            </td>
+                                            <td class="align-middle">
+                                                <div>{{ $order->created_at->format('M j, Y') }}</div>
+                                                <small class="text-muted">{{ $order->created_at->format('g:i A') }}</small>
+                                            </td>
+                                            <td class="align-middle">
+                                                @php
+                                                    $statusClass = match(strtolower($order->status)) {
+                                                        'pending' => 'warning',
+                                                        'processing' => 'info',
+                                                        'shipped' => 'primary',
+                                                        'delivered' => 'success',
+                                                        'cancelled' => 'danger',
+                                                        default => 'secondary'
+                                                    };
+                                                @endphp
+                                                <span class="badge bg-{{ $statusClass }}">
+                                                    {{ ucfirst($order->status) }}
+                                                </span>
+                                            </td>
+                                            <td class="text-end align-middle">
+                                                <strong>${{ number_format($order->total, 2) }}</strong>
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                {{ $order->orderItems->count() }}
+                                            </td>
+                                            <td class="text-end align-middle">
+                                                <a href="{{ route('user.orders.details', $order->id) }}"
+                                                   class="btn btn-sm btn-outline-secondary">
+                                                    View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="px-3 py-3 border-top">
+                                {{ $orders->links('pagination::bootstrap-5') }}
+                            </div>
+                        @else
+                                <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
@@ -76,10 +136,11 @@
                                 </tbody>
                             </table>
                         </div>
+                        @endif
                     </div>
                     <div class="divider"></div>
                     <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                        {{$orders->links()}}
+                        {{$orders->links('pagination::bootstrap-5')}}
                     </div>
                 </div>
 

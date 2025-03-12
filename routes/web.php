@@ -78,7 +78,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/{order}', [OrderController::class, 'show'])->name('show');
             Route::get('/invoice/{order}', [OrderController::class, 'generateInvoice'])->name('invoice');
-
+            Route::put('/{order}', [OrderController::class, 'update'])->name('update');
+            Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('edit');
         });
 
         Route::resource('/brands', BrandController::class)->names([

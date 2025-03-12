@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->decimal('total', 10, 2);
             $table->string('billing_name')->nullable();
             $table->string('billing_phone')->nullable();
-            $table->enum('status', ['ordered', 'delivered', 'canceled'])->default('ordered');
+            $table->enum('status', ['ordered','processing','shipped', 'delivered', 'canceled'])->default('ordered');
             $table->boolean('is_shipping_different')->default(false);
             $table->timestamp('delivered_at')->nullable();
             $table->timestamp('canceled_at')->nullable();
