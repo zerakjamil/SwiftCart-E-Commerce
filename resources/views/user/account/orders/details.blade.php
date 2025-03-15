@@ -246,8 +246,7 @@
                             </a>
 
                             @if($order->status != 'canceled' && $order->status != 'delivered')
-                                <form action="http://localhost:8000/account-order/cancel-order" method="POST"
-                                      onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                <form action="{{ route('order.cancel') }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order?');">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="order_id" value="{{$order->id}}">

@@ -183,8 +183,7 @@
                         </tbody>
                     </table>
                 </div>
-
-            <            <div class="wg-box mt-5">
+            <div class="wg-box mt-5">
                 <h5>Update Order Status</h5>
                 <form action="{{ route('order.update', $order->id) }}" method="POST">
                     @csrf

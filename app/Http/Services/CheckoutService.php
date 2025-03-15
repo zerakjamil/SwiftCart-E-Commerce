@@ -44,8 +44,18 @@ class CheckoutService extends Service
         if (!$address) {
             return [
                 'valid' => false,
-                'message' => 'Please add a default address before checkout.'
+                'message' => 'Please add a default shipping address before proceeding to checkout.'
             ];
+        }
+
+        $requiredFields = ['name','phone','locality','address','city','state','country','zip','landmark'];
+        foreach ($requiredFields as $field) {
+            if (empty($address->$field)) {
+                return [
+                    'valid' => false,
+                    'message' => "Your default address is missing the {$field}. Please update your address."
+                ];
+            }
         }
 
         return [
@@ -61,9 +71,17 @@ class CheckoutService extends Service
      */
     public function getUserDefaultAddress(): ?Address
     {
-        return Address::where('user_id', Auth::id())
-            ->where('is_default', 1)
-            ->first();
+        if (Auth::check()) {
+            $address = Auth::user()->addresses()->where('is_default', true)->first();
+
+            if (!$address) {
+                $address = Auth::user()->addresses()->first();
+            }
+
+            return $address;
+        }
+
+        return null;
     }
 
     /**

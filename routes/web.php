@@ -53,7 +53,9 @@ Route::prefix('checkout')->name('checkout.')->middleware(['auth'])->group(functi
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
-    Route::get('/account-orders/{order}/details', [UserController::class, 'orderDetail'])->name('user.orders.details');});
+    Route::get('/account-orders/{order}/details', [UserController::class, 'orderDetail'])->name('user.orders.details');
+    Route::put('/account-order/cancel-order', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+});
 
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'showLoginForm'])->name('admin.login');

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CancelOrderRequest;
 use App\Http\Services\OrderService;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Admin\V1\{Order,OrderItem,Transaction};
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -55,6 +58,34 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->withError('Failed to update order status');
+    }
+
+    /**
+     * Cancel an order
+     *
+     * @param CancelOrderRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancelOrder(CancelOrderRequest $request): RedirectResponse
+    {
+        $order = Order::findOrFail($request->order_id);
+
+        if ($order->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'You are not authorized to cancel this order.');
+        }
+
+        if ($order->status === 'canceled' || $order->status === 'delivered') {
+            return redirect()->back()->with('error', 'This order cannot be canceled.');
+        }
+
+        $success = $this->orderService->cancelOrder($order);
+
+        if ($success) {
+            return redirect()->route('user.orders.details', ['order' => $order->id])
+                ->with('success', 'Order has been successfully canceled.');
+        }
+
+        return redirect()->back()->with('error', 'Failed to cancel the order. Please try again.');
     }
 
 }

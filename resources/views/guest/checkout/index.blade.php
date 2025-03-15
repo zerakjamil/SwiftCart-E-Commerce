@@ -17,7 +17,7 @@
                             </div>
                         </div>
 
-                       @if(!$address)
+                       @if($address)
                            <x-checkout.address :address="$address"/>
                        @else
                            <x-checkout.address-form />
@@ -35,13 +35,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(Cart::instance('cart') as $item)
+                                    @foreach(Cart::instance('cart')->content() as $item)
                                     <tr>
                                         <td>
                                             {{$item->name}} x {{$item->qty}}
                                         </td>
                                         <td align="right">
-                                            ${{$item->subtotal()}}
+                                            ${{number_format($item->subtotal, 2)}}
                                         </td>
                                     </tr>
                                     @endforeach
@@ -201,7 +201,7 @@
                                         policy</a>.
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                            <button class="btn btn-primary btn-checkout" type="submit">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>
