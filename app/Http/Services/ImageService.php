@@ -144,6 +144,6 @@ class ImageService
             }
         }
 
-        $imageProcessor->save($path . '/' . $fileName, 85);
+        $imageProcessor->toJpeg(85)->save($path . '/' . $fileName);
     }
 }

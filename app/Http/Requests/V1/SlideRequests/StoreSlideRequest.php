@@ -14,6 +14,17 @@ class StoreSlideRequest extends FormRequest
         return true;
     }
 
+    public static function commonRules(): array
+    {
+        return [
+            'tagline' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'link' => 'nullable|url|max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,13 +32,9 @@ class StoreSlideRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => ['required','string','max:255'],
-            'tagline' => ['required','string','max:255'],
-            'subtitle' => ['required','string','max:255'],
-            'link' => ['required','string','max:255'],
-            'status' => ['required','boolean'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-        ];
+        $rules = self::commonRules();
+        $rules['image'] = 'required|' . $rules['image'];
+
+        return $rules;
     }
 }
