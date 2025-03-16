@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\V1\SlideRequests\{StoreSlideRequest,UpdateSlideRequest};
 use App\Http\Services\{SlideService,ImageService};
 use App\Models\Admin\V1\Slide;
@@ -32,7 +33,7 @@ class SlideController extends Controller
         return view('admin.slide.create');
     }
 
-    public function store(StoreSlideRequest $request)
+    public function store(StoreSlideRequest $request): RedirectResponse
     {
         try {
             $data = $request->validated();
@@ -48,7 +49,7 @@ class SlideController extends Controller
 
             $slide = $this->slideService->createSlide($data);
 
-            return redirect()->route('admin.slide.index')->with('success', 'Slide created successfully');
+            return redirect()->route('slide.index')->with('success', 'Slide created successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error creating slide: ' . $e->getMessage())->withInput();
         }
@@ -84,7 +85,7 @@ class SlideController extends Controller
 
             $this->slideService->updateSlide($slide, $data);
 
-            return redirect()->route('admin.slide.index')->with('success', 'Slide updated successfully');
+            return redirect()->route('slide.index')->with('success', 'Slide updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error updating slide: ' . $e->getMessage())->withInput();
         }
