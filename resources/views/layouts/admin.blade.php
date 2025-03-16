@@ -132,7 +132,7 @@
                                 </ul>
                             </li>
                             <li class="menu-item">
-                                <a href="slider.html" class="">
+                                <a href="{{ route('slide.index') }}" class="">
                                     <div class="icon"><i class="icon-image"></i></div>
                                     <div class="text">Slider</div>
                                 </a>

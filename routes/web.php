@@ -9,6 +9,7 @@ use App\Http\Controllers\{Admin\V1\AdminController,
     CartController,
     CheckoutController,
     ShopController,
+    SlideController,
     User\V1\UserController,
     WishlistController};
 use Illuminate\Support\Facades\{App, Auth, Route};
@@ -119,6 +120,16 @@ Route::prefix('admin')->group(function () {
             'update' => 'coupon.update',
             'destroy' => 'coupon.destroy',
         ]);
+
+        Route::resource('/slides', SlideController::class)->names([
+            'index' => 'slide.index',
+            'create' => 'slide.create',
+            'store' => 'slide.store',
+            'edit' => 'slide.edit',
+            'update' => 'slide.update',
+            'destroy' => 'slide.destroy',
+        ]);
+
         Route::post('/coupons/apply', [CartController::class, 'applyCouponCode'])->name('coupon.apply');
         Route::post('/coupons/remove', [CartController::class, 'removeCouponCode'])->name('coupon.remove');
     });

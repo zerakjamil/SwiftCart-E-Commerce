@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
