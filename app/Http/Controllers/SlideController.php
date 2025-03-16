@@ -39,11 +39,8 @@ class SlideController extends Controller
             $data = $request->validated();
 
             if ($request->hasFile('image')) {
-                $data['image'] = $this->imageService->saveImage(
-                    $request->file('image'),
-                    'slides',
-                    800,
-                    400
+                $data['image'] = $this->imageService->saveSliderImage(
+                    $request->file('image')
                 );
             }
 
@@ -75,11 +72,8 @@ class SlideController extends Controller
                     $this->imageService->deleteImage($slide->image, 'slides');
                 }
 
-                $data['image'] = $this->imageService->saveImage(
-                    $request->file('image'),
-                    'slides',
-                    800,
-                    400
+                $data['image'] = $this->imageService->saveSliderImage(
+                    $request->file('image')
                 );
             }
 

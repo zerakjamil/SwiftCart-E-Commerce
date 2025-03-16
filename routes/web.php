@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\{Admin\V1\AdminController,
+use App\Http\Controllers\{
+    Admin\V1\AdminController,
     Admin\V1\BrandController,
     Admin\V1\CategoryController,
     Admin\V1\CouponController,
@@ -8,17 +9,17 @@ use App\Http\Controllers\{Admin\V1\AdminController,
     Admin\V1\ProductController,
     CartController,
     CheckoutController,
+    HomeController,
     ShopController,
     SlideController,
     User\V1\UserController,
-    WishlistController};
+    WishlistController
+};
 use Illuminate\Support\Facades\{App, Auth, Route};
 
 Auth::routes();
 
-Route::get('/',function(){
-   return view('index');
-})->name('home.index');
+Route::get('/', HomeController::class)->name('home.index');
 
 Route::name('shop.')->prefix('shop')->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('index');
